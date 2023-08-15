@@ -1,1 +1,3 @@
-React Task Scheduler App, coded with React and Typescript.  This app's code leverages DevExpress' React Scheduler component library for the scheduling functionality.
+# React Task Scheduler App
+
+This app is coded with React and Typescript, and it leverages DevExpress' React Scheduler component library for the scheduling functionality.
