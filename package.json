@@ -10,6 +10,8 @@
     "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-react": "^7.33.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -26,7 +28,27 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "plugins": [
+      "html"
+    ],
+    "rules": {
+      "prefer-const": "error",
+      "yoda": "error",
+      "space-before-function-paren": "off",
+      "no-var": "error",
+      "quotes": [
+        "error",
+        "double",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
+      "jsx-quotes": [
+        "error",
+        "double"
+      ]
+    }
   },
   "browserslist": {
     "production": [
