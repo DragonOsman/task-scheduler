@@ -1,11 +1,7 @@
 import "./App.css";
 import { ComponentType, useState } from "react";
 import { Scheduler, DayView, Appointments } from "@devexpress/dx-react-scheduler-material-ui";
-import {
-  EditRecurrenceMenu,
-  EditingState,
-  ChangeSet
-} from "@devexpress/dx-react-scheduler";
+import { EditRecurrenceMenu, EditingState, ChangeSet } from "@devexpress/dx-react-scheduler";
 
 interface ITask {
   id: number;
