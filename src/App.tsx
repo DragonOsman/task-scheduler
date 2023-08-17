@@ -69,11 +69,13 @@ function App() {
       const newTaskId = appointments.length > 0 ? appointments[appointments.length - 1].id + 1 : 0;
       setAppointments([...appointments, { ...added as IAppointment, id: newTaskId }]);
     } else if (changed) {
-      setAppointments(appointments.map((appointment: IAppointment): IAppointment => {
-        return changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment;
-      }));
+      setAppointments(appointments => (
+        appointments.map((appointment: IAppointment): IAppointment => {
+          return changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment;
+        })
+      ));
     } else if (deleted !== undefined) {
-      setAppointments(appointments.filter(appointment => appointment.id !== deleted));
+      setAppointments(appointments => appointments.filter(appointment => appointment.id !== deleted));
     }
     return { appointments };
   };
