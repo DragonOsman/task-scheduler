@@ -1,49 +1,104 @@
 import "./App.css";
-import { ComponentType, useState } from "react";
-import { Scheduler, DayView, Appointments } from "@devexpress/dx-react-scheduler-material-ui";
-import { EditRecurrenceMenu, EditingState, ChangeSet } from "@devexpress/dx-react-scheduler";
+import { useState, FunctionComponent } from "react";
+import {
+  Scheduler,
+  DayView,
+  WeekView,
+  MonthView,
+  Appointments,
+  Toolbar,
+  AppointmentForm,
+  AppointmentsProps
+} from "@devexpress/dx-react-scheduler-material-ui";
+import {
+  EditingState,
+  ViewState,
+  ChangeSet,
+  ViewSwitcher,
+  IntegratedEditing
+} from "@devexpress/dx-react-scheduler";
 
-interface ITask {
+interface IAppointment {
+  AppointmentsProps: AppointmentsProps,
   id: number;
-  title: string;
+  text: string;
   startDate: Date;
-  endDate: Date
+  endDate: Date;
+  recurrenceRule?: string;
 }
 
+interface CustomSwitcherProps {
+  onChange: (view: string) => void;
+}
+
+const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
+  ({ onChange }: CustomSwitcherProps) => {
+  return (
+    <>
+      <button
+        type="button"
+        title="switch to week view"
+        onClick={() => onChange("Week")}
+      >
+        Week
+      </button>
+      <button
+        type="button"
+        title="switch to day view"
+        onClick={() => onChange("Day")}
+      >
+        Day
+      </button>
+      <button
+        type="button"
+        title="switch to month view"
+        onClick={() => onChange("Month")}
+      >
+        Month
+      </button>
+    </>
+  );
+};
+
 function App() {
-  const [tasks, setTasks] = useState<ITask[]>([]);
+  const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [currentView, setCurrentView] = useState("Week");
 
   const changeHandler = ({ added, changed, deleted }: ChangeSet) => {
     if (added) {
-      const newTaskId = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0;
-      setTasks([...tasks, { ...added as ITask, id: newTaskId }]);
+      const newTaskId = appointments.length > 0 ? appointments[appointments.length - 1].id + 1 : 0;
+      setAppointments([...appointments, { ...added as IAppointment, id: newTaskId }]);
     } else if (changed) {
-      setTasks(tasks.map((task: ITask): ITask => {
-        return changed[task.id] ? { ...task, ...changed[task.id] } : task;
+      setAppointments(appointments.map((appointment: IAppointment): IAppointment => {
+        return changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment;
       }));
     } else if (deleted !== undefined) {
-      setTasks(tasks.filter(task => task.id !== deleted));
+      setAppointments(appointments.filter(appointment => appointment.id !== deleted));
     }
-    return { tasks };
+    return { appointments };
   };
 
   return (
     <div>
-      <Scheduler data={tasks}>
-        <DayView startDayHour={9} endDayHour={19} />
-        <EditingState onCommitChanges={changeHandler} />
-        <Appointments />
-        <EditRecurrenceMenu
-          layoutComponent={
-            EditRecurrenceMenu.defaultProps?.layoutComponent as ComponentType<EditRecurrenceMenu.LayoutProps>
-          }
-          overlayComponent={
-            EditRecurrenceMenu.defaultProps?.overlayComponent as ComponentType<EditRecurrenceMenu.OverlayProps>
-          }
-          buttonComponent={
-            EditRecurrenceMenu.defaultProps?.buttonComponent as ComponentType<EditRecurrenceMenu.ButtonProps>
-          }
+      <Scheduler
+        data={appointments}
+        height={660}
+      >
+        <ViewState
+          currentViewName={currentView}
+          onCurrentViewNameChange={(nextViewName) => setCurrentView(nextViewName)}
         />
+        <DayView startDayHour={9} endDayHour={19} />
+        <WeekView startDayHour={9} endDayHour={19} />
+        <MonthView />
+        <Toolbar />
+        <ViewSwitcher
+          switcherComponent={CustomViewSwitcher}
+        />
+        <EditingState onCommitChanges={changeHandler} />
+        <IntegratedEditing />
+        <Appointments />
+        <AppointmentForm />
       </Scheduler>
     </div>
   );
