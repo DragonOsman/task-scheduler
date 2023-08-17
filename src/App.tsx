@@ -34,7 +34,7 @@ interface CustomSwitcherProps {
 const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
   ({ onChange }: CustomSwitcherProps) => {
   return (
-    <>
+    <div className="view-swither-buttons">
       <button
         type="button"
         title="switch to week view"
@@ -56,7 +56,7 @@ const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
       >
         Month
       </button>
-    </>
+    </div>
   );
 };
 
@@ -81,7 +81,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="scheduler-container">
       <Scheduler
         data={appointments}
         height={660}
