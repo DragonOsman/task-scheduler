@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, FunctionComponent } from "react";
+import { useState, FunctionComponent, MouseEvent, TouchEvent } from "react";
 import {
   Scheduler,
   DayView,
@@ -38,21 +38,33 @@ const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
       <button
         type="button"
         title="switch to week view"
-        onClick={() => onChange("Week")}
+        onClick={(e: MouseEvent | TouchEvent) => {
+          const element = e.currentTarget;
+          element.classList.add("active");
+          onChange("Week");
+        }}
       >
         Week
       </button>
       <button
         type="button"
         title="switch to day view"
-        onClick={() => onChange("Day")}
+        onClick={(e: MouseEvent | TouchEvent) => {
+          const element = e.currentTarget;
+          element.classList.add("active");
+          onChange("Day");
+        }}
       >
         Day
       </button>
       <button
         type="button"
         title="switch to month view"
-        onClick={() => onChange("Month")}
+        onClick={(e: MouseEvent | TouchEvent) => {
+          const element = e.currentTarget;
+          element.classList.add("active");
+          onChange("Month");
+        }}
       >
         Month
       </button>
