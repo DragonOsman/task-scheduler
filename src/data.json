@@ -1,0 +1,48 @@
+{
+  "Amira": {
+    "Chores": [{
+      "text": "Make bed",
+      "startDate": "2023-08-17T09:10+00:00",
+      "endDate": "2023-08-17T09:25+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+    }, {
+      "text": "Empty dishwasher",
+      "startDate": "2023-08-17T09:30+00:00",
+      "endDate": "2023-08-17T09:35+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=5"
+    }, {
+      "text": "Study",
+      "startDate": "2023-08-17T19:10+00:00",
+      "endDate": "2023-08-17T21:10+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+    }, {
+      "text": "Set table",
+      "startDate": "2023-08-17T21:30+00:00",
+      "endDate": "2023-08-17T21:40+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+    }]
+  },
+  "Noora": {
+    "Chores": [{
+      "text": "Make bed",
+      "startDate": "2023-08-17T09:10+00:00",
+      "endDate": "2023-08-17T09:25+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+    }, {
+      "text": "Empty dishwasher",
+      "startDate": "2023-08-17T09:30+00:00",
+      "endDate": "2023-08-17T09:35+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=5"
+    }, {
+      "text": "Study",
+      "startDate": "2023-08-17T19:10+00:00",
+      "endDate": "2023-08-17T21:10+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+    }, {
+      "text": "Set table",
+      "startDate": "2023-08-17T21:30+00:00",
+      "endDate": "2023-08-17T21:40+00:00",
+      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+    }]
+  }
+}

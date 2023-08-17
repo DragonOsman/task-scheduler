@@ -38,7 +38,7 @@ const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
       <button
         type="button"
         title="switch to week view"
-        onClick={(e: MouseEvent | TouchEvent) => {
+        onClick={(e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
           const element = e.currentTarget;
           element.classList.add("active");
           onChange("Week");
@@ -49,7 +49,7 @@ const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
       <button
         type="button"
         title="switch to day view"
-        onClick={(e: MouseEvent | TouchEvent) => {
+        onClick={(e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
           const element = e.currentTarget;
           element.classList.add("active");
           onChange("Day");
@@ -60,7 +60,7 @@ const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
       <button
         type="button"
         title="switch to month view"
-        onClick={(e: MouseEvent | TouchEvent) => {
+        onClick={(e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
           const element = e.currentTarget;
           element.classList.add("active");
           onChange("Month");
