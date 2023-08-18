@@ -14,6 +14,8 @@ import {
   MonthView,
   Appointments,
   Toolbar,
+  DateNavigator,
+  TodayButton,
   AppointmentForm,
   AppointmentsProps,
   CurrentTimeIndicator
@@ -262,6 +264,8 @@ function App() {
         <WeekView startDayHour={9} endDayHour={19} />
         <MonthView />
         <Toolbar />
+        <DateNavigator />
+        <TodayButton />
         <ViewSwitcher
           switcherComponent={CustomViewSwitcher}
         />
