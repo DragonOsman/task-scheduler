@@ -257,7 +257,7 @@ function App() {
       >
         <ViewState
           currentViewName={currentView}
-          onCurrentViewNameChange={(nextViewName) => setCurrentView(nextViewName)}
+          onCurrentViewNameChange={nextViewName => setCurrentView(nextViewName)}
           currentDate={new Date().toDateString()}
         />
         <DayView startDayHour={9} endDayHour={19} />
