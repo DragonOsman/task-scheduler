@@ -147,9 +147,14 @@ function App() {
   const [shadePreviousCells, setShadePreviousCells] = useState(true);
   const [shadePreviousAppointments, setShadePreviousAppointments] = useState(true);
   const [updateInterval, setUpdateInterval] = useState(10000);
+  const [showTaskList, setShowTaskList] = useState(false);
 
   const toggleCurrentChild = () => {
     currentChild === "Amira" ? setCurrentChild("Noora") : setCurrentChild("Amira");
+  };
+
+  const toggleTaskList = () => {
+    setShowTaskList(!showTaskList);
   };
 
   const createTasksList = (data: {
@@ -230,9 +235,19 @@ function App() {
         onChange={(event) => setUpdateInterval(Number(event.target.value))}
         value={`${updateInterval / 1000}`}
       /> seconds
-      <h3 className="task-list-heading">{currentChild}'s Chores</h3>
-      {currentChild === "Amira" && createTasksList(stringDataAmira)}
-      {currentChild === "Noora" && createTasksList(stringDataNoora)}
+
+      <button
+        type="button"
+        title="toggle task list"
+        onClick={toggleTaskList}
+      >
+        {showTaskList ? "Hide" : "Show"} Task List
+      </button>
+      <div className={`${showTaskList ? "visible" : "hidden"}`}>
+        <h3 className="task-list-heading">{currentChild}'s Chores</h3>
+        {currentChild === "Amira" && createTasksList(stringDataAmira)}
+        {currentChild === "Noora" && createTasksList(stringDataNoora)}
+      </div>
       <Scheduler
         data={appointments}
         height={660}
@@ -240,6 +255,7 @@ function App() {
         <ViewState
           currentViewName={currentView}
           onCurrentViewNameChange={(nextViewName) => setCurrentView(nextViewName)}
+          currentDate={new Date()}
         />
         <DayView startDayHour={9} endDayHour={19} />
         <WeekView startDayHour={9} endDayHour={19} />

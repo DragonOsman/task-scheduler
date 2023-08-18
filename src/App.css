@@ -69,6 +69,14 @@
   font-weight: bold;
 }
 
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
 .view-switcher-buttons button, button {
   background-color: #3838d1;
   color: #fff;
