@@ -2,6 +2,73 @@
   text-align: center;
 }
 
+.scheduler-container {
+  margin: 5px;
+}
+
+.circle {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.nowIndicator {
+  position: absolute;
+  width: 2px;
+  background-color: #f00;
+}
+
+.time-indicator {
+  position: relative;
+}
+
+.time-indicator::before {
+  content: "";
+  display: block;
+  height: 100%;
+  position: absolute;
+  left: calc(50% - 1px);
+}
+
+.time-indicator::after {
+  content: "";
+  display: block;
+  height: 100%;
+  position: absolute;
+  right: calc(50% - 1px);
+}
+
+.time-indicator .now-indicator {
+  left: calc(50% - 1px);
+}
+
+.scheduler-container .child-switch-button {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.task-list-heading {
+  text-align: center;
+}
+
+.completed-task {
+  background-color: #129b12d5;
+  color: #fff;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tasks .task-text {
+  font-weight: bold;
+}
+
 .view-switcher-buttons button, button {
   background-color: #3838d1;
   color: #fff;
