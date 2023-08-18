@@ -70,17 +70,21 @@
 }
 
 .visible {
-  visibility: visible;
+  display: block;
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .view-switcher-buttons button, button {
   background-color: #3838d1;
   color: #fff;
   padding: 10px;
+}
+
+.task-list-toggle {
+  margin-left: 5px;
 }
 
 .view-switcher-buttons .active {

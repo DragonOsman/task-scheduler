@@ -240,6 +240,7 @@ function App() {
         type="button"
         title="toggle task list"
         onClick={toggleTaskList}
+        className="task-list-toggle"
       >
         {showTaskList ? "Hide" : "Show"} Task List
       </button>
