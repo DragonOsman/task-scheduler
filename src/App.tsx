@@ -1,6 +1,6 @@
 import "./App.css";
 import data from "./data.json";
-import { useState, FunctionComponent, MouseEvent, TouchEvent } from "react";
+import { useState, useEffect,FunctionComponent, MouseEvent, TouchEvent } from "react";
 import {
   Scheduler,
   DayView,
@@ -133,11 +133,13 @@ function App() {
     currentChild === "Amira" ? setCurrentChild("Noora") : setCurrentChild("Amira");
   };
 
-  if (currentChild === "Amira") {
-    setAppointments(appointmentDataAmira);
-  } else if (currentChild === "Noora") {
-    setAppointments(appointmentDataNoora);
-  }
+  useEffect(() => {
+    if (currentChild === "Amira") {
+      setAppointments(appointmentDataAmira);
+    } else if (currentChild === "Noora") {
+      setAppointments(appointmentDataNoora);
+    }
+  }, [currentChild]);
 
   const changeHandler = ({ added, changed, deleted }: ChangeSet) => {
     if (added) {
