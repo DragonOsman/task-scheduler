@@ -1,4 +1,5 @@
 import "./App.css";
+import data from "./data.json";
 import { useState, FunctionComponent, MouseEvent, TouchEvent } from "react";
 import {
   Scheduler,
@@ -19,12 +20,63 @@ import {
 } from "@devexpress/dx-react-scheduler";
 
 interface IAppointment {
-  AppointmentsProps: AppointmentsProps,
+  AppointmentsProps?: AppointmentsProps,
   id: number;
   text: string;
   startDate: Date;
   endDate: Date;
   recurrenceRule?: string;
+};
+
+const stringDataAmira = data["Amira"]["Chores"];
+const stringDataNoora = data["Noora"]["Chores"];
+
+const appointmentDataAmira: IAppointment[] = [];
+for (const [key, value] of Object.entries(stringDataAmira)) {
+  for (const innerValue of Object.keys(value)) {
+    const appointment: IAppointment = {
+      id: 0,
+      text: "",
+      startDate: new Date(),
+      endDate: new Date()
+    };
+    key === "text" ? appointment.text = innerValue : appointment.text = "";
+    if (key === "startDate" || key === "endDate") {
+      const newValue = new Date(innerValue);
+      if (key === "startDate") {
+        appointment.startDate = newValue;
+      } else if (key === "endDate") {
+        appointment.endDate = newValue;
+      }
+    }
+    appointment.id = appointmentDataAmira.length > 0 ?
+      appointmentDataAmira[appointmentDataAmira.length - 1].id + 1 : 0;
+    appointmentDataAmira.push(appointment);
+  }
+}
+
+const appointmentDataNoora: IAppointment[] = [];
+for (const [key, value] of Object.entries(stringDataNoora)) {
+  for (const innerValue of Object.keys(value)) {
+    const appointment: IAppointment = {
+      id: 0,
+      text: "",
+      startDate: new Date(),
+      endDate: new Date()
+    };
+    key === "text" ? appointment.text = innerValue : appointment.text = "";
+    if (key === "startDate" || key === "endDate") {
+      const newValue = new Date(innerValue);
+      if (key === "startDate") {
+        appointment.startDate = newValue;
+      } else if (key === "endDate") {
+        appointment.endDate = newValue;
+      }
+    }
+    appointment.id = appointmentDataNoora.length > 0 ?
+      appointmentDataNoora[appointmentDataNoora.length - 1].id + 1 : 0;
+    appointmentDataNoora.push(appointment);
+  }
 }
 
 interface CustomSwitcherProps {
@@ -74,7 +126,18 @@ const CustomViewSwitcher: FunctionComponent<CustomSwitcherProps> =
 
 function App() {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
+  const [currentChild, setCurrentChild] = useState("Amira");
   const [currentView, setCurrentView] = useState("Week");
+
+  const toggleCurrentChild = () => {
+    currentChild === "Amira" ? setCurrentChild("Noora") : setCurrentChild("Amira");
+  };
+
+  if (currentChild === "Amira") {
+    setAppointments(appointmentDataAmira);
+  } else if (currentChild === "Noora") {
+    setAppointments(appointmentDataNoora);
+  }
 
   const changeHandler = ({ added, changed, deleted }: ChangeSet) => {
     if (added) {
@@ -94,6 +157,13 @@ function App() {
 
   return (
     <div className="scheduler-container">
+      <button
+        type="button"
+        title="Switch Child"
+        onClick={toggleCurrentChild}
+      >
+        Toggle Child
+      </button>
       <Scheduler
         data={appointments}
         height={660}

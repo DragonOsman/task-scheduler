@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.view-switcher-buttons button {
+.view-switcher-buttons button, button {
   background-color: #3838d1;
   color: #fff;
   padding: 10px;
