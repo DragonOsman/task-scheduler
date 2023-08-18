@@ -236,6 +236,7 @@ function App() {
         value={`${updateInterval / 1000}`}
       /> seconds
 
+      <h3 className="task-list-heading">{currentChild}'s Chores</h3>
       <button
         type="button"
         title="toggle task list"
@@ -245,7 +246,6 @@ function App() {
         {showTaskList ? "Hide" : "Show"} Task List
       </button>
       <div className={`${showTaskList ? "visible" : "hidden"}`}>
-        <h3 className="task-list-heading">{currentChild}'s Chores</h3>
         {currentChild === "Amira" && createTasksList(stringDataAmira)}
         {currentChild === "Noora" && createTasksList(stringDataNoora)}
       </div>
