@@ -1,6 +1,6 @@
 import "./App.css";
 import data from "./data.json";
-import { useState, useEffect,FunctionComponent, MouseEvent, TouchEvent } from "react";
+import { useState, useEffect, FunctionComponent, MouseEvent, TouchEvent } from "react";
 import {
   Scheduler,
   DayView,
