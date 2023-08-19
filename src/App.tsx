@@ -201,9 +201,14 @@ const TaskTimer = ({ expiryTimestamp }: { expiryTimestamp: Date}) => {
         <button type="button" title="resume" onClick={() => resume()}>
           Resume
         </button>
-        <p className="timer">
-          <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-        </p>
+        <div className="timer-container">
+          <p className="timer">
+            <span>{days}</span> days:
+            <span>{hours}</span> hours:
+            <span>{minutes}</span> minutes:
+            <span>{seconds}</span> seconds
+          </p>
+        </div>
       </div>
     );
   }
