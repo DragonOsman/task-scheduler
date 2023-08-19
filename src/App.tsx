@@ -1,5 +1,6 @@
 import "./App.css";
 import data from "./data.json";
+import { useTimer } from "react-timer-hook";
 import {
   useState,
   useEffect,
@@ -51,6 +52,7 @@ for (const outerValue of Object.values(stringDataAmira)) {
 
     if (innerKey === "text" && typeof innerValue === "string") {
       appointment.title = innerValue;
+      console.log(`appointment.title: ${appointment.title}`);
     }
 
     if (innerKey === "startDate" && typeof innerValue === "string") {
@@ -78,6 +80,7 @@ for (const outerValue of Object.values(stringDataNoora)) {
 
     if (innerKey === "text" && typeof innerValue === "string") {
       appointment.title = innerValue;
+      console.log(`appointment.title: ${appointment.title}`);
     }
 
     if (innerKey === "startDate" && typeof innerValue === "string") {
@@ -147,6 +150,60 @@ const TimeIndicator = () => {
   );
 };
 
+const TimerFunction = ({ expiryTimestamp }: { expiryTimestamp: Date}) => {
+  const [newEndTime, setNewEndTime] = useState("00:00:00");
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart
+  } = useTimer({ expiryTimestamp, onExpire: () => <p>Time is up!</p> });
+
+  if (isRunning) {
+    return (
+      <div>
+        <button type="button" title="pause" onClick={() => pause()}>
+          Pause
+        </button>
+        <input
+          type="number"
+          title="new ending time"
+          value={newEndTime}
+          onChange={(event) => setNewEndTime(event.target.value)}
+        />
+        <button type="button" title="restart" onClick={() => {
+          const newExpiryTime = new Date(newEndTime);
+          restart(newExpiryTime);
+        }}>
+          Restart
+        </button>
+        <p className="timer">
+          <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+        </p>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <button type="button" title="start" onClick={() => start()}>
+          Start
+        </button>
+        <button type="button" title="resume" onClick={() => resume()}>
+          Resume
+        </button>
+        <p className="timer">
+          <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+        </p>
+      </div>
+    );
+  }
+};
+
 function App() {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [currentChild, setCurrentChild] = useState("Amira");
@@ -179,6 +236,7 @@ function App() {
             new Date(dataItem.startDate).toTimeString()} - {new Date(dataItem.endDate).toTimeString()
           }
         </p>
+        <TimerFunction expiryTimestamp={new Date(dataItem.endDate)} />
       </div>
     ))
   );
