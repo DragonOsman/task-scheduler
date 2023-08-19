@@ -1,6 +1,6 @@
 import "./App.css";
 import data from "./data.json";
-import { useTimer } from "react-timer-hook";
+import { useTimer, useStopwatch } from "react-timer-hook";
 import {
   useState,
   useEffect,
@@ -33,7 +33,7 @@ interface IAppointment {
   id: number;
   title: string;
   startDate: Date;
-  endDate: Date;
+  endDate?: Date;
   recurrenceRule?: string;
 };
 
@@ -58,10 +58,12 @@ for (const outerValue of Object.values(stringDataAmira)) {
     if (innerKey === "startDate" && typeof innerValue === "string") {
       const newValue = new Date(innerValue);
       appointment.startDate = newValue;
-    } else if (innerKey === "endDate" && typeof innerValue === "string") {
-      const newValue = new Date(innerValue);
-      appointment.endDate = newValue;
     }
+
+    if (innerKey === "recurrenceRule" && (innerValue !== "" || innerValue)) {
+      appointment.endDate = undefined;
+    }
+
     appointment.id = appointmentDataAmira.length > 0 ?
       appointmentDataAmira[appointmentDataAmira.length - 1].id + 1 : 0;
     appointmentDataAmira.push(appointment);
@@ -78,7 +80,7 @@ for (const outerValue of Object.values(stringDataNoora)) {
       endDate: new Date()
     };
 
-    if (innerKey === "text" && typeof innerValue === "string") {
+    if (innerKey === "title" && typeof innerValue === "string" && innerValue !== "") {
       appointment.title = innerValue;
       console.log(`appointment.title: ${appointment.title}`);
     }
@@ -86,10 +88,12 @@ for (const outerValue of Object.values(stringDataNoora)) {
     if (innerKey === "startDate" && typeof innerValue === "string") {
       const newValue = new Date(innerValue);
       appointment.startDate = newValue;
-    } else if (innerKey === "endDate" && typeof innerValue === "string") {
-      const newValue = new Date(innerValue);
-      appointment.endDate = newValue;
     }
+
+    if (innerKey === "recurrenceRule" && (innerValue !== "" || innerValue)) {
+      appointment.endDate = undefined;
+    }
+
     appointment.id = appointmentDataNoora.length > 0 ?
       appointmentDataNoora[appointmentDataNoora.length - 1].id + 1 : 0;
     appointmentDataNoora.push(appointment);
@@ -214,6 +218,59 @@ const TaskTimer = ({ expiryTimestamp }: { expiryTimestamp: Date}) => {
   }
 };
 
+const TaskStopwatch = () => {
+  const [newEndTime, setNewEndTime] = useState("00:00:00");
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    reset
+  } = useStopwatch({ autoStart: true });
+
+  return (
+    <div className="stop-watch-container">
+      <p>{isRunning ? "Running" : "Not running"}</p>
+      <div className="stopwatch">
+        <span>{days} days </span>:
+        <span>{hours} hours: </span>
+        <span>{minutes}: </span>
+        <span>{seconds} seconds</span>
+      </div>
+      <button
+        type="button"
+        title="start stopwatch"
+        onClick={start}
+      >
+        Start
+      </button>
+      <button
+        type="button"
+        title="pause stopwatch"
+        onClick={pause}
+      >
+        Pause
+      </button>
+      <button
+        type="button"
+        title="reset stopwatch"
+        onClick={() => reset(new Date(newEndTime))}
+      >
+        Reset
+      </button>
+      <input
+          type="number"
+          title="new ending time"
+          value={newEndTime}
+          onChange={(event) => setNewEndTime(event.target.value)}
+        />
+    </div>
+  );
+};
+
 function App() {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [currentChild, setCurrentChild] = useState("Amira");
@@ -235,18 +292,21 @@ function App() {
     id: number,
     title: string,
     startDate: string,
-    endDate: string,
-    recurrenceRule: string
+    endDate?: string,
+    recurrenceRule?: string
   }[]) => (
     data.map(dataItem => (
       <div className="tasks" key={dataItem.id}>
         <p className="task-text">{dataItem.title}</p>
         <p>
-          Time: {
-            new Date(dataItem.startDate).toTimeString()} - {new Date(dataItem.endDate).toTimeString()
+          Start Time: {
+            new Date(dataItem.startDate).toTimeString()
           }
+          {dataItem.endDate && `End Time: ${new Date(dataItem.endDate).toTimeString()}`}
         </p>
-        <TaskTimer expiryTimestamp={new Date(dataItem.endDate)} />
+        {!dataItem.recurrenceRule && dataItem.endDate ?
+          <TaskTimer expiryTimestamp={new Date(dataItem.endDate)} />
+          : <TaskStopwatch />}
       </div>
     ))
   );
