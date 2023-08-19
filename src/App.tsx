@@ -48,8 +48,11 @@ for (const outerValue of Object.values(stringDataAmira)) {
       startDate: new Date(),
       endDate: new Date()
     };
-    innerKey === "text" && typeof innerValue === "string" ?
-      appointment.title = innerValue : appointment.title = "";
+
+    if (innerKey === "text" && typeof innerValue === "string") {
+      appointment.title = innerValue;
+    }
+
     if (innerKey === "startDate" && typeof innerValue === "string") {
       const newValue = new Date(innerValue);
       appointment.startDate = newValue;
@@ -72,8 +75,11 @@ for (const outerValue of Object.values(stringDataNoora)) {
       startDate: new Date(),
       endDate: new Date()
     };
-    innerKey === "text" && typeof innerValue === "string" ?
-      appointment.title = innerValue : appointment.title = "";
+
+    if (innerKey === "text" && typeof innerValue === "string") {
+      appointment.title = innerValue;
+    }
+
     if (innerKey === "startDate" && typeof innerValue === "string") {
       const newValue = new Date(innerValue);
       appointment.startDate = newValue;
