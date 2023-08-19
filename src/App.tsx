@@ -150,7 +150,7 @@ const TimeIndicator = () => {
   );
 };
 
-const TimerFunction = ({ expiryTimestamp }: { expiryTimestamp: Date}) => {
+const TaskTimer = ({ expiryTimestamp }: { expiryTimestamp: Date}) => {
   const [newEndTime, setNewEndTime] = useState("00:00:00");
   const {
     seconds,
@@ -182,9 +182,14 @@ const TimerFunction = ({ expiryTimestamp }: { expiryTimestamp: Date}) => {
         }}>
           Restart
         </button>
-        <p className="timer">
-          <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-        </p>
+        <div className="timer-container">
+          <p className="timer">
+            <span>{days}</span> days:
+            <span>{hours}</span> hours:
+            <span>{minutes}</span> minutes:
+            <span>{seconds}</span> seconds
+          </p>
+        </div>
       </div>
     );
   } else {
@@ -236,7 +241,7 @@ function App() {
             new Date(dataItem.startDate).toTimeString()} - {new Date(dataItem.endDate).toTimeString()
           }
         </p>
-        <TimerFunction expiryTimestamp={new Date(dataItem.endDate)} />
+        <TaskTimer expiryTimestamp={new Date(dataItem.endDate)} />
       </div>
     ))
   );
