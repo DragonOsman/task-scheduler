@@ -5,9 +5,7 @@ import {
   useEffect,
   FunctionComponent,
   MouseEvent,
-  TouchEvent,
-  ReactNode,
-  ComponentType
+  TouchEvent
 } from "react";
 import {
   Scheduler,
@@ -20,7 +18,6 @@ import {
   TodayButton,
   AppointmentForm,
   AppointmentTooltip,
-  AppointmentTooltipProps,
   CurrentTimeIndicator
 } from "@devexpress/dx-react-scheduler-material-ui";
 import {
@@ -142,13 +139,6 @@ const TimeIndicator = () => {
       <div className="nowIndicator line" />
     </div>
   );
-};
-
-type LayoutProps = {
-  id: number;
-  startDate: Date;
-  endDate: Date;
-  title: string;
 };
 
 function App() {
