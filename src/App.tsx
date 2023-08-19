@@ -50,7 +50,7 @@ for (const outerValue of Object.values(stringDataAmira)) {
       endDate: new Date()
     };
 
-    if (innerKey === "text" && typeof innerValue === "string") {
+    if (innerKey === "title" && typeof innerValue === "string") {
       appointment.title = innerValue;
       console.log(`appointment.title: ${appointment.title}`);
     }
@@ -80,7 +80,7 @@ for (const outerValue of Object.values(stringDataNoora)) {
       endDate: new Date()
     };
 
-    if (innerKey === "title" && typeof innerValue === "string" && innerValue !== "") {
+    if (innerKey === "title" && typeof innerValue === "string") {
       appointment.title = innerValue;
       console.log(`appointment.title: ${appointment.title}`);
     }
