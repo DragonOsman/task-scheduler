@@ -5,7 +5,9 @@ import {
   useEffect,
   FunctionComponent,
   MouseEvent,
-  TouchEvent
+  TouchEvent,
+  ReactNode,
+  ComponentType
 } from "react";
 import {
   Scheduler,
@@ -17,7 +19,8 @@ import {
   DateNavigator,
   TodayButton,
   AppointmentForm,
-  AppointmentsProps,
+  AppointmentTooltip,
+  AppointmentTooltipProps,
   CurrentTimeIndicator
 } from "@devexpress/dx-react-scheduler-material-ui";
 import {
@@ -29,7 +32,6 @@ import {
 } from "@devexpress/dx-react-scheduler";
 
 interface IAppointment {
-  AppointmentsProps?: AppointmentsProps,
   id: number;
   title: string;
   startDate: Date;
@@ -140,6 +142,13 @@ const TimeIndicator = () => {
       <div className="nowIndicator line" />
     </div>
   );
+};
+
+type LayoutProps = {
+  id: number;
+  startDate: Date;
+  endDate: Date;
+  title: string;
 };
 
 function App() {
@@ -272,6 +281,7 @@ function App() {
         <EditingState onCommitChanges={changeHandler} />
         <IntegratedEditing />
         <Appointments />
+        <AppointmentTooltip />
         <AppointmentForm />
         <CurrentTimeIndicator
           shadePreviousCells={shadePreviousCells}
