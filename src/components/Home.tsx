@@ -52,11 +52,11 @@ const convertToValidTasks = (data: typeof amiraTasks): ITask[] => {
   return newData;
 };
 
-interface TaskTimeProps {
+interface TaskTimerProps {
   expiryTimestamp: Date;
 };
 
-const TaskTimer = ({ expiryTimestamp }: TaskTimeProps) => {
+const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
   const [newExpiryTimestamp, setNewExpiryTimestamp] = useState("00:00:00");
   const {
     seconds,
