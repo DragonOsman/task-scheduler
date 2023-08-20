@@ -18,7 +18,7 @@ const AddTask = () => {
       <form
         className="add-task-form"
         onSubmit={() => {
-          navigate("/list-tasks");
+          navigate("/");
         }}
       >
         <label htmlFor="task-title" className="form-label">Task name</label>:

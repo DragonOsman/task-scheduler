@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ListTasks from "./ListTasks";
 
 const Home = () => {
   const [currentChild, setCurrentChild] = useState("Amira");
@@ -14,9 +15,9 @@ const Home = () => {
   }, [currentChild]);
 
   return (
-    <header className="d-flex justify-content-center py-3">
-      <h1 className="display-1">Welcome, {currentChild}! Please complete your tasks on time:</h1>
-    </header>
+    <div className="container-fluid">
+      <ListTasks />
+    </div>
   );
 };
 
