@@ -1,4 +1,4 @@
-import { useReducer, createContext, Dispatch, ReactNode, Reducer } from "react";
+import { useReducer, createContext, useContext, Dispatch, ReactNode, Reducer } from "react";
 
 export interface ITask {
   id: number;
@@ -7,6 +7,7 @@ export interface ITask {
   endTime?: Date;
   isRecurring: boolean;
   isCompleted: boolean;
+  daysRecurring?: string[]
 };
 
 interface State {
@@ -53,6 +54,14 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
       {children}
     </TaskContext.Provider>
   );
+};
+
+export const useTask = () => {
+  const taskContext = useContext(TaskContext);
+  if (taskContext === undefined) {
+    throw new Error("useTask must be used within a TaskProvider");
+  }
+  return taskContext;
 };
 
 export default TaskProvider;
