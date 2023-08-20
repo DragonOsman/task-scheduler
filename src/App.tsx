@@ -61,14 +61,16 @@ function App() {
     }
   }, [currentChild]);
 
-  const fillTasks = () => {
-    dispatch({ type: "ADD_TASK", payload: {
-      ...state,
-      tasks: currentChild === "Amira" ? convertToValidTasks(amiraTasks).map(task => task) :
-        convertToValidTasks(nooraTasks).map(task => task)
-    } });
-  };
-  fillTasks();
+  useEffect(() => {
+    const fillTasks = () => {
+      dispatch({ type: "ADD_TASK", payload: {
+        ...state,
+        tasks: currentChild === "Amira" ? convertToValidTasks(amiraTasks).map(task => task) :
+          convertToValidTasks(nooraTasks).map(task => task)
+      } });
+    };
+    fillTasks();
+  }, [currentChild, state, dispatch]);
 
   return (
     <Routes>

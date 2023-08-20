@@ -32,15 +32,19 @@ const AddTask = () => {
           className="form-control"
           required
         />
-        <label htmlFor="is-recurring" className="form-label">Recurring:</label>
-        <input
-          type="checkbox"
-          name="is-recurring"
-          title="choose if recurring"
-          className="form-control toggle-checkbox"
-          onChange={() => setIsRecurring(!isRecurring)}
-          checked={isRecurring}
-        />
+        <div className="form-check form-switch">
+          <input
+            type="checkbox"
+            name="is-recurring"
+            title="choose if recurring"
+            className="form-check-input form-switch"
+            id={isRecurring ? "flexSwitchCheckChecked" : "flexSwitchCheckDefault"}
+            role="switch"
+            onChange={() => setIsRecurring(!isRecurring)}
+            checked={isRecurring}
+          />
+          <label htmlFor="is-recurring" className="form-label">Recurring</label>
+        </div>
         <label htmlFor="start-time" className="form-label">Starting time</label>:
         <input
           type="datetime"
@@ -100,7 +104,9 @@ const AddTask = () => {
               }]
             } });
           }}
-        ></button>
+        >
+          Add Task
+        </button>
       </form>
     </div>
   );
