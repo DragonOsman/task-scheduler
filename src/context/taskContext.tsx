@@ -1,0 +1,58 @@
+import { useReducer, createContext, Dispatch, ReactNode, Reducer } from "react";
+
+export interface ITask {
+  id: number;
+  title: string;
+  startTime: Date;
+  endTime?: Date;
+  isRecurring: boolean;
+  isCompleted: boolean;
+};
+
+interface State {
+  tasks: ITask[];
+};
+
+interface Action {
+  type: string;
+  payload: {
+    tasks: ITask[]
+  };
+};
+
+const initialState: State = {
+  tasks: []
+};
+
+const tasksReducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case "ADD_TASK":
+      return { ...state, payload: { ...state.tasks, tasks: action.payload.tasks } };
+    case "EDIT_TASK":
+      return { ...state, payload: { ...state.tasks, tasks: action.payload.tasks } };
+    case "DELETE_TASK":
+      return { ...state, payload: { tasks: state.tasks.filter((task, index) => (
+          task.id !== action.payload.tasks[index].id
+        )) } };
+    default:
+      throw new Error("Unknown type value");
+  }
+};
+
+const TaskContext = createContext<[State, Dispatch<Action>] | undefined>(undefined);
+
+interface TaskProviderProps {
+  children: ReactNode;
+};
+
+const TaskProvider = ({ children }: TaskProviderProps) => {
+  const [state, dispatch] = useReducer<Reducer<State, Action>>(tasksReducer, initialState);
+
+  return (
+    <TaskContext.Provider value={[state, dispatch]}>
+      {children}
+    </TaskContext.Provider>
+  );
+};
+
+export default TaskProvider;
