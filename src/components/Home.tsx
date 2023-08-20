@@ -1,6 +1,7 @@
 import ListTasks from "./ListTasks";
 
-const Home = () => {return (
+const Home = () => {
+  return (
     <div className="container-fluid">
       <ListTasks />
     </div>
