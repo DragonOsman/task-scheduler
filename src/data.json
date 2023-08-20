@@ -3,46 +3,68 @@
     "Chores": [{
       "id": 0,
       "title": "Make bed",
-      "startDate": "2023-08-20T09:10+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+      "startTime": "2023-08-20T09:10+00:00",
+      "isRecurring": true,
+      "isCompleted": false
     }, {
       "id": 1,
       "title": "Empty dishwasher",
-      "startDate": "2023-08-20T09:30+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=5"
+      "startTime": "2023-08-20T09:30+00:00",
+      "isRecurring": true,
+      "isCompleted": false
     }, {
       "id": 2,
       "title": "Study",
-      "startDate": "2023-08-20T19:10+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+      "startTime": "2023-08-20T19:10+00:00",
+      "isRecurring": true,
+      "isCompleted": false
     }, {
       "id": 3,
       "title": "Set table",
-      "startDate": "2023-08-20T21:30+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+      "startTime": "2023-08-20T21:30+00:00",
+      "isRecurring": true,
+      "isCompleted": false
+    }, {
+      "id": 4,
+      "title": "Help Mama in kitchen",
+      "startTime": "2023-08-20T21:30+00:00",
+      "endTime": "2023-08-20T22:00+00:00",
+      "isRecurring": false,
+      "isCompleted": false
     }]
   },
   "Noora": {
     "Chores": [{
       "id": 0,
       "title": "Make bed",
-      "startDate": "2023-08-17T09:10+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+      "startTime": "2023-08-20T09:10+00:00",
+      "isRecurring": true,
+      "isCompleted": false
     }, {
       "id": 1,
       "title": "Empty dishwasher",
-      "startDate": "2023-08-17T09:30+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=5"
+      "startTime": "2023-08-20T09:30+00:00",
+      "isRecurring": true,
+      "isCompleted": false
     }, {
       "id": 2,
       "title": "Study",
-      "startDate": "2023-08-17T19:10+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+      "startTime": "2023-08-20T19:10+00:00",
+      "isRecurring": true,
+      "isCompleted": false
     }, {
       "id": 3,
       "title": "Set table",
-      "startDate": "2023-08-17T21:30+00:00",
-      "recurrenceRule": "FREQ=DAILY;INTERVAL=1"
+      "startTime": "2023-08-20T21:30+00:00",
+      "isRecurring": true,
+      "isCompleted": false
+    }, {
+      "id": 4,
+      "title": "Do homework",
+      "startTime": "2023-08-20T21:30+00:00",
+      "endTime": "2023-08-20T22:00+00:00",
+      "isRecurring": false,
+      "isCompleted": false
     }]
   }
 }
