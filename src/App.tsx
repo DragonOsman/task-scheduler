@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useTask, ITask } from "./context/TaskContext";
 import Home from "./components/Home";
 import ListTasks from "./components/ListTasks";
+import AddTask from "./components/AddTask";
 import { Routes, Route } from "react-router-dom";
 import data from "./data.json";
 
@@ -74,6 +75,7 @@ function App() {
     <Routes>
       <Route element={<Home />} path="/" />
       <Route element={<ListTasks />} path="/list-tasks" />
+      <Route element={<AddTask />} path="/add-task" />
     </Routes>
   );
 }
