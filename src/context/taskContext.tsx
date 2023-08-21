@@ -25,16 +25,15 @@ const initialState: State = {
   tasks: []
 };
 
-const tasksReducer = (state: State, action: Action) => {
+const tasksReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TASK":
-      return { ...state, payload: { ...state.tasks, tasks: action.payload.tasks } };
+      return { tasks: action.payload.tasks };
     case "EDIT_TASK":
-      return { ...state, payload: { ...state.tasks, tasks: action.payload.tasks } };
+      return { tasks: action.payload.tasks };
     case "DELETE_TASK":
-      return { ...state, payload: { tasks: state.tasks.filter((task, index) => (
-          task.id !== action.payload.tasks[index].id
-        )) } };
+      return { tasks: state.tasks.filter((task, index) => (
+        task.id !== action.payload.tasks[index].id)) };
     default:
       throw new Error("Unknown type value");
   }
