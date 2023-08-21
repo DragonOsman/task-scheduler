@@ -79,7 +79,7 @@ const ListTasks = () => {
 
   return (
     <div>
-      <h3 className="display-3">My Chores</h3>
+      <h3>My Chores</h3>
       <ul className="task-list container-fluid">
         {state.tasks.map(task => (
           <li
