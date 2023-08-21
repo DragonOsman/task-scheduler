@@ -57,7 +57,6 @@ const Home = () => {
 
   const fillTasks = () => {
     dispatch({ type: "ADD_TASK", payload: {
-      ...state,
       tasks: currentChild === "Amira" ? convertToValidTasks(amiraTasks).map(task => task) :
         convertToValidTasks(nooraTasks).map(task => task)
     } });

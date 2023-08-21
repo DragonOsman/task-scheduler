@@ -60,7 +60,7 @@ const AddTask = () => {
           type="datetime"
           name="ending-time"
           title="ending time"
-          disabled={!isRecurring}
+          disabled={isRecurring}
           placeholder="Enter an ending time for task"
           onChange={event => setEndingTime(event.target.value)}
           value={endingTime}
@@ -92,7 +92,6 @@ const AddTask = () => {
           title="add task"
           onClick={() => {
             dispatch({ type: "ADD_TASK", payload: {
-              ...state,
               tasks: [...state.tasks, {
                 isRecurring: isRecurring,
                 daysRecurring: isRecurring ? daysRecurring : undefined,

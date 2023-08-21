@@ -95,7 +95,6 @@ const ListTasks = () => {
               title="mark task as completed"
               onClick={() => {
                 dispatch({ type: "EDIT_TASK", payload: {
-                  ...state,
                   tasks: state.tasks.map(task => ({
                     ...task,
                     isCompleted: true
@@ -111,7 +110,6 @@ const ListTasks = () => {
               title="delete task"
               onClick={() => {
                 dispatch({ type: "DELETE_TASK", payload: {
-                  ...state,
                   tasks: state.tasks.filter((task, index, array) => task.id !== array[index].id)
                 } });
               }}
