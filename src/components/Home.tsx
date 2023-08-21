@@ -1,6 +1,6 @@
 import ListTasks from "./ListTasks";
 import { useTask, ITask } from "../context/TaskContext";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import data from "../data.json";
 
 const amiraTasks = data["Amira"]["Chores"];
@@ -50,22 +50,19 @@ const Home = () => {
 
   const toggleCurrentChild = (child: string) => setCurrentChild(child);
 
-  useEffect(() => {
-    const fillTasks = () => {
-      dispatch({ type: "ADD_TASK", payload: {
-        ...state,
-        tasks: currentChild === "Amira" ? convertToValidTasks(amiraTasks).map(task => task) :
-          convertToValidTasks(nooraTasks).map(task => task)
-      } });
-    };
-    fillTasks();
-  }, [currentChild, state, dispatch]);
+  const fillTasks = () => {
+    dispatch({ type: "ADD_TASK", payload: {
+      ...state,
+      tasks: currentChild === "Amira" ? convertToValidTasks(amiraTasks).map(task => task) :
+        convertToValidTasks(nooraTasks).map(task => task)
+    } });
+  };
 
   return (
     <div className="container-fluid">
       <button
         type="button"
-        className="btn-primary"
+        className="btn btn-primary"
         title="toggle child"
         onClick={() => {
           currentChild === "Amira" ? toggleCurrentChild("Noora") :
@@ -74,6 +71,16 @@ const Home = () => {
         }}
       >
         Toggle Child
+      </button>
+      <button
+        type="button"
+        className="btn btn-primary"
+        title="fill tasks list"
+        onClick={() => {
+          fillTasks();
+        }}
+      >
+        Initialize Tasks
       </button>
       <ListTasks />
     </div>
