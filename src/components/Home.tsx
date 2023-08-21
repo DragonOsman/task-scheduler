@@ -16,7 +16,8 @@ const convertToValidTasks = (data: typeof amiraTasks): ITask[] => {
         startTime: new Date(),
         endTime: new Date(),
         isRecurring: false,
-        isCompleted: false
+        isCompleted: false,
+        daysRecurring: []
       };
 
       if (innerKey === "title" && typeof innerValue === "string") {
@@ -29,6 +30,10 @@ const convertToValidTasks = (data: typeof amiraTasks): ITask[] => {
       } else if (innerKey === "endTime" && typeof innerValue === "string") {
         const newValue = new Date(innerValue);
         task.endTime = newValue;
+      }
+
+      if (innerKey === "daysRecurring" && typeof Array.isArray(innerValue)) {
+        task.daysRecurring = [...innerValue];
       }
 
       task.id = newData.length > 0 ?
