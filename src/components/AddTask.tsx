@@ -94,12 +94,12 @@ const AddTask = () => {
             dispatch({ type: "ADD_TASK", payload: {
               tasks: [...state.tasks, {
                 isRecurring: isRecurring,
-                daysRecurring: isRecurring ? daysRecurring : undefined,
+                daysRecurring: daysRecurring,
                 title: title,
                 startTime: new Date(startTime),
                 isCompleted: false,
                 id: state.tasks.length > 0 ? state.tasks[state.tasks.length - 1].id : 0,
-                endTime: isRecurring ? undefined : new Date(endingTime)
+                endTime: new Date(endingTime)
               }]
             } });
           }}

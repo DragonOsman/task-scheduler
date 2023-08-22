@@ -87,9 +87,7 @@ const ListTasks = () => {
             className="task-item"
           >
             {task.title}
-            {!task.isRecurring && task.endTime !== undefined && (
-               <TaskTimer expiryTimestamp={task.endTime} />
-            )}
+            <TaskTimer expiryTimestamp={task.endTime} />
             <button
               type="button"
               title="mark task as completed"
