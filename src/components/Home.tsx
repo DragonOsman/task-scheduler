@@ -32,17 +32,17 @@ const convertToValidTasks = (data: typeof amiraTasks): ITask[] => {
         task.endTime = newValue;
       }
 
-      if (innerKey === "daysRecurring" && typeof Array.isArray(innerValue)) {
+      if (innerKey === "daysRecurring" && Array.isArray(innerValue)
+        && innerValue.length > 0) {
         task.daysRecurring = [...innerValue];
       }
 
       task.id = newData.length > 0 ?
-        newData[newData.length - 1].id + 1 : 0;
+        newData[newData.length - 1].id + 1 : 0
+      ;
 
-      // no end time for recurring tasks
-      if (innerKey === "isRecurring" && innerValue === true) {
-        task.isRecurring = true;
-        task.endTime = undefined;
+      if (innerKey === "isRecurring" && typeof innerValue === "boolean") {
+        task.isRecurring = innerValue;
       }
       newData.push(task);
     }
