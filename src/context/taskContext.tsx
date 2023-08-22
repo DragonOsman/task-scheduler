@@ -4,10 +4,10 @@ export interface ITask {
   id: number;
   title: string;
   startTime: Date;
-  endTime?: Date;
+  endTime: Date;
   isRecurring: boolean;
   isCompleted: boolean;
-  daysRecurring?: string[]
+  daysRecurring: string[]
 };
 
 interface State {
