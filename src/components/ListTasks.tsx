@@ -1,5 +1,5 @@
 import { useTimer } from "react-timer-hook";
-import { useTask } from "../context/TaskContext";
+import { useTask } from "../context/taskContext";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

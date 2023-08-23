@@ -1,5 +1,5 @@
 import ListTasks from "./ListTasks";
-import { useTask, ITask } from "../context/TaskContext";
+import { useTask, ITask } from "../context/taskContext";
 import { useState } from "react";
 import data from "../data.json";
 
