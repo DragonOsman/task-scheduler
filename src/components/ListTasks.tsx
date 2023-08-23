@@ -101,7 +101,7 @@ const ListTasks = () => {
               }}
               className="btn btn-primary"
             >
-              Complete
+              Done
             </button>
             <button
               type="button"

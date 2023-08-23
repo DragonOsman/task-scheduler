@@ -1,4 +1,12 @@
-import { useReducer, createContext, useContext, Dispatch, ReactNode, Reducer } from "react";
+import {
+  useReducer,
+  createContext,
+  useContext,
+  Dispatch,
+  ReactNode,
+  Reducer,
+  useEffect
+} from "react";
 import data from "../data.json";
 
 const amiraTasks = data["Amira"]["Chores"];
@@ -80,19 +88,21 @@ interface TaskProviderProps {
 const TaskProvider = ({ children }: TaskProviderProps) => {
   const [state, dispatch] = useReducer<Reducer<State, Action>>(tasksReducer, initialState);
 
-  if (state.child === "Amira") {
-    dispatch({ type: "ADD_TASK", payload: {
-      tasks: amiraTasks.map((task): ITask => ({
-        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
-      }))
-    } });
-  } else if (state.child === "Noora") {
-    dispatch({ type: "ADD_TASK", payload: {
-      tasks: nooraTasks.map((task): ITask => ({
-        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
-      }))
-    } });
-  }
+  useEffect(() => {
+    if (state.child === "Amira") {
+      dispatch({ type: "ADD_TASK", payload: {
+        tasks: amiraTasks.map((task): ITask => ({
+          ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
+        }))
+      } });
+    } else if (state.child === "Noora") {
+      dispatch({ type: "ADD_TASK", payload: {
+        tasks: nooraTasks.map((task): ITask => ({
+          ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
+        }))
+      } });
+    }
+  }, [state.child]);
 
   return (
     <TaskContext.Provider value={[state, dispatch]}>
