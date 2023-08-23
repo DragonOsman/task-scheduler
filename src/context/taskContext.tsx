@@ -39,7 +39,7 @@ interface Action {
 
 const initialState: State = {
   tasks: [],
-  child: "",
+  child: "Amira",
   task: {
     id: 0,
     title: "",
