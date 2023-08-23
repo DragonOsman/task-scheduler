@@ -91,17 +91,15 @@ const AddTask = () => {
           className="btn btn-primary"
           title="add task"
           onClick={() => {
-            dispatch({ type: "ADD_TASK", payload: {
-              tasks: [...state.tasks, {
-                isRecurring: isRecurring,
-                daysRecurring: daysRecurring,
-                title: title,
-                startTime: new Date(startTime),
-                isCompleted: false,
-                id: state.tasks.length > 0 ? state.tasks[state.tasks.length - 1].id : 0,
-                endTime: new Date(endingTime)
-              }]
-            } });
+            dispatch({ type: "ADD_TASK", tasks: [...state.tasks, {
+              isRecurring: isRecurring,
+              daysRecurring: daysRecurring,
+              title: title,
+              startTime: new Date(startTime),
+              isCompleted: false,
+              id: state.tasks.length > 0 ? state.tasks[state.tasks.length - 1].id : 0,
+              endTime: new Date(endingTime)
+            }] });
           }}
         >
           Add Task

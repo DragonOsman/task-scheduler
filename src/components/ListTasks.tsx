@@ -92,12 +92,11 @@ const ListTasks = () => {
               type="button"
               title="mark task as completed"
               onClick={() => {
-                dispatch({ type: "EDIT_TASK", payload: {
-                  tasks: state.tasks.map(task => ({
+                dispatch({ type: "EDIT_TASK",
+                  tasks: state.tasks.map(task => task), id: task.id, task: {
                     ...task,
                     isCompleted: true
-                  }))
-                } });
+                  } });
               }}
               className="btn btn-primary"
             >
@@ -107,9 +106,8 @@ const ListTasks = () => {
               type="button"
               title="delete task"
               onClick={() => {
-                dispatch({ type: "DELETE_TASK", payload: {
-                  tasks: state.tasks.filter((task, index, array) => task.id !== array[index].id)
-                } });
+                dispatch({ type: "DELETE_TASK", tasks:
+                  state.tasks.filter((task, index, array) => task.id !== array[index].id) });
               }}
               className="btn btn-danger"
             >

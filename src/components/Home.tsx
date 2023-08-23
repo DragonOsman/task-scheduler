@@ -44,6 +44,16 @@ const convertToValidTasks = (data: typeof amiraTasks): ITask[] => {
       if (innerKey === "isRecurring" && typeof innerValue === "boolean") {
         task.isRecurring = innerValue;
       }
+      console.log("Inside Home.tsx, convertToValidTasks function:");
+      console.log("task:");
+      console.log(`Title: ${task.title}`);
+      console.log(`startTime: ${task.startTime}`);
+      console.log(`endTime: ${task.endTime}`);
+      console.log(`isCompleted: ${task.isCompleted}`);
+      console.log(`isRecurring: ${task.isRecurring}`);
+      console.log("daysRecurring:");
+      task.daysRecurring.length > 0 &&
+        task.daysRecurring.forEach(dayRecurring => console.log(dayRecurring));
       newData.push(task);
     }
   }
@@ -57,10 +67,9 @@ const Home = () => {
   const toggleCurrentChild = (child: string) => setCurrentChild(child);
 
   const fillTasks = () => {
-    dispatch({ type: "ADD_TASK", payload: {
-      tasks: currentChild === "Amira" ? convertToValidTasks(amiraTasks).map(task => task) :
-        convertToValidTasks(nooraTasks).map(task => task)
-    } });
+    dispatch({ type: "ADD_TASK", tasks: currentChild === "Amira" ?
+      convertToValidTasks(amiraTasks).map(task => task) :
+      convertToValidTasks(nooraTasks).map(task => task) });
   };
 
   return (
