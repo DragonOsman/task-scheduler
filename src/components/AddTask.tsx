@@ -1,9 +1,9 @@
-import { useTask } from "../context/taskContext";
+import { useTaskContext } from "../context/taskContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const AddTask = () => {
-  const [state, dispatch] = useTask();
+  const [state, dispatch] = useTaskContext();
   const [title, setTitle] = useState("");
   const [isRecurring, setIsRecurring] = useState(false);
   const [startTime, setStartTime] = useState("00:00:00");
