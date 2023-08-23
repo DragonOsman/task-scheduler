@@ -42,7 +42,7 @@ const convertToValidTasks = (data: typeof amiraTasks): ITask[] => {
       if (innerKey === "isRecurring" && typeof innerValue === "boolean") {
         task.isRecurring = innerValue;
       }
-      console.log("Inside Home.tsx, convertToValidTasks function:");
+      console.log("Inside taskContext.tsx, convertToValidTasks function:");
       console.log("task:");
       console.log(`Title: ${task.title}`);
       console.log(`startTime: ${task.startTime}`);
@@ -101,17 +101,22 @@ const tasksReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TASK":
       return { tasks: action.payload.tasks.map(task => task),
-        task: action.payload.task, child: action.payload.child };
+        task: action.payload.task, child: action.payload.child
+      };
     case "EDIT_TASK":
       return { task: action.payload.task,
-        tasks: action.payload.tasks, child: action.payload.child };
+        tasks: action.payload.tasks, child: action.payload.child
+      };
     case "DELETE_TASK":
       return { tasks: state.tasks.filter((task, index) => (
         task.id !== action.payload.tasks[index].id)),
-          child: action.payload.child, task: action.payload.task };
+          child: action.payload.child
+      };
     case "TOGGLE_CHILD":
-      return { tasks: action.payload.tasks,
-        child: action.payload.child, task: action.payload.task };
+      return {
+        tasks: action.payload.tasks,
+        child: action.payload.child
+      };
     default:
       return state;
   }
@@ -124,7 +129,17 @@ interface TaskProviderProps {
 };
 
 const TaskProvider = ({ children }: TaskProviderProps) => {
-  const [state, dispatch] = useReducer(tasksReducer, initialState);
+  const [state, dispatch] = useReducer<Reducer<State, Action>>(tasksReducer, initialState);
+
+  if (state.child === "Amira") {
+    dispatch({ type: "ADD_TASK", payload: {
+      tasks: convertToValidTasks(amiraTasks)
+    } });
+  } else if (state.child === "Noora") {
+    dispatch({ type: "ADD_TASK", payload: {
+      tasks: convertToValidTasks(nooraTasks)
+    } });
+  }
 
   return (
     <TaskContext.Provider value={[state, dispatch]}>
