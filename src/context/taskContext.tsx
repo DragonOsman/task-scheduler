@@ -50,11 +50,17 @@ const tasksReducer = (state: State, action: Action): State => {
         task: action.payload?.task, child: action.payload?.child
       };
     case "EDIT_TASK":
-      return { task: action.payload?.task,
-        tasks: action.payload.tasks, child: action.payload?.child
+      return {
+        task: action.payload?.task,
+        tasks: action.payload.tasks.map(task => task.id === action.payload.task?.id ?
+          action.payload.task : task),
+        child: action.payload?.child
       };
     case "DELETE_TASK":
-      return { tasks: action.payload.tasks, child: action.payload?.child };
+      return {
+        tasks: action.payload.tasks.filter(task => task.id !== action.payload.task?.id),
+        child: action.payload?.child
+      };
     case "TOGGLE_CHILD":
       return {
         tasks: action.payload.tasks,

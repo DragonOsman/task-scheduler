@@ -10,6 +10,7 @@ const Home = () => {
       child: event.currentTarget.value,
       tasks: state.tasks
     } });
+    event.currentTarget.classList.add("active");
   };
 
   return (

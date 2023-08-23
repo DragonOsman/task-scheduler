@@ -84,7 +84,7 @@ const ListTasks = () => {
         {state.tasks.map(task => (
           <li
             key={task.id}
-            className="task-item"
+            className={`task-item ${task.isCompleted ? "completed" : ""}`}
           >
             {task.title}
             <TaskTimer expiryTimestamp={task.endTime} />
@@ -109,7 +109,7 @@ const ListTasks = () => {
               onClick={() => {
                 dispatch({ type: "DELETE_TASK", payload: {
                   tasks:
-                    state.tasks.filter((task, index, array) => task.id !== array[index].id)
+                    state.tasks.filter((currentTask) => task.id !== currentTask.id)
                   }
                 });
               }}

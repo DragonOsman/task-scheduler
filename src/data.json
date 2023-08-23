@@ -4,7 +4,7 @@
       "id": 0,
       "title": "Make bed",
       "startTime": "2023-08-24T09:10+00:00",
-      "endTime": "2023-08-24T09:15:+00:00",
+      "endTime": "2023-08-24T09:15+00:00",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -47,7 +47,7 @@
       "id": 0,
       "title": "Make bed",
       "startTime": "2023-08-24T09:10+00:00",
-      "endTime": "2023-08-24T09:15:+00:00",
+      "endTime": "2023-08-24T09:15+00:00",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
