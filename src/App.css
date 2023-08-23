@@ -9,3 +9,13 @@ body {
 .task-list li {
   list-style-type: none;
 }
+
+.completed {
+  background-color: rgb(25, 150, 139);
+  text-decoration: line-through;
+}
+
+.btn {
+  margin-right: 5px;
+  margin-left: 5px;
+}

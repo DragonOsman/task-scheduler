@@ -103,20 +103,6 @@ const ListTasks = () => {
             >
               Done
             </button>
-            <button
-              type="button"
-              title="delete task"
-              onClick={() => {
-                dispatch({ type: "DELETE_TASK", payload: {
-                  tasks:
-                    state.tasks.filter((currentTask) => task.id !== currentTask.id)
-                  }
-                });
-              }}
-              className="btn btn-danger"
-            >
-              Delete
-            </button>
           </li>
         ))}
       </ul>
