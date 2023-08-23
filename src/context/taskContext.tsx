@@ -4,60 +4,6 @@ import data from "../data.json";
 const amiraTasks = data["Amira"]["Chores"];
 const nooraTasks = data["Noora"]["Chores"];
 
-const convertToValidTasks = (data: typeof amiraTasks): ITask[] => {
-  const newData: ITask[] = [];
-  for (const outerValue of Object.values(data)) {
-    for (const [innerKey, innerValue] of Object.entries(outerValue)) {
-      const task: ITask = {
-        id: 0,
-        title: "",
-        startTime: new Date(),
-        endTime: new Date(),
-        isRecurring: false,
-        isCompleted: false,
-        daysRecurring: []
-      };
-
-      if (innerKey === "title" && typeof innerValue === "string") {
-        task.title = innerValue;
-      }
-
-      if (innerKey === "startTime" && typeof innerValue === "string") {
-        const newValue = new Date(innerValue);
-        task.startTime = newValue;
-      } else if (innerKey === "endTime" && typeof innerValue === "string") {
-        const newValue = new Date(innerValue);
-        task.endTime = newValue;
-      }
-
-      if (innerKey === "daysRecurring" && Array.isArray(innerValue)
-        && innerValue.length > 0) {
-        task.daysRecurring = [...innerValue];
-      }
-
-      task.id = newData.length > 0 ?
-        newData[newData.length - 1].id + 1 : 0
-      ;
-
-      if (innerKey === "isRecurring" && typeof innerValue === "boolean") {
-        task.isRecurring = innerValue;
-      }
-      console.log("Inside taskContext.tsx, convertToValidTasks function:");
-      console.log("task:");
-      console.log(`Title: ${task.title}`);
-      console.log(`startTime: ${task.startTime}`);
-      console.log(`endTime: ${task.endTime}`);
-      console.log(`isCompleted: ${task.isCompleted}`);
-      console.log(`isRecurring: ${task.isRecurring}`);
-      console.log("daysRecurring:");
-      task.daysRecurring.length > 0 &&
-        task.daysRecurring.forEach(dayRecurring => console.log(dayRecurring));
-      newData.push(task);
-    }
-  }
-  return newData;
-};
-
 export interface ITask {
   id: number;
   title: string;
@@ -133,11 +79,15 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 
   if (state.child === "Amira") {
     dispatch({ type: "ADD_TASK", payload: {
-      tasks: convertToValidTasks(amiraTasks)
+      tasks: amiraTasks.map((task): ITask => ({
+        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
+      }))
     } });
   } else if (state.child === "Noora") {
     dispatch({ type: "ADD_TASK", payload: {
-      tasks: convertToValidTasks(nooraTasks)
+      tasks: nooraTasks.map((task): ITask => ({
+        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
+      }))
     } });
   }
 

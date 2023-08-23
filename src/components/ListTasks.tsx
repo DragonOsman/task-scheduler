@@ -93,7 +93,7 @@ const ListTasks = () => {
               title="mark task as completed"
               onClick={() => {
                 dispatch({ type: "EDIT_TASK", payload: {
-                  tasks: state.tasks.map(task => task), task: {
+                  tasks: state.tasks, task: {
                     ...task,
                     isCompleted: true
                   }
