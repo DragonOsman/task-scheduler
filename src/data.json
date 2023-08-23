@@ -55,7 +55,7 @@
       "id": 1,
       "title": "Empty dishwasher",
       "endTime": "2023-08-24T09:35+00:00",
-      "startTime": "2023-08-24T09:30+00:00",
+      "startTime": "2023-08-24T09:40+00:00",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
@@ -70,7 +70,7 @@
     }, {
       "id": 3,
       "title": "Set table",
-      "startTime": "2023-08-24T21:30+00:00",
+      "startTime": "2023-08-24T22:30+00:00",
       "endTime": "2023-08-24T22:35+00:00",
       "isRecurring": true,
       "isCompleted": false,

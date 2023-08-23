@@ -46,18 +46,15 @@ const initialState: State = {
 const tasksReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TASK":
-      return { tasks: action.payload.tasks.map(task => task),
-        task: action.payload.task, child: action.payload.child
+      return { tasks: action.payload.tasks,
+        task: action.payload?.task, child: action.payload?.child
       };
     case "EDIT_TASK":
-      return { task: action.payload.task,
-        tasks: action.payload.tasks, child: action.payload.child
+      return { task: action.payload?.task,
+        tasks: action.payload.tasks, child: action.payload?.child
       };
     case "DELETE_TASK":
-      return { tasks: state.tasks.filter((task, index) => (
-        task.id !== action.payload.tasks[index].id)),
-          child: action.payload.child
-      };
+      return { tasks: action.payload.tasks, child: action.payload?.child };
     case "TOGGLE_CHILD":
       return {
         tasks: action.payload.tasks,
