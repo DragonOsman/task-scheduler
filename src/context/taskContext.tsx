@@ -14,28 +14,26 @@ interface State {
   tasks: ITask[];
 };
 
-interface Action {
-  type: string;
-  payload: {
-    tasks: ITask[]
-  };
-};
+type Action =
+  | { type: "ADD_TASK", tasks: ITask[] }
+  | { type: "EDIT_TASK", id: number, task: ITask, tasks: ITask[] }
+  | { type: "DELETE_TASK", tasks: ITask[] }
 
 const initialState: State = {
   tasks: []
 };
 
-const tasksReducer = (state: State, action: Action): State => {
+const tasksReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "ADD_TASK":
-      return { tasks: action.payload.tasks };
+      return { tasks: action.tasks.map(task => task) };
     case "EDIT_TASK":
-      return { tasks: action.payload.tasks };
+      return { id: action.id, task: action.task, tasks: action.tasks };
     case "DELETE_TASK":
       return { tasks: state.tasks.filter((task, index) => (
-        task.id !== action.payload.tasks[index].id)) };
+        task.id !== action.tasks[index].id)) };
     default:
-      throw new Error("Unknown type value");
+      return state;
   }
 };
 
