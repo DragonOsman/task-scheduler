@@ -1,6 +1,6 @@
 import { useTimer } from "react-timer-hook";
 import { useTaskContext } from "../context/taskContext";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface TaskTimerProps {
