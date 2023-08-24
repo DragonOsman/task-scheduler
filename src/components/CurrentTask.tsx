@@ -1,6 +1,8 @@
 import { useTaskContext } from "../context/taskContext";
 import { useState } from "react";
 import { useTimer } from "react-timer-hook";
+import { Link } from "react-router-dom";
+import addPadding from "../addPadding";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -22,7 +24,10 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
 
   return (
     <div className="task-timer">
-      <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+      <span>{days.toString().length === 1 && addPadding(days.toString())}</span>:
+      <span>{hours.toString().length === 1 && addPadding(hours.toString())}</span>:
+      <span>{minutes.toString().length === 1 && addPadding(minutes.toString())}</span>:
+      <span>{seconds.toString().length === 1 && addPadding(seconds.toString())}</span>
       <br />
       {isRunning ? (
         <button
@@ -76,9 +81,12 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
 
 const CurrentTask = () => {
   const [state, dispatch] = useTaskContext();
-  const startIndex = state.currentTask && state.tasks.indexOf(state.currentTask);
-  const nextTwoTasks = (state.currentTask && startIndex) &&
-    state.tasks.slice(startIndex + 1, startIndex + 3);
+  let nextTwoTasks: typeof state.tasks = [];
+
+  if (state.currentTask) {
+    const startIndex = state.tasks.indexOf(state.currentTask);
+    nextTwoTasks = state.tasks.slice(startIndex + 1, startIndex + 3);
+  }
 
   return (
     <div className="task-details">
@@ -110,15 +118,24 @@ const CurrentTask = () => {
       </div>
       <div className="next-two-tasks">
         <p>
-          {nextTwoTasks && nextTwoTasks.length > 1 ? "Your next two tasks"
-            : "Your next task"}:
-          {nextTwoTasks && nextTwoTasks.map((task, index) => {
-            return (
-              <span>{index === 1 ? `${task.title}, ` : task.title}</span>
-            );
-          })}
+          {nextTwoTasks && (
+            nextTwoTasks.length > 1 ? "Your next two tasks:" :
+              nextTwoTasks.length === 1 ? "Your next task:" : ""
+          )}
+          <ul className="tasks">
+            {nextTwoTasks && (
+              nextTwoTasks.map(task => {
+                return (
+                  <li key={task.id}>
+                    {task.title}
+                  </li>
+                );
+              })
+            )}
+          </ul>
         </p>
       </div>
+      <Link to="/" className="back-to-home btn btn-primary">Back to Home</Link>
     </div>
   );
 };

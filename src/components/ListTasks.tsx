@@ -1,6 +1,7 @@
 import { useTimer } from "react-timer-hook";
 import { useTaskContext } from "../context/taskContext";
 import { useState } from "react";
+import addPadding from "../addPadding";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -22,7 +23,10 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
 
   return (
     <div className="task-timer">
-      <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+      <span>{days.toString().length === 1 && addPadding(days.toString())}</span>:
+      <span>{hours.toString().length === 1 && addPadding(hours.toString())}</span>:
+      <span>{minutes.toString().length === 1 && addPadding(minutes.toString())}</span>:
+      <span>{seconds.toString().length === 1 && addPadding(seconds.toString())}</span>
       <br />
       {isRunning ? (
         <button
@@ -84,9 +88,10 @@ const ListTasks = () => {
         {state.tasks.map(task => (
           <li
             key={task.id}
-            className={`task-item ${task.isCompleted ? "completed" : ""} active`}
+            className={`task-item ${task.isCompleted ? "completed" : ""}
+              ${task === state.currentTask ? "current-task" : ""}`}
           >
-            {task.title}
+            <b>{task.title}</b>
             {task === state.currentTask &&
               <TaskTimer expiryTimestamp={task.endTime} />}
             <button
