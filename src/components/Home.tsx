@@ -1,6 +1,7 @@
 import ListTasks from "./ListTasks";
 import { useTaskContext } from "../context/taskContext";
 import { MouseEvent } from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [state, dispatch] = useTaskContext();
@@ -15,7 +16,7 @@ const Home = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="Home container-fluid">
       Toggle Current Child to:
       <button
         type="button"
@@ -36,6 +37,9 @@ const Home = () => {
         Noora
       </button>
       <ListTasks />
+      <Link to="/current-task" className="current-task-link btn btn-primary">
+        Current Task Page
+      </Link>
     </div>
   );
 };

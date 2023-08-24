@@ -10,9 +10,19 @@ body {
   list-style-type: none;
 }
 
+.current-task {
+  background-color: #118a62;
+  color: #fff;
+  padding: 5px;
+}
+
 .completed {
   background-color: rgb(25, 150, 139);
   text-decoration: line-through;
+}
+
+.days-recurring > li {
+  list-style-type: none;
 }
 
 .btn {
@@ -21,6 +31,21 @@ body {
 }
 
 .add-task-link {
+  margin-bottom: 5px;
+}
+
+.task-timer span {
+  font-size: 24px;
+  background-color: black;
+  padding: 3px;
+  margin-bottom: 7px;
+}
+
+.task-timer button {
+  margin-top: 10px;
+}
+
+.current-task-link {
   margin-bottom: 5px;
 }
 

@@ -1,6 +1,6 @@
-import { useTimer } from "react-timer-hook";
 import { useTaskContext } from "../context/taskContext";
 import { useState } from "react";
+import { useTimer } from "react-timer-hook";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -74,42 +74,53 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
   );
 };
 
-const ListTasks = () => {
+const CurrentTask = () => {
   const [state, dispatch] = useTaskContext();
+  const startIndex = state.currentTask && state.tasks.indexOf(state.currentTask);
+  const nextTwoTasks = (state.currentTask && startIndex) &&
+    state.tasks.slice(startIndex + 1, startIndex + 3);
 
   return (
-    <div>
-      <h3>My Chores</h3>
-      <ul className="task-list container-fluid">
-        {state.tasks.map(task => (
-          <li
-            key={task.id}
-            className={`task-item ${task.isCompleted ? "completed" : ""} active`}
-          >
-            {task.title}
-            {task === state.currentTask &&
-              <TaskTimer expiryTimestamp={task.endTime} />}
-            <button
-              type="button"
-              title="mark task as completed"
-              onClick={() => {
-                dispatch({ type: "EDIT_TASK", payload: {
-                  currentTask: state.currentTask,
-                  tasks: state.tasks, task: {
-                    ...task,
-                    isCompleted: true
-                  }
-                } });
-              }}
-              className="btn btn-primary"
-            >
-              Done
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="task-details">
+      <div className="current-task">
+        {state.currentTask && (
+          <>
+            <h2 className="task-title">Title: {state.currentTask.title}</h2>
+            <p className="task-is-recurring">
+              Recurring: {state.currentTask.isRecurring ? "Yes" : "No"}
+            </p>
+            <TaskTimer expiryTimestamp={state.currentTask.endTime} />
+            Days recurring:
+            {state.currentTask.isRecurring && (
+              <ul className="days-recurring">
+                {state.currentTask.daysRecurring.map(day => {
+                  return (
+                    <li key={day}>
+                      {`${state.currentTask
+                        && state.currentTask.daysRecurring[
+                          state.currentTask.daysRecurring.length - 1]
+                           === day ? `${day}` : `${day}, `}`}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </>
+        )}
+      </div>
+      <div className="next-two-tasks">
+        <p>
+          {nextTwoTasks && nextTwoTasks.length > 1 ? "Your next two tasks"
+            : "Your next task"}:
+          {nextTwoTasks && nextTwoTasks.map((task, index) => {
+            return (
+              <span>{index === 1 ? `${task.title}, ` : task.title}</span>
+            );
+          })}
+        </p>
+      </div>
     </div>
   );
 };
 
-export default ListTasks;
+export default CurrentTask;
