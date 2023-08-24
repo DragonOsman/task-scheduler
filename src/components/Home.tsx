@@ -7,7 +7,8 @@ const Home = () => {
 
   const toggleChild = (event: MouseEvent<HTMLButtonElement>) => {
     dispatch({ type: "TOGGLE_CHILD", payload: {
-      child: event.currentTarget.value,
+      currentTask: state.currentTask,
+      currentChild: event.currentTarget.value,
       tasks: state.tasks
     } });
     event.currentTarget.classList.add("active");
@@ -21,7 +22,7 @@ const Home = () => {
         title="toggle current child to Amira"
         value="Amira"
         onClick={toggleChild}
-        className="btn btn-primary"
+        className="btn btn-primary active"
       >
         Amira
       </button>

@@ -1,6 +1,6 @@
 import { useTimer } from "react-timer-hook";
 import { useTaskContext } from "../context/taskContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 interface TaskTimerProps {
@@ -87,12 +87,14 @@ const ListTasks = () => {
             className={`task-item ${task.isCompleted ? "completed" : ""}`}
           >
             {task.title}
-            <TaskTimer expiryTimestamp={task.endTime} />
+            {task === state.currentTask &&
+              <TaskTimer expiryTimestamp={task.endTime} />}
             <button
               type="button"
               title="mark task as completed"
               onClick={() => {
                 dispatch({ type: "EDIT_TASK", payload: {
+                  currentTask: state.currentTask,
                   tasks: state.tasks, task: {
                     ...task,
                     isCompleted: true

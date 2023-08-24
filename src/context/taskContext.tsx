@@ -24,8 +24,9 @@ export interface ITask {
 
 interface State {
   tasks: ITask[];
-  child?: string;
-  task?: ITask
+  currentChild?: string;
+  task?: ITask,
+  currentTask?: ITask;
 };
 
 interface Action {
@@ -33,13 +34,23 @@ interface Action {
   payload: {
     tasks: ITask[];
     task?: ITask;
-    child?: string;
+    currentChild?: string;
+    currentTask?: ITask
   }
 }
 
 const initialState: State = {
   tasks: [],
-  child: "Amira",
+  currentChild: "Amira",
+  currentTask: {
+    id: 0,
+    title: "",
+    startTime: new Date(),
+    endTime: new Date(),
+    isRecurring: false,
+    isCompleted: false,
+    daysRecurring: []
+  },
   task: {
     id: 0,
     title: "",
@@ -55,24 +66,29 @@ const tasksReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TASK":
       return { tasks: action.payload.tasks,
-        task: action.payload?.task, child: action.payload?.child
+        task: action.payload?.task, currentChild: action.payload?.currentChild
       };
     case "EDIT_TASK":
       return {
         task: action.payload?.task,
         tasks: action.payload.tasks.map(task => task.id === action.payload.task?.id ?
           action.payload.task : task),
-        child: action.payload?.child
+        currentChild: action.payload?.currentChild
       };
     case "DELETE_TASK":
       return {
         tasks: action.payload.tasks.filter(task => task.id !== action.payload.task?.id),
-        child: action.payload?.child
+        currentChild: action.payload?.currentChild
       };
     case "TOGGLE_CHILD":
       return {
         tasks: action.payload.tasks,
-        child: action.payload.child
+        currentChild: action.payload.currentChild
+      };
+    case "SELECT_CURRENT_TASK":
+      return {
+        tasks: action.payload.tasks,
+        currentTask: action.payload.currentTask
       };
     default:
       return state;
@@ -89,20 +105,22 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
   const [state, dispatch] = useReducer<Reducer<State, Action>>(tasksReducer, initialState);
 
   useEffect(() => {
-    if (state.child === "Amira") {
-      dispatch({ type: "ADD_TASK", payload: {
-        tasks: amiraTasks.map((task): ITask => ({
-          ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
-        }))
-      } });
-    } else if (state.child === "Noora") {
-      dispatch({ type: "ADD_TASK", payload: {
-        tasks: nooraTasks.map((task): ITask => ({
-          ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
-        }))
-      } });
-    }
-  }, [state.child]);
+    dispatch({ type: "ADD_TASK", payload: {
+      tasks: state.currentChild === "Amira" ?
+        amiraTasks.map((task): ITask => ({
+        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
+      })) : nooraTasks.map((task): ITask => ({
+        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
+      }))
+    } });
+  }, [state.currentChild]);
+
+  useEffect(() => {
+    dispatch({ type: "SELECT_CURRENT_TASK", payload: {
+      tasks: state.tasks,
+      currentTask: state.tasks.find(task => !task.isCompleted)
+    } });
+  }, [state.tasks]);
 
   return (
     <TaskContext.Provider value={[state, dispatch]}>
