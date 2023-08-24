@@ -9,8 +9,7 @@ import {
 } from "react";
 import data from "../data.json";
 
-const amiraTasks = data["Amira"]["Chores"];
-const nooraTasks = data["Noora"]["Chores"];
+const tasks = data["Amira"]["Chores"];
 
 export interface ITask {
   id: number;
@@ -41,7 +40,6 @@ interface Action {
 
 const initialState: State = {
   tasks: [],
-  currentChild: "Amira",
   currentTask: {
     id: 0,
     title: "",
@@ -80,11 +78,6 @@ const tasksReducer = (state: State, action: Action): State => {
         tasks: action.payload.tasks.filter(task => task.id !== action.payload.task?.id),
         currentChild: action.payload?.currentChild
       };
-    case "TOGGLE_CHILD":
-      return {
-        tasks: action.payload.tasks,
-        currentChild: action.payload.currentChild
-      };
     case "SELECT_CURRENT_TASK":
       return {
         tasks: action.payload.tasks,
@@ -104,23 +97,24 @@ interface TaskProviderProps {
 const TaskProvider = ({ children }: TaskProviderProps) => {
   const [state, dispatch] = useReducer<Reducer<State, Action>>(tasksReducer, initialState);
 
-  useEffect(() => {
-    dispatch({ type: "ADD_TASK", payload: {
-      tasks: state.currentChild === "Amira" ?
-        amiraTasks.map((task): ITask => ({
-        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
-      })) : nooraTasks.map((task): ITask => ({
-        ...task, startTime: new Date(task.startTime), endTime: new Date(task.endTime)
-      }))
-    } });
-  }, [state.currentChild]);
-
+  // select current task
   useEffect(() => {
     dispatch({ type: "SELECT_CURRENT_TASK", payload: {
       tasks: state.tasks,
       currentTask: state.tasks.find(task => !task.isCompleted)
     } });
   }, [state.tasks]);
+
+  // fill tasks array
+  useEffect(() => {
+    dispatch({ type: "ADD_TASK", payload: {
+      tasks: tasks.map(task => ({
+        ...task,
+        startTime: new Date(task.startTime),
+        endTime: new Date(task.endTime)
+      }))
+    } });
+  }, []);
 
   return (
     <TaskContext.Provider value={[state, dispatch]}>
