@@ -1,7 +1,6 @@
 import { useTimer } from "react-timer-hook";
 import { useTaskContext } from "../context/taskContext";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -108,7 +107,6 @@ const ListTasks = () => {
           </li>
         ))}
       </ul>
-      <Link to="/add-task" className="add-task-link">Add New Task</Link>
     </div>
   );
 };
