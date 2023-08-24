@@ -73,20 +73,18 @@ const AddTask = () => {
                   key={day}
                   type="button"
                   title={`${day.toLowerCase()}`}
-                  onClick={(event) => {
-                    setDaysRecurring(existingItems => {
-                      return [...existingItems, day];
-                    });
-                    const dayValue = event.currentTarget.value;
-                    if (daysRecurring.includes(dayValue)) {
+                  onClick={() => {
+                    if (daysRecurring.includes(day)) {
                       const answer = window.confirm(
-                        `Are you sure you want to remove ${dayValue} from the list?`
+                        `Are you sure you want to remove ${day} from the list?`
                       );
                       if (answer) {
-                        const newDaysRecurring = [...daysRecurring];
-                        newDaysRecurring.filter(day => day !== dayValue);
+                        const newDaysRecurring =
+                          daysRecurring.filter(dayRecurring => day !== dayRecurring);
                         setDaysRecurring(newDaysRecurring);
                       }
+                    } else {
+                      setDaysRecurring(existingItems => [...existingItems, day]);
                     }
                   }}
                   className="btn btn-dark rounded-circle"
