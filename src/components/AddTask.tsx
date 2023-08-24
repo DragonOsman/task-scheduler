@@ -73,10 +73,21 @@ const AddTask = () => {
                   key={day}
                   type="button"
                   title={`${day.toLowerCase()}`}
-                  onClick={() => {
+                  onClick={(event) => {
                     setDaysRecurring(existingItems => {
                       return [...existingItems, day];
                     });
+                    const dayValue = event.currentTarget.value;
+                    if (daysRecurring.includes(dayValue)) {
+                      const answer = window.confirm(
+                        `Are you sure you want to remove ${dayValue} from the list?`
+                      );
+                      if (answer) {
+                        const newDaysRecurring = [...daysRecurring];
+                        newDaysRecurring.filter(day => day !== dayValue);
+                        setDaysRecurring(newDaysRecurring);
+                      }
+                    }
                   }}
                   className="btn btn-dark rounded-circle"
                 >
@@ -84,6 +95,19 @@ const AddTask = () => {
                 </button>
               );
             })}
+            <p>
+              Click a day button once to have that day be added to the list of days
+              this task will recur; click again to remove it from the list (you will get a
+               confirmation dialog asking to make sure that's what you mean to do.)
+            </p>
+            <p className="daysRecurring-input-list">
+              {daysRecurring.map(dayRecurring => (
+                <span key={dayRecurring}>{dayRecurring}{
+                  !(dayRecurring === daysRecurring[daysRecurring.length - 1]) ? "," : ""
+                }
+                </span>
+              ))}
+            </p>
           </div>
         )}
         <button
