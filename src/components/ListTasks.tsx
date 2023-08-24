@@ -108,7 +108,7 @@ const ListTasks = () => {
           </li>
         ))}
       </ul>
-      <Link to="/add-task">Add New Task</Link>
+      <Link to="/add-task" className="add-task-link">Add New Task</Link>
     </div>
   );
 };
