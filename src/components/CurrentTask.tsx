@@ -2,18 +2,20 @@ import { useTaskContext } from "../context/taskContext";
 import { useTimer } from "react-timer-hook";
 import addPadding from "../addPadding";
 import ProgressBar from "@ramonak/react-progress-bar";
+import { useState } from "react";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
 }
 
 const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     seconds,
     minutes,
     hours,
     days
-  } = useTimer({ expiryTimestamp, onExpire: () => console.log("Time is up!") });
+  } = useTimer({ expiryTimestamp, onExpire: () => setErrorMessage("Time is up!") });
 
   // getting amount of time elapsed as a percentage by getting and using the total
   // num of seconds
@@ -45,6 +47,12 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
         animateOnRender={true}
         className="progress-bar"
       />
+      {errorMessage && <p className="text-danger">{errorMessage}</p>}
+      {new Date().getTime() >= expiryTimestamp.getTime() &&
+        <p className="text-danger">
+          You are taking too long to complete this task and taking time away from the next one!
+        </p>
+      }
       <span>{daysStr}</span>:
       <span>{hoursStr}</span>:
       <span>{minutesStr}</span>:
