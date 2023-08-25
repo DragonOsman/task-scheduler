@@ -22,15 +22,7 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
   const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
   const progressPercentage = (totalSeconds / (expiryTimestamp.getTime() / 1000)) * 100;
 
-  const daysStr = days.toString().length === 1 ?
-    addPadding(days.toString()) :
-    days.toString()
-  ;
-  const hoursStr = hours.toString().length === 1 ?
-    addPadding(hours.toString()) :
-    hours.toString()
-  ;
-  const minutesStr = minutes.toString().length === 1 ?
+ const minutesStr = minutes.toString().length === 1 ?
     addPadding(minutes.toString()) :
     minutes.toString()
   ;
@@ -53,8 +45,6 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
           You are taking too long to complete this task and taking time away from the next one!
         </p>
       }
-      <span>{daysStr}</span>:
-      <span>{hoursStr}</span>:
       <span>{minutesStr}</span>:
       <span>{secondsStr}</span>
       <br />
