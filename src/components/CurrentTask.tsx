@@ -2,7 +2,6 @@ import { useTaskContext } from "../context/taskContext";
 import { useTimer } from "react-timer-hook";
 import { Link } from "react-router-dom";
 import addPadding from "../addPadding";
-import { useEffect } from "react";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -13,23 +12,20 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
     seconds,
     minutes,
     hours,
-    days,
-    isRunning,
-    start
+    days
   } = useTimer({ expiryTimestamp, onExpire: () => <p>Time is up!</p> });
 
-  useEffect(() => {
-    if (!isRunning) {
-      start();
-    }
-  }, [isRunning, start]);
+  const daysStr = days.toString();
+  const hoursStr = hours.toString();
+  const minutesStr = minutes.toString();
+  const secondsStr = seconds.toString();
 
   return (
     <div className="task-timer">
-      <span>{days.toString().length === 1 && addPadding(days.toString())}</span>:
-      <span>{hours.toString().length === 1 && addPadding(hours.toString())}</span>:
-      <span>{minutes.toString().length === 1 && addPadding(minutes.toString())}</span>:
-      <span>{seconds.toString().length === 1 && addPadding(seconds.toString())}</span>
+      <span>{daysStr.length === 1 ? addPadding(daysStr) : daysStr}</span>:
+      <span>{hoursStr.length === 1 ? addPadding(hoursStr) : hoursStr}</span>:
+      <span>{minutesStr.length === 1 ? addPadding(minutesStr) : minutesStr}</span>:
+      <span>{secondsStr.length === 1 ? addPadding(secondsStr) : secondsStr}</span>
       <br />
     </div>
   );
