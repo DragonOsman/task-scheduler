@@ -11,20 +11,16 @@ body {
 }
 
 .current-task {
-  background-image: linear-gradient(#214985, #470f7c);
-  color: #fff;
   padding: 15px;
-  border-radius: 5%;
   margin-bottom: 5px;
 }
 
 .completed {
-  background-color: rgb(25, 150, 139);
   text-decoration: line-through;
 }
 
-.days-recurring > li {
-  list-style-type: none;
+.progress-bar {
+  margin-bottom: 5px;
 }
 
 .btn {
@@ -32,32 +28,27 @@ body {
   margin-left: 5px;
 }
 
-.add-task-link {
-  margin-bottom: 5px;
-}
-
 .task-timer span {
   font-size: 24px;
   background-color: black;
   color: #fff;
   padding: 3px;
-  margin-bottom: 7px;
+}
+
+.task-timer {
+  margin-bottom: 5px;
 }
 
 .next-two-tasks .tasks {
   list-style-type: none;
 }
 
-.next-two-tasks + .back-to-home {
-  margin-bottom: 10px;
-}
-
-.task-timer button {
-  margin-top: 10px;
-}
-
-.current-task-link {
-  margin-bottom: 5px;
+.next-two-tasks .tasks li {
+  display: inline-block;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .task-add-form-container {

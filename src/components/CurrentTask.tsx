@@ -39,8 +39,12 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
 
   return (
     <div className="task-timer">
-      <ProgressBar completed={progressPercentage} bgColor="blue" animateOnRender={true} />
-      <p className="percentage">Task timer progress percentage: {progressPercentage}%</p>
+      <ProgressBar
+        completed={progressPercentage}
+        bgColor="blue"
+        animateOnRender={true}
+        className="progress-bar"
+      />
       <span>{daysStr}</span>:
       <span>{hoursStr}</span>:
       <span>{minutesStr}</span>:
@@ -51,7 +55,7 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
 };
 
 const CurrentTask = () => {
-  const [{ currentTask, tasks }] = useTaskContext();
+  const [{ currentTask, tasks }, dispatch] = useTaskContext();
   let nextTwoTasks: typeof tasks = [];
 
   if (currentTask) {
@@ -69,16 +73,19 @@ const CurrentTask = () => {
               Recurring: {currentTask.isRecurring ? "Yes" : "No"}
             </p>
             <TaskTimer expiryTimestamp={currentTask.endTime} />
-            Days recurring:
-            {currentTask.isRecurring && (
-              <ul className="days-recurring">
-                {currentTask.daysRecurring.map((day, index) => (
-                  <li key={day}>
-                    {`${day}${index !== currentTask.daysRecurring.length - 1 ? ", " : ""}`}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <button
+              type="button"
+              title="mark task as completed"
+              className="btn btn-primary"
+              onClick={() => {
+                dispatch({ type: "EDIT_TASK", payload: {
+                  tasks,
+                  task: { ...currentTask, isCompleted: true }
+                } });
+              }}
+            >
+              Done
+            </button>
           </>
         )}
       </div>
