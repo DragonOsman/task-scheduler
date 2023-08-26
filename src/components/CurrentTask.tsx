@@ -63,14 +63,13 @@ const CurrentTask = () => {
   return (
     <div className="task-details container-fluid">
       <div className="d-flex justify-content-center align-items-center">
-        <div className="current-task container-fluid">
+        <div className="current-task container-fluid text-center">
           {currentTask && (
             <>
               <Pet />
               <br />
               <br />
               <h3 className="task-title">{currentTask.title}</h3>
-              <p className="task-is-recurring">Recurring: {currentTask.isRecurring ? "Yes" : "No"}</p>
               <TaskTimer expiryTimestamp={currentTask.endTime} />
               <i
                 className="fa-solid fa-circle-check"
@@ -90,7 +89,7 @@ const CurrentTask = () => {
         </div>
       </div>
       <div className="d-flex justify-content-center">
-        <div className="next-two-tasks">
+        <div className="next-two-tasks text-center">
           <p>{nextTwoTasks.length > 0 &&
             `Your next ${nextTwoTasks.length === 1 ? "task:" : "two tasks:"}`}</p>
           <ul className="tasks">
