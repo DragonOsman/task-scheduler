@@ -11,6 +11,7 @@ body {
   justify-content: center;
   align-items: center;
   align-content: center;
+  flex-direction: column;
 }
 
 .task-list li {
@@ -28,6 +29,12 @@ body {
 
 .progress-bar {
   margin-bottom: 5px;
+}
+
+.wrapper {
+  border: 1px solid blue;
+  border-radius: 0%;
+  height: 2px;
 }
 
 .btn {
