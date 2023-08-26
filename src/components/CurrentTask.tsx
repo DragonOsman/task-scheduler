@@ -11,8 +11,6 @@ interface TaskTimerProps {
 
 const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
   const [errorMessage, setErrorMessage] = useState("");
-
-  // Use remainingTime if available, otherwise use the timer hook
   const {
     seconds,
     minutes,
@@ -61,45 +59,49 @@ const CurrentTask = () => {
   }
 
   return (
-    <div className="task-details">
-      <div className="current-task">
-        {currentTask && (
-          <>
-            <Pet />
-            <br />
-            <br />
-            <h3 className="task-title">{currentTask.title}</h3>
-            <p className="task-is-recurring">Recurring: {currentTask.isRecurring ? "Yes" : "No"}</p>
-            <TaskTimer expiryTimestamp={currentTask.endTime} />
-            <button
-              type="button"
-              title="mark task as completed"
-              className="btn btn-primary"
-              onClick={() => {
-                dispatch({
-                  type: "EDIT_TASK",
-                  payload: {
-                    tasks,
-                    task: { ...currentTask, isCompleted: true },
-                  },
-                });
-              }}
-            >
-              Done
-            </button>
-          </>
-        )}
+    <div className="task-details container-fluid">
+      <div className="d-flex justify-content-center">
+        <div className="current-task container-fluid">
+          {currentTask && (
+            <>
+              <Pet />
+              <br />
+              <br />
+              <h3 className="task-title">{currentTask.title}</h3>
+              <p className="task-is-recurring">Recurring: {currentTask.isRecurring ? "Yes" : "No"}</p>
+              <TaskTimer expiryTimestamp={currentTask.endTime} />
+              <i
+                className="fa-solid fa-circle-check fa-xl"
+                title="mark task as completed"
+                onClick={() => {
+                  dispatch({
+                    type: "EDIT_TASK",
+                    payload: {
+                      tasks,
+                      task: { ...currentTask, isCompleted: true },
+                    },
+                  });
+                }}
+              ></i>
+            </>
+          )}
+        </div>
       </div>
-      <div className="next-two-tasks">
-        <p>{nextTwoTasks.length > 0 && `Your next ${nextTwoTasks.length === 1 ? "task:" : "two tasks:"}`}</p>
-        <ul className="tasks">
-          {nextTwoTasks.map((task) => (
-            <li key={task.id}>
-              {task.title}
-              <TaskTimer expiryTimestamp={task.endTime} />
-            </li>
-          ))}
-        </ul>
+      <div className="d-flex justify-content-center">
+        <div className="next-two-tasks">
+          <p>{nextTwoTasks.length > 0 &&
+            `Your next ${nextTwoTasks.length === 1 ? "task:" : "two tasks:"}`}</p>
+          <ul className="tasks">
+            {nextTwoTasks.map((task) => {
+              return (
+                <li key={task.id} className="task">
+                  {task.title}
+                  <TaskTimer expiryTimestamp={task.endTime} />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </div>
   );

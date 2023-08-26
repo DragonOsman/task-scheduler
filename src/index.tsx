@@ -6,6 +6,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./fontawesome-free-6.4.2-web/css/all.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
