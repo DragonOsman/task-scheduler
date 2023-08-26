@@ -106,6 +106,7 @@ const CurrentTask = () => {
           </ul>
         </div>
       </div>
+      {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
     </div>
   );
 };
