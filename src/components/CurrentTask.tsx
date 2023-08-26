@@ -34,7 +34,6 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
         completed={progressPercentage}
         bgColor="blue"
         animateOnRender={true}
-        className="progress-bar"
         height="8px"
         borderRadius="0px"
       />
@@ -80,7 +79,7 @@ const CurrentTask = () => {
                     payload: {
                       tasks,
                       task: { ...currentTask, isCompleted: true },
-                    },
+                    }
                   });
                 }}
               ></i>
@@ -92,10 +91,13 @@ const CurrentTask = () => {
         <div className="next-two-tasks text-center">
           <p>{nextTwoTasks.length > 0 &&
             `Your next ${nextTwoTasks.length === 1 ? "task:" : "two tasks:"}`}</p>
-          <ul className="tasks">
+          <ul className="tasks container-fluid row">
             {nextTwoTasks.map((task) => {
               return (
-                <li key={task.id} className="task">
+                <li key={task.id} className={`task ${nextTwoTasks.length === 1 ?
+                  "col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12" :
+                  "col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6"
+                }`}>
                   {task.title}
                   <TaskTimer expiryTimestamp={task.endTime} />
                 </li>
