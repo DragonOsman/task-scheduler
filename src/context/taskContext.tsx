@@ -18,7 +18,9 @@ export interface ITask {
   endTime: Date;
   isRecurring: boolean;
   isCompleted: boolean;
-  daysRecurring: string[]
+  daysRecurring: string[];
+  scheduled?: boolean;
+  flexible?: boolean;
 };
 
 interface State {
@@ -33,7 +35,6 @@ interface Action {
   payload: {
     tasks: ITask[];
     task?: ITask;
-    currentChild?: string;
     currentTask?: ITask
   }
 }
@@ -47,7 +48,9 @@ const initialState: State = {
     endTime: new Date(),
     isRecurring: false,
     isCompleted: false,
-    daysRecurring: []
+    daysRecurring: [],
+    scheduled: false,
+    flexible: false
   },
   task: {
     id: 0,
@@ -56,7 +59,9 @@ const initialState: State = {
     endTime: new Date(),
     isRecurring: false,
     isCompleted: false,
-    daysRecurring: []
+    daysRecurring: [],
+    scheduled: false,
+    flexible: false
   }
 };
 
