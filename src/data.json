@@ -7,7 +7,9 @@
       "endTime": "09:15:00",
       "isRecurring": true,
       "isCompleted": false,
-      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "scheduled": false,
+      "flexible": false
     }, {
       "id": 1,
       "title": "Empty dishwasher",
@@ -15,7 +17,9 @@
       "endTime": "09:35:00",
       "isRecurring": true,
       "isCompleted": false,
-      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "scheduled": false,
+      "flexible": false
     }, {
       "id": 2,
       "title": "Study",
@@ -23,7 +27,9 @@
       "endTime": "20:10:00",
       "isRecurring": true,
       "isCompleted": false,
-      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "scheduled": false,
+      "flexible": false
     }, {
       "id": 3,
       "title": "Set table",
@@ -31,7 +37,9 @@
       "endTime": "22:35:00",
       "isRecurring": true,
       "isCompleted": false,
-      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+      "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "scheduled": false,
+      "flexible": false
     }, {
       "id": 4,
       "title": "Help Mama in kitchen",
@@ -39,7 +47,9 @@
       "endTime": "22:00:00",
       "isRecurring": false,
       "isCompleted": false,
-      "daysRecurring": []
+      "daysRecurring": [],
+      "scheduled": true,
+      "flexible": false
     }]
   }
 }
