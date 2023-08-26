@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@devexpress/dx-react-core": "^4.0.5",
-    "@devexpress/dx-react-scheduler": "^4.0.5",
-    "@devexpress/dx-react-scheduler-material-ui": "^4.0.5",
     "@ramonak/react-progress-bar": "^5.0.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,7 +12,6 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "bootstrap": "^5.3.1",
-    "clsx": "^2.0.0",
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-react": "^7.33.1",
     "react": "^18.2.0",
