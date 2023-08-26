@@ -35,6 +35,8 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
         bgColor="blue"
         animateOnRender={true}
         className="progress-bar"
+        height="8px"
+        borderRadius="0px"
       />
       {errorMessage && <p className="text-danger">{errorMessage}</p>}
       {new Date().getTime() >= expiryTimestamp.getTime() && (
@@ -60,7 +62,7 @@ const CurrentTask = () => {
 
   return (
     <div className="task-details container-fluid">
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center align-items-center">
         <div className="current-task container-fluid">
           {currentTask && (
             <>
@@ -71,7 +73,7 @@ const CurrentTask = () => {
               <p className="task-is-recurring">Recurring: {currentTask.isRecurring ? "Yes" : "No"}</p>
               <TaskTimer expiryTimestamp={currentTask.endTime} />
               <i
-                className="fa-solid fa-circle-check fa-xl"
+                className="fa-solid fa-circle-check"
                 title="mark task as completed"
                 onClick={() => {
                   dispatch({

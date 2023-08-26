@@ -1,9 +1,6 @@
 body {
   margin: 5px;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: space-between;
 }
 
 .task-list li {
@@ -30,7 +27,7 @@ body {
 .fa-circle-check {
   color: #000;
   cursor: pointer;
-  font-size: xx-large
+  font-size: xx-large;
 }
 
 .tasks .task {
