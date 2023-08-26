@@ -32,7 +32,7 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
     <div className="task-timer">
       <ProgressBar
         completed={progressPercentage}
-        bgColor="blue"
+        bgColor="black"
         animateOnRender={true}
         height="8px"
         borderRadius="0px"
