@@ -102,11 +102,19 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 
   // select current task
   useEffect(() => {
-    dispatch({ type: "SELECT_CURRENT_TASK", payload: {
-      tasks: state.tasks,
-      currentTask: state.tasks.find(task => !task.isCompleted &&
-        new Date(task.endTime) > new Date())
-    } });
+    const currentTask = state.tasks.find(
+      task => !task.isCompleted &&
+               new Date(task.endTime) > new Date() &&
+               new Date(task.startTime) <= new Date()
+    );
+
+    if (currentTask) {
+      dispatch({ type: "SELECT_CURRENT_TASK", payload: {
+        tasks: state.tasks,
+        currentTask
+      }
+    });
+  }
   }, [state.tasks]);
 
   // fill tasks array
