@@ -7,7 +7,7 @@ import { useState } from "react";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
-  isUpcomingTask?: boolean;
+  isUpcomingTask: boolean;
 }
 
 const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
@@ -81,7 +81,7 @@ const NextTwoTasks = ({ tasks }: NextTwoTasksProps) => {
               >
                 {task.title}
                 {task.flexible && new Date(task.startTime) <= new Date() && (
-                  <TaskTimer expiryTimestamp={task.endTime} />
+                  <TaskTimer expiryTimestamp={task.endTime} isUpcomingTask={false} />
                 )}
               </li>
             ))}
@@ -105,7 +105,7 @@ const CurrentTask = () => {
               <br />
               <br />
               <h3 className="task-title">{currentTask.title}</h3>
-              <TaskTimer expiryTimestamp={currentTask.endTime} />
+              <TaskTimer expiryTimestamp={currentTask.endTime} isUpcomingTask={false} />
               <i
                 className="fa-solid fa-circle-check"
                 title="mark task as completed"
