@@ -66,7 +66,7 @@ interface NextTwoTasksProps {
 };
 
 const NextTwoTasks = ({ tasks }: NextTwoTasksProps) => {
-  const nextTwoTasks = tasks.slice(0, 2);
+  const nextTwoTasks = tasks.slice(1, 3);
 
   return (
     <div className="next-two-tasks text-center">
