@@ -61,6 +61,13 @@ body {
   list-style-type: none;
 }
 
+.next-two-tasks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  justify-items: center;
+}
+
 .next-two-tasks .tasks li {
   display: inline-block;
   padding-right: 10px;

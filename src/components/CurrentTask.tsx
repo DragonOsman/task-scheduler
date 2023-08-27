@@ -1,4 +1,4 @@
-import { useTaskContext } from "../context/taskContext";
+import { useTaskContext, ITask } from "../context/taskContext";
 import { useTimer } from "react-timer-hook";
 import addPadding from "../addPadding";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -7,16 +7,27 @@ import { useState } from "react";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
+  isUpcomingTask?: boolean;
 }
 
-const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
+const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [messageForTask, setMessageForTask] = useState("");  // for when timer for
+                                                             // upcoming task expires
   const {
     seconds,
     minutes,
     hours,
     days
-  } = useTimer({ expiryTimestamp, onExpire: () => setErrorMessage("Time is up!") });
+  } = useTimer({
+    expiryTimestamp,
+    onExpire: () => {
+    if (isUpcomingTask) {
+      setMessageForTask("Please start working on this task now, before time runs out!");
+    } else {
+      setErrorMessage("Time is up!");
+    }
+  } });
 
   // Calculate the progress percentage and total seconds
   const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
@@ -42,7 +53,7 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
         <p className="text-danger">
           You are taking too long to complete this task and taking time away from the next one!
         </p>
-      )}
+      )}{isUpcomingTask && <p className="text-primary">{messageForTask}</p>}
       <span>{minutesStr}</span>:
       <span>{secondsStr}</span>
       <br />
@@ -50,20 +61,45 @@ const TaskTimer = ({ expiryTimestamp }: TaskTimerProps) => {
   );
 };
 
-const CurrentTask = () => {
-  const [{ currentTask, tasks }, dispatch] = useTaskContext();
-  let nextTwoTasks: typeof tasks = [];
+interface NextTwoTasksProps {
+  tasks: ITask[];
+};
 
-  if (currentTask) {
-    const startIndex = tasks.indexOf(currentTask);
-    nextTwoTasks = tasks.slice(startIndex + 1, startIndex + 3);
-  }
+const NextTwoTasks = ({ tasks }: NextTwoTasksProps) => {
+  const nextTwoTasks = tasks.slice(0, 2);
+
+  return (
+    <div className="next-two-tasks text-center">
+      {nextTwoTasks.length > 0 && (
+        <>
+          <p>{`Your next ${nextTwoTasks.length === 1 ? "task:" : "two tasks:"}`}</p>
+          <ul className="tasks container-fluid">
+            {nextTwoTasks.map((task) => (
+              <li
+                key={task.id}
+                className="task"
+              >
+                {task.title}
+                {task.flexible && new Date(task.startTime) <= new Date() && (
+                  <TaskTimer expiryTimestamp={task.endTime} />
+                )}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
+
+const CurrentTask = () => {
+  const [{ currentTask, tasks, upcomingTask }, dispatch] = useTaskContext();
 
   return (
     <div className="task-details container-fluid">
       <div className="d-flex justify-content-center align-items-center">
         <div className="current-task container-fluid text-center">
-          {currentTask && (
+        {currentTask && (
             <>
               <Pet />
               <br />
@@ -85,27 +121,17 @@ const CurrentTask = () => {
               ></i>
             </>
           )}
+          {upcomingTask && (
+            <>
+              Your upcoming task:
+              <h3>{upcomingTask.title}</h3>
+              <TaskTimer expiryTimestamp={upcomingTask.startTime} isUpcomingTask={true} />
+            </>
+          )}
         </div>
       </div>
       <div className="d-flex justify-content-center">
-        <div className="next-two-tasks text-center">
-          <p>{nextTwoTasks.length > 0 &&
-            `Your next ${nextTwoTasks.length === 1 ? "task:" : "two tasks:"}`}</p>
-          <ul className="tasks container-fluid row">
-            {nextTwoTasks.map((task) => {
-              return (
-                <li key={task.id} className={`task ${nextTwoTasks.length === 1 ?
-                  "col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12" :
-                  "col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6"
-                }`}>
-                  {task.title}
-                  {task.flexible && new Date(task.startTime) <= new Date() &&
-                    <TaskTimer expiryTimestamp={task.endTime} />}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <NextTwoTasks tasks={tasks} />
       </div>
       {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
     </div>

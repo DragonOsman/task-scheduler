@@ -28,6 +28,7 @@ interface State {
   currentChild?: string;
   task?: ITask,
   currentTask?: ITask;
+  upcomingTask?: ITask;
 };
 
 interface Action {
@@ -35,7 +36,8 @@ interface Action {
   payload: {
     tasks: ITask[];
     task?: ITask;
-    currentTask?: ITask
+    currentTask?: ITask;
+    upcomingTask?: ITask;
   }
 }
 
@@ -53,6 +55,17 @@ const initialState: State = {
     flexible: false
   },
   task: {
+    id: 0,
+    title: "",
+    startTime: new Date(),
+    endTime: new Date(),
+    isRecurring: false,
+    isCompleted: false,
+    daysRecurring: [],
+    scheduled: false,
+    flexible: false
+  },
+  upcomingTask: {
     id: 0,
     title: "",
     startTime: new Date(),
@@ -86,6 +99,11 @@ const tasksReducer = (state: State, action: Action): State => {
         tasks: action.payload.tasks,
         currentTask: action.payload.currentTask
       };
+    case "SELECT_UPCOMING_TASK":
+      return {
+        tasks: action.payload.tasks,
+        upcomingTask: action.payload.upcomingTask
+      };
     default:
       return state;
   }
@@ -115,6 +133,24 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
       }
     });
   }
+  }, [state.tasks]);
+
+  useEffect(() => {
+    const upcomingTask = state.tasks.find(
+      task =>
+        !task.isCompleted &&
+        new Date(task.startTime) > new Date()
+    );
+
+    if (upcomingTask) {
+      dispatch({
+        type: "SELECT_UPCOMING_TASK",
+        payload: {
+          tasks: state.tasks,
+          upcomingTask
+        }
+      });
+    }
   }, [state.tasks]);
 
   // fill tasks array
