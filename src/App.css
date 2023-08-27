@@ -31,7 +31,8 @@ body {
 }
 
 .tasks .task {
-  max-width: 200px;
+  max-width: 100px;
+  min-width: 100px;
 }
 
 .next-two-tasks .task-timer span {
