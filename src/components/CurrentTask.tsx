@@ -1,4 +1,4 @@
-import { useTaskContext, ITask } from "../context/taskContext";
+import { useTaskContext, ITask } from "../../../context/taskContext";
 import { useTimer } from "react-timer-hook";
 import addPadding from "../addPadding";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -63,10 +63,12 @@ const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
 
 interface NextTwoTasksProps {
   tasks: ITask[];
+  currentTask: ITask;
 };
 
-const NextTwoTasks = ({ tasks }: NextTwoTasksProps) => {
-  const nextTwoTasks = tasks.slice(1, 3);
+const NextTwoTasks = ({ tasks, currentTask }: NextTwoTasksProps) => {
+  const startIndex = tasks.indexOf(currentTask);
+  const nextTwoTasks = tasks.slice(startIndex + 1, startIndex + 3);
 
   return (
     <div className="next-two-tasks text-center">
@@ -123,15 +125,17 @@ const CurrentTask = () => {
           )}
           {upcomingTask && (
             <>
+              <Pet />
               Your upcoming task:
               <h3>{upcomingTask.title}</h3>
               <TaskTimer expiryTimestamp={upcomingTask.startTime} isUpcomingTask={true} />
+              {upcomingTask === tasks[0] }
             </>
           )}
         </div>
       </div>
       <div className="d-flex justify-content-center">
-        <NextTwoTasks tasks={tasks} />
+        <NextTwoTasks tasks={tasks} currentTask={currentTask} />
       </div>
       {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
     </div>
