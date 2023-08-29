@@ -98,32 +98,72 @@ const NextTwoTasks = ({ tasks, currentTask }: NextTwoTasksProps) => {
 
 const CurrentTask = () => {
   const [{ currentTask, tasks, upcomingTask }, dispatch] = useTaskContext();
-  const [playAlarm] = useSound("198841__bone666138__analog-alarm-clock.mp3");
+  const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
+  const [isTurnedOff, setIsTurnedOff] = useState(false);
+  const [playAlarm, data] = useSound("../198841__bone666138__analog-alarm-clock.mp3");
+
+  const handleTurnOff = () => {
+    setIsTurnedOff(true);
+    setIsAlarmPlaying(false);
+    data.stop("../198841__bone666138__analog-alarm-clock.mp3");
+  };
+
+  const handleTaskCompletion = () => {
+    if (currentTask) {
+      dispatch({
+        type: "EDIT_TASK",
+        payload: {
+          tasks,
+          task: { ...currentTask, isCompleted: true },
+        },
+      });
+    }
+  };
 
   return (
     <div className="task-details container-fluid">
       <div className="d-flex justify-content-center align-items-center">
         <div className="current-task container-fluid text-center">
-        {currentTask && (
+          {currentTask && (
             <>
               <Pet />
               <br />
               <br />
+              {!isAlarmPlaying && (
+                <button
+                  type="button"
+                  title="play alarm"
+                  onClick={() => playAlarm}
+                  className="btn btn-primary"
+                >
+                  Play Alarm
+                </button>
+              )}
               <h3 className="task-title">{currentTask.title}</h3>
               <TaskTimer expiryTimestamp={currentTask.endTime} isUpcomingTask={false} />
-              <i
-                className="fa-solid fa-circle-check"
-                title="mark task as completed"
-                onClick={() => {
-                  dispatch({
-                    type: "EDIT_TASK",
-                    payload: {
-                      tasks,
-                      task: { ...currentTask, isCompleted: true },
-                    }
-                  });
-                }}
-              ></i>
+              {!isTurnedOff && tasks.indexOf(currentTask) === 0 && (
+                <>
+                  {isAlarmPlaying ? (
+                    <button
+                      title="turn off alarm"
+                      type="button"
+                      onClick={handleTurnOff}
+                      className="icon-button"
+                    >
+                      <i className="fa fa-circle-check"></i>
+                    </button>
+                  ) : (
+                    <button
+                      title="mark task as completed"
+                      type="button"
+                      onClick={handleTaskCompletion}
+                      className="icon-button"
+                    >
+                      <i className="fa fa-circle-check"></i>
+                    </button>
+                  )}
+                </>
+              )}
             </>
           )}
           {upcomingTask && (
@@ -132,14 +172,12 @@ const CurrentTask = () => {
               Your upcoming task:
               <h3>{upcomingTask.title}</h3>
               <TaskTimer expiryTimestamp={upcomingTask.startTime} isUpcomingTask={true} />
-              {upcomingTask === tasks[0] }
             </>
           )}
         </div>
       </div>
       <div className="d-flex justify-content-center">
-        {currentTask &&
-          <NextTwoTasks tasks={tasks} currentTask={currentTask} />}
+        {currentTask && <NextTwoTasks tasks={tasks} currentTask={currentTask} />}
       </div>
       {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
     </div>
