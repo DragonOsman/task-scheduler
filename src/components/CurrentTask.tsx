@@ -1,9 +1,11 @@
-import { useTaskContext, ITask } from "../../../context/taskContext";
+import { useTaskContext, ITask } from "../context/taskContext";
 import { useTimer } from "react-timer-hook";
 import addPadding from "../addPadding";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Pet from "./Pet";
 import { useState } from "react";
+import useSound from "use-sound";
+import "../198841__bone666138__analog-alarm-clock.mp3";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -96,6 +98,7 @@ const NextTwoTasks = ({ tasks, currentTask }: NextTwoTasksProps) => {
 
 const CurrentTask = () => {
   const [{ currentTask, tasks, upcomingTask }, dispatch] = useTaskContext();
+  const [playAlarm] = useSound("198841__bone666138__analog-alarm-clock.mp3");
 
   return (
     <div className="task-details container-fluid">
@@ -135,7 +138,8 @@ const CurrentTask = () => {
         </div>
       </div>
       <div className="d-flex justify-content-center">
-        <NextTwoTasks tasks={tasks} currentTask={currentTask} />
+        {currentTask &&
+          <NextTwoTasks tasks={tasks} currentTask={currentTask} />}
       </div>
       {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
     </div>
