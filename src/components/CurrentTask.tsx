@@ -3,9 +3,9 @@ import { useTimer } from "react-timer-hook";
 import addPadding from "../addPadding";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Pet from "./Pet";
-import { useState } from "react";
-import useSound from "use-sound";
-import "../198841__bone666138__analog-alarm-clock.mp3";
+import { useState, useEffect, useRef, MutableRefObject } from "react";
+import { Howl } from "../howler.js-master/dist/howler";
+const analogAlarmClock = require("../198841__bone666138__analog-alarm-clock.mp3");
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -96,16 +96,28 @@ const NextTwoTasks = ({ tasks, currentTask }: NextTwoTasksProps) => {
   );
 };
 
+debugger;
 const CurrentTask = () => {
   const [{ currentTask, tasks, upcomingTask }, dispatch] = useTaskContext();
   const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
   const [isTurnedOff, setIsTurnedOff] = useState(false);
-  const [playAlarm, data] = useSound("../198841__bone666138__analog-alarm-clock.mp3");
+
+  const alarm: MutableRefObject<Howl | null> = useRef<Howl | null>(null);
+  useEffect(() => {
+    alarm.current = new Howl({
+      src: [analogAlarmClock],
+      autoplay: true
+    });
+
+    if (currentTask && tasks.indexOf(currentTask) === 0 && !isAlarmPlaying) {
+      alarm.current.play(null, true);
+    }
+  }, [isAlarmPlaying, currentTask, tasks]);
 
   const handleTurnOff = () => {
     setIsTurnedOff(true);
     setIsAlarmPlaying(false);
-    data.stop("../198841__bone666138__analog-alarm-clock.mp3");
+    alarm.current?.stop(alarm.current.play(null, true), true);
   };
 
   const handleTaskCompletion = () => {
@@ -129,16 +141,6 @@ const CurrentTask = () => {
               <Pet />
               <br />
               <br />
-              {!isAlarmPlaying && (
-                <button
-                  type="button"
-                  title="play alarm"
-                  onClick={() => playAlarm}
-                  className="btn btn-primary"
-                >
-                  Play Alarm
-                </button>
-              )}
               <h3 className="task-title">{currentTask.title}</h3>
               <TaskTimer expiryTimestamp={currentTask.endTime} isUpcomingTask={false} />
               {!isTurnedOff && tasks.indexOf(currentTask) === 0 && (
@@ -172,6 +174,29 @@ const CurrentTask = () => {
               Your upcoming task:
               <h3>{upcomingTask.title}</h3>
               <TaskTimer expiryTimestamp={upcomingTask.startTime} isUpcomingTask={true} />
+              {!isTurnedOff && tasks.indexOf(upcomingTask) === 0 && (
+                <>
+                  {isAlarmPlaying ? (
+                    <button
+                      title="turn off alarm"
+                      type="button"
+                      onClick={handleTurnOff}
+                      className="icon-button"
+                    >
+                      <i className="fa fa-circle-check"></i>
+                    </button>
+                  ) : (
+                    <button
+                      title="mark task as completed"
+                      type="button"
+                      onClick={handleTaskCompletion}
+                      className="icon-button"
+                    >
+                      <i className="fa fa-circle-check"></i>
+                    </button>
+                  )}
+                </>
+              )}
             </>
           )}
         </div>
