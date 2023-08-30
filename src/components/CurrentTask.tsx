@@ -4,7 +4,7 @@ import addPadding from "../addPadding";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Pet from "./Pet";
 import { useState, useEffect, useRef, MutableRefObject } from "react";
-import { Howl } from "../howler.js-master/dist/howler";
+import { Howl } from "howler";
 const analogAlarmClock = require("../198841__bone666138__analog-alarm-clock.mp3");
 
 interface TaskTimerProps {
@@ -35,11 +35,16 @@ const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
   const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
   const progressPercentage = (totalSeconds / (expiryTimestamp.getTime() / 1000)) * 100;
 
-  // Format minutes and seconds
+  // Format hours, minutes and seconds
+  const hoursStr = hours.toString().length === 1 ?
+    addPadding(hours.toString()) : hours.toString()
+  ;
   const minutesStr = minutes.toString().length === 1 ?
-    addPadding(minutes.toString()) : minutes.toString();
+    addPadding(minutes.toString()) : minutes.toString()
+  ;
   const secondsStr = seconds.toString().length === 1 ?
-  addPadding(seconds.toString()) : seconds.toString();
+    addPadding(seconds.toString()) : seconds.toString()
+  ;
 
   return (
     <div className="task-timer">
@@ -56,6 +61,9 @@ const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
           You are taking too long to complete this task and taking time away from the next one!
         </p>
       )}{isUpcomingTask && <p className="text-primary">{messageForTask}</p>}
+      <p className="info">Time remaining before it starts:</p>
+      {hours > 0 ? <span>{hoursStr}</span> : null}
+      {hours > 0 ? ":" : null}
       <span>{minutesStr}</span>:
       <span>{secondsStr}</span>
       <br />
@@ -96,28 +104,40 @@ const NextTwoTasks = ({ tasks, currentTask }: NextTwoTasksProps) => {
   );
 };
 
-debugger;
 const CurrentTask = () => {
   const [{ currentTask, tasks, upcomingTask }, dispatch] = useTaskContext();
   const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
   const [isTurnedOff, setIsTurnedOff] = useState(false);
 
   const alarm: MutableRefObject<Howl | null> = useRef<Howl | null>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      buttonRef.current.dispatchEvent(new Event("click"));
+    }
+  }, []);
+
   useEffect(() => {
     alarm.current = new Howl({
       src: [analogAlarmClock],
-      autoplay: true
+      html5: true,
     });
 
-    if (currentTask && tasks.indexOf(currentTask) === 0 && !isAlarmPlaying) {
-      alarm.current.play(null, true);
-    }
+    buttonRef.current && buttonRef.current.addEventListener("click", async () => {
+      if (currentTask && tasks.indexOf(currentTask) === 0 && !isAlarmPlaying && alarm.current) {
+        alarm.current.play();
+      }
+    }, { once: true });
   }, [isAlarmPlaying, currentTask, tasks]);
 
   const handleTurnOff = () => {
     setIsTurnedOff(true);
     setIsAlarmPlaying(false);
-    alarm.current?.stop(alarm.current.play(null, true), true);
+
+    if (alarm.current && alarm.current.stop()) {
+      alarm.current.stop();
+    }
   };
 
   const handleTaskCompletion = () => {
@@ -138,6 +158,13 @@ const CurrentTask = () => {
         <div className="current-task container-fluid text-center">
           {currentTask && (
             <>
+              <button
+                title="play alarm"
+                type="button"
+                ref={buttonRef}
+                className="alarm-play-btn"
+              >
+              </button>
               <Pet />
               <br />
               <br />
