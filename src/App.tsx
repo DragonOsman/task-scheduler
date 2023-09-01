@@ -1,5 +1,6 @@
 import "./App.css";
 import Home from "./components/Home";
+import AddTask from "./components/AddTask";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <>
       <Routes>
         <Route element={<Home />} path="/" />
+        <Route element={<AddTask />} path="/add-task" />
       </Routes>
     </>
   );
