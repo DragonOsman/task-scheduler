@@ -1,0 +1,22 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "prefer-const": "error",
+      "yoda": "error",
+      "space-before-function-paren": "off",
+      "no-var": "warn",
+      "quotes": [
+        "warn",
+        "double",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
+      "semi": "error",
+      "no-undef": "warn"
+  }
+}
