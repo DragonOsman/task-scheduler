@@ -86,7 +86,8 @@ const AddTask = () => {
               type="checkbox"
               name="scheduled-task"
               id="scheduled"
-              className="form-check-input"
+              className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
+              role="switch"
               checked={isScheduled}
               data-toggle="toggle"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -138,7 +139,8 @@ const AddTask = () => {
                 type="checkbox"
                 name="flexible-task"
                 id="flexible"
-                className="form-check-input"
+                className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
+                role="switch"
                 checked={isFlexible}
                 data-toggle="toggle"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -157,7 +159,8 @@ const AddTask = () => {
               type="checkbox"
               name="recurring-task"
               id="recurring"
-              className="form-check-input"
+              className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
+              role="switch"
               checked={isRecurring}
               data-toggle="toggle"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +180,7 @@ const AddTask = () => {
                     let newDaysRecurring = [...daysRecurring];
                     if (daysRecurring.includes(day)) {
                       const result = window.confirm(
-                        `Are you sure you want tonremove ${day} from the list?`
+                        `Are you sure you want to remove ${day} from the list?`
                       )
                       ;
                       if (result) {

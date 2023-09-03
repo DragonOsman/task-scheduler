@@ -62,6 +62,7 @@ body {
 
 .add-task input[type="checkbox"] {
   margin-right: 5px;
+  color: #fff;
 }
 
 .add-task input {
