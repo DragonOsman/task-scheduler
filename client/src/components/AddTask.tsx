@@ -1,4 +1,5 @@
 import { useTaskContext } from "taskContext.tsx";
+import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState, useEffect } from "react";
 
 const AddTask = () => {
@@ -12,6 +13,8 @@ const AddTask = () => {
   const [daysRecurring, setDaysRecurring] = useState<string[]>([]);
   const [timeString, setTimeString] = useState("");
   const [minutes, setMinutes] = useState(0);
+
+  const navigate = useNavigate();
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -50,6 +53,7 @@ const AddTask = () => {
               isCompleted: false
             }
           } });
+          navigate("/");
         }}
       >
         <fieldset>
