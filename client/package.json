@@ -14,6 +14,7 @@
     "@vitejs/plugin-react": "^4.0.4",
     "bootstrap": "^5.3.1",
     "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-react": "^7.33.1",
     "howler": "^2.2.3",
     "passport": "^0.6.0",
     "react": "^18.2.0",
@@ -33,7 +34,8 @@
   },
   "eslintConfig": {
     "plugins": [
-      "html"
+      "html",
+      "react"
     ],
     "rules": {
       "prefer-const": "error",
@@ -53,6 +55,10 @@
       ],
       "semi": "error",
       "no-undef": "warn"
+    },
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
     }
   },
   "browserslist": {
@@ -68,8 +74,6 @@
     ]
   },
   "devDependencies": {
-    "@types/howler": "^2.2.8",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-react": "^7.33.2"
+    "@types/howler": "^2.2.8"
   }
 }
