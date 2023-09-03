@@ -64,18 +64,6 @@ body {
   margin-right: 5px;
 }
 
-.custom-toggle-switch {
-  appearance: none;
-  background-color: black;
-  width: 2.5rem;
-  height: 1.5rem;
-  border-radius: 0.75rem;
-}
-
-.custom-toggle-switch:checked {
-  background-color: #212529;
-}
-
 .add-task input {
   margin-bottom: 30px;
 }

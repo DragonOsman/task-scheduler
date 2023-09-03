@@ -86,7 +86,7 @@ const AddTask = () => {
               type="checkbox"
               name="scheduled-task"
               id="scheduled"
-              className="form-check-input custom-toggle-switch"
+              className="form-check-input"
               checked={isScheduled}
               data-toggle="toggle"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -138,7 +138,7 @@ const AddTask = () => {
                 type="checkbox"
                 name="flexible-task"
                 id="flexible"
-                className="form-check-input custom-toggle-switch"
+                className="form-check-input"
                 checked={isFlexible}
                 data-toggle="toggle"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -157,7 +157,7 @@ const AddTask = () => {
               type="checkbox"
               name="recurring-task"
               id="recurring"
-              className="form-check-input custom-toggle-switch"
+              className="form-check-input"
               checked={isRecurring}
               data-toggle="toggle"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -176,8 +176,9 @@ const AddTask = () => {
                   onClick={() => {
                     let newDaysRecurring = [...daysRecurring];
                     if (daysRecurring.includes(day)) {
-                      const result = window.confirm(`Are you sure you want to
-                        remove ${day} from the list?`)
+                      const result = window.confirm(
+                        `Are you sure you want tonremove ${day} from the list?`
+                      )
                       ;
                       if (result) {
                         newDaysRecurring = newDaysRecurring.splice(
