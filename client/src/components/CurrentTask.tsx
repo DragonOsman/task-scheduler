@@ -6,7 +6,7 @@ import Pet from "./Pet";
 import { useState, useEffect, useRef, MutableRefObject } from "react";
 import { Howl } from "howler";
 import { Link } from "react-router-dom";
-const analogAlarmClock = require("../198841__bone666138__analog-alarm-clock.mp3");
+import analogAlarmClock from "../198841__bone666138__analog-alarm-clock.mp3";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -145,10 +145,6 @@ const CurrentTask = ({ role }: CurrentTaskProps) => {
     if (buttonRef.current) {
       button = buttonRef.current;
     }
-
-    return () => {
-      button && button.removeEventListener("click", handleClick);
-    };
   }, [isAlarmPlaying, currentTask, tasks]);
 
   const handleTurnOff = () => {

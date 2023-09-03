@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useState, useEffect } from "react";
 
 const AddTask = () => {
-  const [state, dispatch] = useTaskContext();
+  const [{ tasks }, dispatch] = useTaskContext();
   const [title, setTitle] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -38,7 +38,7 @@ const AddTask = () => {
       <form
         onSubmit={() => {
           dispatch({ type: "ADD_TASK", payload: {
-            tasks: state.tasks,
+            tasks: tasks,
             task: {
               title: title,
               startTime: isFlexible ?
@@ -47,7 +47,7 @@ const AddTask = () => {
               endTime: isFlexible ?
               new Date(new Date().setMinutes(Number(minutes))) :
               new Date(endTime),
-              id: state.tasks.length > 0 ? state.tasks[state.tasks.length - 1].id + 1 : 0,
+              id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0,
               isRecurring,
               daysRecurring,
               isCompleted: false

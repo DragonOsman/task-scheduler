@@ -9,22 +9,24 @@ const Home = () => {
     <div className="Home container-fluid">
       <fieldset>
         <legend>User Role:</legend>
+        <label htmlFor="parent-role" className="form-label">Parent</label>
         <input
           type="radio"
           name="parent-role"
           id="parent"
           className="parent-role"
           checked={userRole === "parent" ? true : false}
-          onSelect={() => setUserRole("parent")}
+          onChange={() => setUserRole("parent")}
           aria-label="parent"
         />
+        <label htmlFor="child-role" className="form-label">Child</label>
         <input
           type="radio"
           name="child-role"
           id="child"
           className="child-role"
           checked={userRole === "child" ? true : false}
-          onSelect={() => setUserRole("child")}
+          onChange={() => setUserRole("child")}
           aria-label="child"
         />
       </fieldset>
