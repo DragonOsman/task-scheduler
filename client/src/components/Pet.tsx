@@ -9,8 +9,10 @@ const Pet = () => {
   useEffect(() => {
     if (currentTask && new Date().getTime() < currentTask.endTime.getTime()) {
       setPetMood("happy");
-    } else if (currentTask && new Date().getTime() >= currentTask.endTime.getTime()) {
+    } else if (currentTask && new Date().getTime() > currentTask.endTime.getTime()) {
       setPetMood("sad");
+    } else if (currentTask && new Date().getTime() === currentTask.endTime.getTime()) {
+      setPetMood("neutral");
     }
 
     if (currentTask && tasks.indexOf(currentTask) !== 0 && numberCompleted === tasks.length) {
@@ -24,7 +26,7 @@ const Pet = () => {
     } else if (currentTask && tasks.indexOf(currentTask) && numberCompleted < (tasks.length / 2)) {
       setPetMood("sad");
     }
-  }, [currentTask]);
+  }, [currentTask, numberCompleted, tasks]);
 
   useEffect(() => {
     for (const task of tasks) {
@@ -37,7 +39,7 @@ const Pet = () => {
   return (
     <div className="pet">
       <p className="pet-mood">
-        The pet is <span className={`${
+        The pet's mood is <span className={`${
           petMood === "happy" ?
             "text-success" :
             petMood === "sad" ?
