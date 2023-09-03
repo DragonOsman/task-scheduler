@@ -1,5 +1,5 @@
 import { useTaskContext } from "../context/taskContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ChangeEvent, useState, useEffect } from "react";
 
 const AddTask = () => {
@@ -33,8 +33,18 @@ const AddTask = () => {
   }, [timeString]);
 
   return (
-    <div className="container container-fluid">
-      <h3>Add Task</h3>
+    <div className="add-task container d-flex
+      container-fluid justify-content-center text-center">
+      <div className="row">
+        <div className="col-auto">
+          <Link to="/">
+            <i className="fa-solid fa-angle-left"></i>
+          </Link>
+        </div>
+        <div className="col d-flex justify-content-center align-items-center">
+          <h3 className="text-center">Add Task</h3>
+        </div>
+      </div>
       <form
         onSubmit={() => {
           dispatch({ type: "ADD_TASK", payload: {
@@ -57,25 +67,26 @@ const AddTask = () => {
         }}
       >
         <fieldset>
-          <legend className="form-label">Add Task Info</legend>
           <input
             type="text"
             name="task-title"
             id="title"
             title="task title"
-            className="task-title form-control"
+            className="task-title form-control title"
             value={title}
-            placeholder="Task title"
+            placeholder="Title"
             onChange={event => setTitle(event.target.value)}
           />
-          <div className="form-check form-switch">
-            <label htmlFor="scheduled-task" className="form-check-label">Scheduled Time</label>
+          <div className="form-check form-switch d-flex align-items-center">
+            <label htmlFor="scheduled-task" className="form-check-label
+             mr-2 switch-label">Scheduled Time</label>
+            <div className="flex-grow-1"></div>
             <input
               title="scheduled task setting"
               type="checkbox"
               name="scheduled-task"
               id="scheduled"
-              className="form-check-input"
+              className="form-check-input custom-toggle-switch"
               checked={isScheduled}
               data-toggle="toggle"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -84,38 +95,50 @@ const AddTask = () => {
             />
           </div>
           {isScheduled ? (
-            <>
-              <label htmlFor="task-timer" className="form-label">Time</label>
-              <input
-                type="text"
-                name="task-timer"
-                title="task time"
-                value={timeString}
-                onChange={event => setTimeString(event.target.value)}
-              />
-            </>
+            <div className="row">
+              <div className="col-auto">
+                <label htmlFor="task-timer" className="form-label timer-label">Time</label>
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  name="task-timer"
+                  title="task time"
+                  value={timeString}
+                  onChange={event => setTimeString(event.target.value)}
+                  className="form-control timer-text"
+                />
+              </div>
+            </div>
           ) : (
-            <>
-              <label htmlFor="task-timer" className="form-label">Timer</label>
-              <input
-                type="text"
-                name="task-timer"
-                title="task time"
-                value={timeString}
-                onChange={event => setTimeString(event.target.value)}
-              />
-            </>
+            <div className="row">
+              <div className="col-auto">
+                <label htmlFor="task-timer" className="form-label timer-label">Timer</label>
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  name="task-timer"
+                  title="task time"
+                  value={timeString}
+                  className="form-control timer-text"
+                  onChange={event => setTimeString(event.target.value)}
+                />
+              </div>
+            </div>
           )}
           {!isRecurring && (
             <>
-              <div className="form-check form-switch">
-              <label htmlFor="flexible-task" className="form-check-label">Flexible</label>
+              <div className="form-check form-switch d-flex align-items-center">
+              <label htmlFor="flexible-task" className="form-check-label switch
+                switch-label mr-2">Flexible</label>
+              <div className="flex-grow-1"></div>
               <input
                 title="flexible task setting"
                 type="checkbox"
                 name="flexible-task"
                 id="flexible"
-                className="form-check-input"
+                className="form-check-input custom-toggle-switch"
                 checked={isFlexible}
                 data-toggle="toggle"
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -125,14 +148,16 @@ const AddTask = () => {
             </div>
           </>
           )}
-          <div className="form-check form-switch">
-            <label htmlFor="recurring-task" className="form-check-label">Recurring</label>
+          <div className="form-check form-switch d-flex align-items-center">
+            <label htmlFor="recurring-task" className="form-check-label switch
+              switch-label mr-2">Recurring</label>
+            <div className="flex-grow-1"></div>
             <input
               title="recurring task setting"
               type="checkbox"
               name="recurring-task"
               id="recurring"
-              className="form-check-input"
+              className="form-check-input custom-toggle-switch"
               checked={isRecurring}
               data-toggle="toggle"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -147,6 +172,7 @@ const AddTask = () => {
                   type="button"
                   title="day recurring"
                   key={day}
+                  className="btn btn-secondary day-btn"
                   onClick={() => {
                     let newDaysRecurring = [...daysRecurring];
                     if (daysRecurring.includes(day)) {
@@ -170,7 +196,7 @@ const AddTask = () => {
             })
           )}
         </fieldset>
-      <input type="submit" value="Done" className="form-control btn btn-secondary" />
+      <input type="submit" value="Done" className="form-control btn btn-secondary submit-btn" />
       </form>
     </div>
   );

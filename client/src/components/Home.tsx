@@ -6,10 +6,10 @@ const Home = () => {
   const [userRole, setUserRole] = useState("child");
 
   return (
-    <div className="Home container-fluid">
+    <div className="home container-fluid">
       <fieldset>
         <legend>User Role:</legend>
-        <label htmlFor="parent-role" className="form-label">Parent</label>
+        <label htmlFor="parent-role" className="form-label">Parent </label>
         <input
           type="radio"
           name="parent-role"
@@ -19,7 +19,8 @@ const Home = () => {
           onChange={() => setUserRole("parent")}
           aria-label="parent"
         />
-        <label htmlFor="child-role" className="form-label">Child</label>
+        <br />
+        <label htmlFor="child-role" className="form-label">Child </label>
         <input
           type="radio"
           name="child-role"

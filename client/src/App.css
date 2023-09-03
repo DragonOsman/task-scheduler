@@ -3,6 +3,11 @@ body {
   text-align: center;
 }
 
+.home {
+  width: 100%;
+  flex-grow: 1;
+}
+
 .task-list li {
   list-style-type: none;
 }
@@ -12,6 +17,72 @@ body {
   margin-bottom: 5px;
   max-width: 300px;
   min-width: 300px;
+}
+
+.switch-label {
+  text-align: right;
+}
+
+.add-task {
+  width: 100%;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.add-task .submit-btn {
+  border-radius: 40%;
+  width: 100px;
+  height: 70px;
+}
+
+.submit-btn {
+  margin-top: 200px;
+}
+
+.add-task input[type="text"].title {
+  border: none;
+  border-bottom: 1px solid #bcbdbe;
+  border-radius: 0%;
+}
+
+.timer-label {
+  margin-left: 10px;
+}
+
+.switch-label {
+  margin-left: -30px;
+}
+
+.add-task .timer-text {
+  border: none;
+  padding: 5px;
+  width: 100%;
+  text-align: right;
+}
+
+.add-task input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.custom-toggle-switch {
+  appearance: none;
+  background-color: black;
+  width: 2.5rem;
+  height: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.custom-toggle-switch:checked {
+  background-color: #212529;
+}
+
+.add-task input {
+  margin-bottom: 30px;
+}
+
+.add-task .day-btn {
+  margin-bottom: 20px;
+  border-radius: 0%;
 }
 
 .completed {
@@ -28,6 +99,14 @@ body {
   color: #000;
   cursor: pointer;
   font-size: xx-large;
+}
+
+.fa-angle-left {
+  color: #000;
+}
+
+.fa-angle-left:hover {
+  text-decoration: underline;
 }
 
 .icon-button {
@@ -53,14 +132,6 @@ body {
 .tasks .task {
   max-width: 100px;
   min-width: 100px;
-}
-
-.next-two-tasks .task-timer span {
-  display: none;
-}
-
-.next-two-tasks .task-timer {
-  color: #fff;
 }
 
 .alarm-play-btn {
@@ -90,6 +161,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   justify-items: center;
+  margin-top: 20px;
 }
 
 .next-two-tasks .tasks li {
@@ -98,4 +170,12 @@ body {
   padding-left: 10px;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.next-two-tasks .task-timer span {
+  display: none;
+}
+
+.next-two-tasks .task-timer {
+  color: #fff;
 }

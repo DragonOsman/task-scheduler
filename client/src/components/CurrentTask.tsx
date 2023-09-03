@@ -126,12 +126,13 @@ const CurrentTask = ({ role }: CurrentTaskProps) => {
 
   useEffect(() => {
     alarm.current = new Howl({
-      src: [analogAlarmClock],
-      html5: true,
+      src: [analogAlarmClock]
     });
+    alarm.current.mute();
 
     const handleClick = () => {
       if (alarm.current) {
+        alarm.current.volume(90);
         alarm.current.play();
       }
     };
