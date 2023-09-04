@@ -46,7 +46,8 @@ const AddTask = () => {
         </div>
       </div>
       <form
-        onSubmit={() => {
+        onSubmit={event => {
+          event.preventDefault();
           dispatch({ type: "ADD_TASK", payload: {
             tasks: tasks,
             task: {

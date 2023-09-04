@@ -37,7 +37,8 @@ const EditTask = ({ task }: EditTaskProps) => {
 
   return (
     <form
-      onSubmit={() => {
+      onSubmit={event => {
+        event.preventDefault();
         dispatch({ type: "EDIT_TASK", payload: {
           tasks,
           task: {
