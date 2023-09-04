@@ -74,7 +74,6 @@ body {
 
 .add-task input[type="checkbox"] {
   margin-right: 5px;
-  color: #fff;
 }
 
 .add-task input {
@@ -133,10 +132,6 @@ body {
 .tasks .task {
   max-width: 100px;
   min-width: 100px;
-}
-
-.alarm-play-btn {
-  display: none;
 }
 
 .btn {

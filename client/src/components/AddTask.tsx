@@ -141,7 +141,7 @@ const AddTask = () => {
                 type="checkbox"
                 name="flexible-task"
                 id="flexible"
-                className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
+                className={`form-check-input ${isFlexible ? "bg-dark" : "bg-light"}`}
                 role="switch"
                 checked={isFlexible}
                 data-toggle="toggle"
@@ -161,7 +161,7 @@ const AddTask = () => {
               type="checkbox"
               name="recurring-task"
               id="recurring"
-              className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
+              className={`form-check-input ${isRecurring ? "bg-dark" : "bg-light"}`}
               role="switch"
               checked={isRecurring}
               data-toggle="toggle"
