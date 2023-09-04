@@ -16,6 +16,10 @@ body {
   list-style-type: none;
 }
 
+.task:not(:last-child) {
+  margin-bottom: 5px;
+}
+
 .current-task {
   padding: 15px;
   margin-bottom: 5px;
@@ -31,6 +35,10 @@ body {
   width: 100%;
   flex-direction: column;
   padding: 20px;
+}
+
+.days-list {
+  list-style-type: none;
 }
 
 .add-task .submit-btn {

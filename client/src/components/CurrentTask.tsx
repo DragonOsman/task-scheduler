@@ -6,7 +6,6 @@ import Pet from "./Pet";
 import { useState, useEffect, useRef, MutableRefObject } from "react";
 import { Howl } from "howler";
 import { Link } from "react-router-dom";
-import analogAlarmClock from "../198841__bone666138__analog-alarm-clock.mp3";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -107,54 +106,21 @@ const NextTwoTasks = ({ tasks, currentTask }: NextTwoTasksProps) => {
 
 interface CurrentTaskProps {
   role: string;
+  alarmSound: Howl;
 }
 
-const CurrentTask = ({ role }: CurrentTaskProps) => {
+const CurrentTask = ({ role, alarmSound }: CurrentTaskProps) => {
   const [{ currentTask, tasks, upcomingTask }, dispatch] = useTaskContext();
   const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
   const [isTurnedOff, setIsTurnedOff] = useState(false);
-
-  const alarm: MutableRefObject<Howl | null> = useRef<Howl | null>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (buttonRef.current &&
-      currentTask && tasks.indexOf(currentTask) === 0 && !isAlarmPlaying && alarm.current) {
-      buttonRef.current.dispatchEvent(new Event("click"));
-    }
-  }, [currentTask, isAlarmPlaying, tasks]);
-
-  useEffect(() => {
-    alarm.current = new Howl({
-      src: [analogAlarmClock]
-    });
-    alarm.current.mute();
-
-    const handleClick = () => {
-      if (alarm.current) {
-        alarm.current.volume(90);
-        alarm.current.play();
-      }
-    };
-
-    if (currentTask && tasks.indexOf(currentTask) === 0 && !isAlarmPlaying) {
-      buttonRef.current &&
-        buttonRef.current.addEventListener("click", handleClick, { once: true });
-    }
-
-    let button: HTMLButtonElement;
-    if (buttonRef.current) {
-      button = buttonRef.current;
-    }
-  }, [isAlarmPlaying, currentTask, tasks]);
 
   const handleTurnOff = () => {
     setIsTurnedOff(true);
     setIsAlarmPlaying(false);
 
-    if (alarm.current) {
-      alarm.current.stop();
-      alarm.current.off();
+    if (alarmSound) {
+      alarmSound.stop();
+      alarmSound.off();
     }
   };
 
@@ -178,13 +144,6 @@ const CurrentTask = ({ role }: CurrentTaskProps) => {
           <div className="current-task container-fluid text-center">
             {currentTask && (
               <>
-                <button
-                  title="play alarm"
-                  type="button"
-                  ref={buttonRef}
-                  className="alarm-play-btn"
-                >
-                </button>
                 <Pet />
                 <br />
                 <br />

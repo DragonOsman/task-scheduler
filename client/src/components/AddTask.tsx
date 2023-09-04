@@ -60,7 +60,9 @@ const AddTask = () => {
               id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0,
               isRecurring,
               daysRecurring,
-              isCompleted: false
+              isCompleted: false,
+              flexible: isFlexible,
+              scheduled: isScheduled
             }
           } });
           navigate("/");
@@ -201,6 +203,13 @@ const AddTask = () => {
           )}
         </fieldset>
       <input type="submit" value="Done" className="form-control btn btn-secondary submit-btn" />
+      {daysRecurring.map(dayRecurring => (
+        <ul className="days-list">
+          <li key={dayRecurring}>
+            {dayRecurring}
+          </li>
+        </ul>
+      ))}
       </form>
     </div>
   );
