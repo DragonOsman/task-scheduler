@@ -8,6 +8,10 @@ body {
   flex-grow: 1;
 }
 
+.home .child-role, .home .parent-role {
+  margin-left: 5px;
+}
+
 .task-list li {
   list-style-type: none;
 }

@@ -11,7 +11,7 @@ const Home = () => {
         text-center align-items-center flex-direction-column">
         <fieldset className="text-center">
           <legend>User Role:</legend>
-          <label htmlFor="parent-role" className="form-label">Parent </label>
+          <label htmlFor="parent-role" className="form-label">Parent</label>
           <input
             type="radio"
             name="parent-role"
@@ -22,7 +22,7 @@ const Home = () => {
             aria-label="parent"
           />
           <br />
-          <label htmlFor="child-role" className="form-label">Child </label>
+          <label htmlFor="child-role" className="form-label">Child</label>
           <input
             type="radio"
             name="child-role"
