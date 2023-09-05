@@ -1,4 +1,4 @@
-import { useTaskContext,ITask } from "../context/taskContext";
+import { useTaskContext } from "../context/taskContext";
 import { useNavigate, Link } from "react-router-dom";
 import { ChangeEvent, useState, useEffect } from "react";
 
@@ -22,18 +22,20 @@ const AddTask = () => {
   useEffect(() => {
     const match = timeString.match(/\d+/);
     const time = match ? parseInt(match[0]) : null;
-    if (time) {
+    if (time && !isFlexible) {
       console.log(`"time" in first useEffect call in AddTask.tsx: ${time}`);
       setMinutes(time);
     }
   }, [timeString]);
 
   useEffect(() => {
-    const [startTimeStr, endTimeStr] = timeString.split("-");
-    console.log(`startTimeStr: ${startTimeStr}; endTimeStr: ${endTimeStr}`);
-    setStartTime(new Date(`${new Date().getDate()}T${startTimeStr}`).toString());
-    setEndTime(new Date(`${new Date().getDate()}T${endTimeStr}`).toString());
-  }, [timeString]);
+    if (isFlexible) {
+      const [startTimeStr, endTimeStr] = timeString.split("-");
+      console.log(`startTimeStr: ${startTimeStr}; endTimeStr: ${endTimeStr}`);
+      setStartTime(new Date(`${new Date().getDate()}T${startTimeStr}`).toString());
+      setEndTime(new Date(`${new Date().getDate()}T${endTimeStr}`).toString());
+    }
+  }, [timeString, isFlexible]);
 
   return (
     <div className="add-task container d-flex
@@ -59,13 +61,13 @@ const AddTask = () => {
           dispatch({ type: "ADD_TASK", payload: {
             tasks,
             task: {
-              title: title,
+              title,
               startTime: isFlexible ?
                 new Date(new Date()) :
                 new Date(startTime),
               endTime: isFlexible ?
-              new Date(new Date().setMinutes(Number(minutes))) :
-              new Date(endTime),
+                new Date(new Date().setMinutes(Number(minutes))) :
+                new Date(endTime),
               id,
               isRecurring,
               daysRecurring,
