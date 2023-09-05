@@ -66,7 +66,7 @@ const AddTask = () => {
                 new Date(new Date()) :
                 new Date(startTime),
               endTime: isFlexible ?
-                new Date(new Date().setMinutes(Number(minutes))) :
+                new Date(new Date().setMinutes(minutes)) :
                 new Date(endTime),
               id,
               isRecurring,
