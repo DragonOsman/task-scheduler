@@ -29,8 +29,18 @@ const AddTask = () => {
 
   useEffect(() => {
     const [startTimeStr, endTimeStr] = timeString.split("-");
-    setStartTime(new Date(`${new Date().getDate()}T${startTimeStr}`).toString());
-    setEndTime(new Date(`${new Date().getDate()}T${endTimeStr}`).toString());
+
+    const startTime = new Date();
+    startTime.setHours(parseInt(startTimeStr.substring(0, 2)));
+    startTime.setMinutes(parseInt(startTimeStr.substring(3)));
+    console.log(startTime);
+    setStartTime(startTime.toString());
+
+    const endTime = new Date();
+    endTime.setHours(parseInt(endTimeStr.substring(0, 2)));
+    endTime.setMinutes(parseInt(endTimeStr.substring(3)));
+    console.log(endTime);
+    setEndTime(endTime.toString());
   }, [timeString]);
 
   return (
