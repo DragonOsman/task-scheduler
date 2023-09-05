@@ -81,7 +81,8 @@ const initialState: State = {
 const tasksReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TASK":
-      return { tasks: action.payload.tasks,
+      return {
+        tasks: [...action.payload.tasks, action.payload.task],
         task: action.payload.task
       };
     case "EDIT_TASK":

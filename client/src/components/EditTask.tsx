@@ -63,6 +63,7 @@ const EditTask = ({ task }: EditTaskProps) => {
           }
         } });
       }}
+      method="post"
     >
       <fieldset>
         <input

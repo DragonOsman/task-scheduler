@@ -13,6 +13,7 @@ const ListTasks = ({ alarmSound }: ListTasksProps) => {
   const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
 
   const taskListElems = tasks.map(task => {
+    console.log(task.id);
     return (
       <li
         key={task.id}

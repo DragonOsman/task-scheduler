@@ -1,4 +1,4 @@
-import { useTaskContext } from "../context/taskContext";
+import { useTaskContext,ITask } from "../context/taskContext";
 import { useNavigate, Link } from "react-router-dom";
 import { ChangeEvent, useState, useEffect } from "react";
 
@@ -13,6 +13,7 @@ const AddTask = () => {
   const [daysRecurring, setDaysRecurring] = useState<string[]>([]);
   const [timeString, setTimeString] = useState("");
   const [minutes, setMinutes] = useState(0);
+  const [id, setId] = useState(0);
 
   const navigate = useNavigate();
 
@@ -48,8 +49,13 @@ const AddTask = () => {
       <form
         onSubmit={event => {
           event.preventDefault();
+          if (tasks.length > 0) {
+            setId(tasks[tasks.length - 1].id + 1);
+          } else if (tasks.length === 0) {
+            setId(0);
+          }
           dispatch({ type: "ADD_TASK", payload: {
-            tasks: tasks,
+            tasks,
             task: {
               title: title,
               startTime: isFlexible ?
@@ -58,7 +64,7 @@ const AddTask = () => {
               endTime: isFlexible ?
               new Date(new Date().setMinutes(Number(minutes))) :
               new Date(endTime),
-              id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0,
+              id,
               isRecurring,
               daysRecurring,
               isCompleted: false,
@@ -68,6 +74,7 @@ const AddTask = () => {
           } });
           navigate("/");
         }}
+        method="post"
       >
         <fieldset>
           <input
