@@ -23,24 +23,16 @@ const AddTask = () => {
     const match = timeString.match(/\d+/);
     const time = match ? parseInt(match[0]) : null;
     if (time) {
+      console.log(`"time" in first useEffect call in AddTask.tsx: ${time}`);
       setMinutes(time);
     }
   }, [timeString]);
 
   useEffect(() => {
     const [startTimeStr, endTimeStr] = timeString.split("-");
-
-    const startTime = new Date();
-    startTime.setHours(parseInt(startTimeStr.substring(0, 2)));
-    startTime.setMinutes(parseInt(startTimeStr.substring(3)));
-    console.log(startTime);
-    setStartTime(startTime.toString());
-
-    const endTime = new Date();
-    endTime.setHours(parseInt(endTimeStr.substring(0, 2)));
-    endTime.setMinutes(parseInt(endTimeStr.substring(3)));
-    console.log(endTime);
-    setEndTime(endTime.toString());
+    console.log(`startTimeStr: ${startTimeStr}; endTimeStr: ${endTimeStr}`);
+    setStartTime(new Date(`${new Date().getDate()}T${startTimeStr}`).toString());
+    setEndTime(new Date(`${new Date().getDate()}T${endTimeStr}`).toString());
   }, [timeString]);
 
   return (
