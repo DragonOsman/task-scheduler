@@ -2,7 +2,6 @@ import { useTaskContext, ITask } from "src/context/taskContext";
 import { Howl } from "howler";
 import { useState } from "react";
 import EditTask from "./EditTask";
-import { SlowBuffer } from "buffer";
 
 interface ListTasksProps {
   alarmSound: Howl;
