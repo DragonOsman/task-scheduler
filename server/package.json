@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "task scheduler backend server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DragonOsman/task-scheduler.git"
+  },
+  "keywords": [
+    "task-scheduler",
+    "task",
+    "scheduler",
+    "mern"
+  ],
+  "author": "Osman Zakir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DragonOsman/task-scheduler/issues"
+  },
+  "homepage": "https://github.com/DragonOsman/task-scheduler#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^6.0.0",
+    "mongoose": "^7.5.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.48.0"
+  }
+}
