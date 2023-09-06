@@ -26,7 +26,7 @@ export interface ITask {
 
 interface State {
   tasks: ITask[];
-  task: ITask,
+  task?: ITask,
   currentTask?: ITask;
   upcomingTask?: ITask;
 };
@@ -35,7 +35,7 @@ interface Action {
   type: string;
   payload: {
     tasks: ITask[];
-    task: ITask;
+    task?: ITask;
     currentTask?: ITask;
     upcomingTask?: ITask;
   }
@@ -82,29 +82,27 @@ const tasksReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TASK":
       return {
-        tasks: [...action.payload.tasks, action.payload.task],
+        tasks: action.payload.task ? [...action.payload.tasks, action.payload.task]
+        : [...action.payload.tasks],
         task: action.payload.task
       };
     case "EDIT_TASK":
       return {
         task: action.payload.task,
-        tasks: action.payload.tasks.map(task => task.id === action.payload.task.id ?
-          action.payload.task : task)
+        tasks: action.payload.tasks.map(task => task.id === action.payload.task?.id ?
+        action.payload.task : task)
       };
     case "DELETE_TASK":
       return {
-        task: state.task,
-        tasks: action.payload.tasks.filter(task => task.id !== action.payload.task.id)
+        tasks: action.payload.tasks.filter(task => task.id !== action.payload.task?.id)
       };
     case "SELECT_CURRENT_TASK":
       return {
-        task: state.task,
         tasks: action.payload.tasks,
         currentTask: action.payload.currentTask
       };
     case "SELECT_UPCOMING_TASK":
       return {
-        task: state.task,
         tasks: action.payload.tasks,
         upcomingTask: action.payload.upcomingTask
       };
@@ -132,7 +130,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
 
     if (currentTask) {
       dispatch({ type: "SELECT_CURRENT_TASK", payload: {
-        task: state.task,
         tasks: state.tasks,
         currentTask
       }
@@ -151,7 +148,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
       dispatch({
         type: "SELECT_UPCOMING_TASK",
         payload: {
-          task: state.task,
           tasks: state.tasks,
           upcomingTask
         }
@@ -162,7 +158,6 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
   // fill tasks array
   useEffect(() => {
     dispatch({ type: "ADD_TASK", payload: {
-      task: state.task,
       tasks: tasks.map(task => {
         const startTimeStr = task.startTime;
         const startTimeArr = startTimeStr.split(":");

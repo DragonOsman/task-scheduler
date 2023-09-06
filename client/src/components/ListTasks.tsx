@@ -1,34 +1,35 @@
 import { useTaskContext, ITask } from "src/context/taskContext";
-import { Howl } from "howler";
 import { useState } from "react";
 import EditTask from "./EditTask";
 
-interface ListTasksProps {
-  alarmSound: Howl;
-};
-
-const ListTasks = ({ alarmSound }: ListTasksProps) => {
+const ListTasks = () => {
   const [{ tasks }, dispatch] = useTaskContext();
   const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const taskListElems = tasks.map(task => {
     return (
       <li
         key={task.id}
-        className="task"
+        className={`task ${task.isCompleted ? "completed" : ""}`}
       >
         <button
           type="button"
           title="mark as completed"
           className="btn btn-success"
-          onClick={() => {
-            dispatch({ type: "EDIT_TASK", payload: {
-              tasks: tasks,
-              task: {
-                ...task,
-                isCompleted: true
+          onClick={(event) => {
+            event.preventDefault();
+            setIsCompleted(!isCompleted);
+            dispatch({
+              type: "EDIT_TASK",
+              payload: {
+                task: {
+                  ...task,
+                  isCompleted
+                },
+                tasks
               }
-            } });
+            });
           }}
         >
           Done
@@ -37,19 +38,6 @@ const ListTasks = ({ alarmSound }: ListTasksProps) => {
         {" "}
         {task.startTime.toTimeString()}-{task.endTime.toTimeString()}
         {" "}
-        {task.id === 0 && (
-        <button
-          type="button"
-          title="set alarm"
-          onClick={() => {
-            setTimeout(() => {
-              alarmSound.play();
-            }, task.startTime.getTime());
-          }}
-          className="btn btn-secondary"
-        >
-          Set Alarm
-        </button>)}
         <button
           type="button"
           title="delete task"

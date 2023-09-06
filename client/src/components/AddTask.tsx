@@ -13,7 +13,6 @@ const AddTask = () => {
   const [daysRecurring, setDaysRecurring] = useState<string[]>([]);
   const [timeString, setTimeString] = useState("");
   const [minutes, setMinutes] = useState(0);
-  const [id, setId] = useState(0);
 
   const navigate = useNavigate();
 
@@ -22,18 +21,49 @@ const AddTask = () => {
   useEffect(() => {
     const match = timeString.match(/\d+/);
     const time = match ? parseInt(match[0]) : null;
-    if (time && !isFlexible) {
+    if (time && (isFlexible && !isScheduled)) {
       console.log(`"time" in first useEffect call in AddTask.tsx: ${time}`);
       setMinutes(time);
+      const end = new Date();
+      end.setMinutes(end.getMinutes() + minutes);
+      const startTime = new Date();
+
+      setStartTime(startTime.toString());
+      setEndTime(end.toString());
     }
   }, [timeString]);
 
   useEffect(() => {
-    if (isFlexible) {
+    if (!isFlexible && isScheduled) {
       const [startTimeStr, endTimeStr] = timeString.split("-");
-      console.log(`startTimeStr: ${startTimeStr}; endTimeStr: ${endTimeStr}`);
-      setStartTime(new Date(`${new Date().getDate()}T${startTimeStr}`).toString());
-      setEndTime(new Date(`${new Date().getDate()}T${endTimeStr}`).toString());
+
+      // Create a new Date object with the current date
+      const currentDate = new Date();
+
+      // Extract hours and minutes from the start and end time strings
+      const [startHours, startMinutes] = startTimeStr.split(":");
+      const [endHours, endMinutes] = endTimeStr.split(":");
+
+      // Set the hours and minutes for the start time
+      const startTime = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        parseInt(startHours),
+        parseInt(startMinutes)
+      );
+
+      // Set the hours and minutes for the end time
+      const endTime = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        parseInt(endHours),
+        parseInt(endMinutes)
+      );
+
+      setStartTime(startTime.toString());
+      setEndTime(endTime.toString());
     }
   }, [timeString, isFlexible]);
 
@@ -53,22 +83,13 @@ const AddTask = () => {
       <form
         onSubmit={event => {
           event.preventDefault();
-          if (tasks.length > 0) {
-            setId(tasks[tasks.length - 1].id + 1);
-          } else if (tasks.length === 0) {
-            setId(0);
-          }
           dispatch({ type: "ADD_TASK", payload: {
             tasks,
             task: {
               title,
-              startTime: isFlexible ?
-                new Date(new Date()) :
-                new Date(startTime),
-              endTime: isFlexible ?
-                new Date(new Date().setMinutes(minutes)) :
-                new Date(endTime),
-              id,
+              startTime: new Date(startTime),
+              endTime: new Date(endTime),
+              id: tasks.length + 1,
               isRecurring,
               daysRecurring,
               isCompleted: false,
@@ -107,6 +128,7 @@ const AddTask = () => {
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setIsScheduled(event.target.checked);
               }}
+              disabled={isFlexible}
             />
           </div>
           {isScheduled ? (
@@ -160,6 +182,7 @@ const AddTask = () => {
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   setIsFlexible(event.target.checked);
                 }}
+                disabled={isScheduled}
               />
             </div>
           </>

@@ -16,6 +16,10 @@ body {
   list-style-type: none;
 }
 
+.list button:hover {
+  cursor: pointer;
+}
+
 .task:not(:last-child) {
   margin-bottom: 5px;
 }

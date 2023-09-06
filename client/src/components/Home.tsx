@@ -2,15 +2,11 @@ import { useState } from "react";
 import CurrentTask from "./CurrentTask";
 import ListTasks from "./ListTasks";
 import { Link } from "react-router-dom";
-import { Howl } from "howler";
-import analogAlarmClock from "../198841__bone666138__analog-alarm-clock.mp3";
+import Greeting from "./Greeting";
 
 const Home = () => {
   const [userRole, setUserRole] = useState("child");
-  const alarm = new Howl({
-    src: [analogAlarmClock],
-    html5: true
-  });
+  const currentDate = new Date();
 
   return (
     <div className="home container-fluid">
@@ -44,11 +40,15 @@ const Home = () => {
       <div className="d-flex justify-content-center text-center
         align-items-center flex-direction-column">
         {userRole === "child" ? (
-          <CurrentTask role={userRole} alarmSound={alarm} />
+          <>
+            {currentDate.getHours() === 7 ?
+              <Greeting /> :
+              <CurrentTask role={userRole} />}
+          </>
         ) : (
           <div className="task-list-container">
-            <ListTasks alarmSound={alarm} />
-            <Link to="/add-task" className="btn btn-secondary">Add Task</Link>
+            <ListTasks />
+            <Link to="/add-task" className="link-primary">Add Task</Link>
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 import { useTaskContext, ITask } from "src/context/taskContext";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, SyntheticEvent, EventHandler } from "react";
 
 interface EditTaskProps {
   task: ITask;
@@ -9,7 +9,6 @@ const EditTask = ({ task }: EditTaskProps) => {
   const [{ tasks }, dispatch] = useTaskContext();
 
   const [title, setTitle] = useState("");
-  const [isCompleted, setIsCompleted] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [isFlexible, setIsFlexible] = useState(false);
@@ -24,51 +23,105 @@ const EditTask = ({ task }: EditTaskProps) => {
   useEffect(() => {
     const match = timeString.match(/\d+/);
     const time = match ? parseInt(match[0]) : null;
-    if (time) {
+    if (time && (isFlexible && !isScheduled)) {
+      console.log(`"time" in first useEffect call in AddTask.tsx: ${time}`);
       setMinutes(time);
+      const end = new Date();
+      end.setMinutes(end.getMinutes() + minutes);
+      const startTime = new Date();
+
+      setStartTime(startTime.toString());
+      setEndTime(end.toString());
     }
   }, [timeString]);
 
   useEffect(() => {
-    const [startTimeStr, endTimeStr] = timeString.split("-");
-    setStartTime(new Date(`${new Date().getDate()}T${startTimeStr}`).toString());
-    setEndTime(new Date(`${new Date().getDate()}T${endTimeStr}`).toString());
-  }, [timeString]);
+    if (!isFlexible && isScheduled) {
+      const [startTimeStr, endTimeStr] = timeString.split("-");
+
+      // Create a new Date object with the current date
+      const currentDate = new Date();
+
+      // Extract hours and minutes from the start and end time strings
+      const [startHours, startMinutes] = startTimeStr.split(":");
+      const [endHours, endMinutes] = endTimeStr.split(":");
+
+      // Set the hours and minutes for the start time
+      const startTime = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        parseInt(startHours),
+        parseInt(startMinutes)
+      );
+
+      // Set the hours and minutes for the end time
+      const endTime = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        parseInt(endHours),
+        parseInt(endMinutes)
+      );
+
+      setStartTime(startTime.toString());
+      setEndTime(endTime.toString());
+    }
+  }, [timeString, isFlexible]);
 
   return (
     <form
-      onSubmit={event => {
+      onSubmit={(event: SyntheticEvent<HTMLFormElement, SubmitEvent>): void => {
         event.preventDefault();
-        dispatch({ type: "EDIT_TASK", payload: {
-          tasks,
-          task: {
-            ...task,
-            title: title !== "" ? title : task.title,
-            startTime: startTime !== "" ? (
-              isFlexible ?
-              new Date(new Date()) :
-              new Date(startTime)
-            ) : task.startTime,
-            endTime: endTime !== "" ? (
-              isFlexible ?
-            new Date(new Date().setMinutes(Number(minutes))) :
-            new Date(endTime)
-            ) : task.endTime,
-            id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0,
-            isRecurring,
-            daysRecurring,
-            isCompleted,
-            flexible: isFlexible,
-            scheduled: isScheduled
+        const formData = new FormData(event.currentTarget);
+        let propToEdit: string = "";
+        let value;
+        for (const prop in task) {
+          if (prop.valueOf() !== formData.get(prop)) {
+            propToEdit = prop;
+            value = formData.get(prop);
+            break;
           }
-        } });
+        }
+
+        if (propToEdit === "") {
+          const taskDaysRecurringString = JSON.stringify(task.daysRecurring);
+          const daysRecurringString = JSON.stringify(daysRecurring);
+
+          if (taskDaysRecurringString !== daysRecurringString) {
+            propToEdit = "daysRecurring";
+            value = [];
+            for (const dayRecurring of daysRecurring) {
+              value.push(dayRecurring);
+            }
+          }
+
+          if (startTime !== task.startTime.toString()) {
+            value = new Date(startTime);
+          }
+
+          if (endTime !== task.endTime.toString()) {
+            value = new Date(endTime);
+          }
+        }
+
+        dispatch({
+          type: "EDIT_TASK",
+          payload: {
+            tasks: tasks,
+            task: {
+              ...task,
+              [propToEdit]: !Array.isArray(value) ? value : value.map(arrItem => arrItem)
+            }
+          }
+        });
       }}
       method="post"
     >
       <fieldset>
         <input
           type="text"
-          name="task-title"
+          name="title"
           id="title"
           title="task title"
           className="task-title form-control title"
@@ -83,7 +136,7 @@ const EditTask = ({ task }: EditTaskProps) => {
           <input
             title="scheduled task setting"
             type="checkbox"
-            name="scheduled-task"
+            name="scheduled"
             id="scheduled"
             className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
             role="switch"
@@ -92,6 +145,7 @@ const EditTask = ({ task }: EditTaskProps) => {
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
               setIsScheduled(event.target.checked);
             }}
+            disabled={isFlexible}
           />
         </div>
         {isScheduled ? (
@@ -136,7 +190,7 @@ const EditTask = ({ task }: EditTaskProps) => {
             <input
               title="flexible task setting"
               type="checkbox"
-              name="flexible-task"
+              name="flexible"
               id="flexible"
               className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
               role="switch"
@@ -145,6 +199,7 @@ const EditTask = ({ task }: EditTaskProps) => {
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setIsFlexible(event.target.checked);
               }}
+              disabled={isScheduled}
             />
           </div>
         </>
@@ -156,7 +211,7 @@ const EditTask = ({ task }: EditTaskProps) => {
           <input
             title="recurring task setting"
             type="checkbox"
-            name="recurring-task"
+            name="recurring"
             id="recurring"
             className={`form-check-input ${isScheduled ? "bg-dark" : "bg-light"}`}
             role="switch"
