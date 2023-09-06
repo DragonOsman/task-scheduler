@@ -42,7 +42,8 @@
     ],
     "plugins": [
       "html",
-      "react"
+      "react",
+      "react-hooks"
     ],
     "rules": {
       "prefer-const": "error",
