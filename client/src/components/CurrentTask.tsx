@@ -196,7 +196,6 @@ const CurrentTask = () => {
       <div className="d-flex justify-content-center">
         {currentTask && <NextTwoTasks tasks={tasks} currentTask={currentTask} />}
       </div>
-      {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
     </div>
   );
 };
