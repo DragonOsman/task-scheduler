@@ -4,8 +4,6 @@ import addPadding from "../addPadding";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Pet from "./Pet";
 import { useState, useEffect, useRef, MutableRefObject } from "react";
-import { Howl } from "howler";
-import { Link } from "react-router-dom";
 
 interface TaskTimerProps {
   expiryTimestamp: Date;
@@ -104,51 +102,70 @@ const NextTwoTasks = ({ tasks, currentTask }: NextTwoTasksProps) => {
   );
 };
 
-interface CurrentTaskProps {
-  role: string;
-}
-
-const CurrentTask = ({ role }: CurrentTaskProps) => {
+const CurrentTask = () => {
   const [{ currentTask, tasks, upcomingTask }, dispatch] = useTaskContext();
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [showCurrentTask, setShowCurrentTask] = useState(false);
+  const currentDate = new Date();
 
   const handleTaskCompletion = () => {
     if (currentTask) {
+      setIsCompleted(!isCompleted);
       dispatch({
         type: "EDIT_TASK",
         payload: {
           tasks,
-          task: { ...currentTask, isCompleted: true },
+          task: { ...currentTask, isCompleted },
         },
       });
     }
   };
 
+  const handleGoToCurentTask = () => {
+    setShowCurrentTask(true);
+  };
+
   return (
     <div className="task-details container-fluid">
-      {role === "child" ? (
-      <>
-        <div className="d-flex justify-content-center align-items-center">
-          <div className="current-task container-fluid text-center">
-            {currentTask && (
-              <>
-                <Pet />
-                <br />
-                <br />
-                <h3 className="task-title">{currentTask.title}</h3>
-                <TaskTimer expiryTimestamp={currentTask.endTime} isUpcomingTask={false} />
-                <button
-                  title="mark task as completed"
-                  type="button"
-                  onClick={handleTaskCompletion}
-                  className="icon-button"
-                >
-                  <i className="fa fa-circle-check"></i>
-                </button>
-              </>
+      <div className="d-flex justify-content-center align-items-center">
+        <div className="current-task container-fluid text-center">
+          {currentDate.getHours() === 7 ? (
+            <>
+              <Pet isInGreeting={true} />
+              <br />
+              <br />
+              <h3>Good morning</h3>
+              <button
+                title="go to current task"
+                type="button"
+                onClick={handleGoToCurentTask}
+                className="icon-button"
+              >
+                <i className="fa fa-circle-check"></i>
+              </button>
+            </>
+          ) : (
+            <>
+              {(currentTask || showCurrentTask) && currentTask && (
+                <>
+                  <Pet isInGreeting={false} />
+                  <br />
+                  <br />
+                  <h3 className="task-title">{currentTask.title}</h3>
+                  <TaskTimer expiryTimestamp={currentTask.endTime} isUpcomingTask={false} />
+                  <button
+                    title="mark task as completed"
+                    type="button"
+                    onClick={handleTaskCompletion}
+                    className="icon-button"
+                  >
+                    <i className="fa fa-circle-check"></i>
+                  </button>
+                </>
               )}
               {upcomingTask && (
                 <>
-                  <Pet />
+                  <Pet isInGreeting={false} />
                   Your upcoming task:
                   <h3>{upcomingTask.title}</h3>
                   <TaskTimer expiryTimestamp={upcomingTask.startTime} isUpcomingTask={true} />
@@ -160,44 +177,26 @@ const CurrentTask = ({ role }: CurrentTaskProps) => {
                   >
                     <i className="fa fa-circle-check"></i>
                   </button>
-                {<div className="d-flex justify-content-center">
-                  {upcomingTask && <NextTwoTasks tasks={tasks} currentTask={upcomingTask} />}
-                </div>}
-              </>
-            )}
-          </div>
-        </div>
-        <div className="d-flex justify-content-center">
-          {currentTask && <NextTwoTasks tasks={tasks} currentTask={currentTask} />}
-        </div>
-        {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
-      </>
-      ) : (
-        <>
-          <div className="d-flex justify-content-center align-items-center">
-            <div className="current-task container-fluid text-center">
-              {currentTask && (
-                <>
-                  <h3 className="task-title">{currentTask.title}</h3>
-                  <TaskTimer expiryTimestamp={currentTask.endTime} isUpcomingTask={false} />
-                  <button
-                    title="mark task as completed"
-                    type="button"
-                    onClick={handleTaskCompletion}
-                    className="icon-button"
-                  >
-                    <i className="fa fa-circle-check"></i>
-                  </button>
-                  <br />
-                  <Link to="/edit-task" className="edit-task-link btn btn-primary link-item">
-                    Edit Task
-                  </Link>
+                  <div className="d-flex justify-content-center">
+                    <NextTwoTasks tasks={tasks} currentTask={upcomingTask} />
+                  </div>
                 </>
               )}
-            </div>
-          </div>
-        </>
-      )}
+
+              {!currentTask && !upcomingTask && (
+                <>
+                  <Pet isInGreeting={false} />
+                  No tasks found.
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+      <div className="d-flex justify-content-center">
+        {currentTask && <NextTwoTasks tasks={tasks} currentTask={currentTask} />}
+      </div>
+      {tasks.length === 0 && <p>No tasks to show or all tasks completed!</p>}
     </div>
   );
 };

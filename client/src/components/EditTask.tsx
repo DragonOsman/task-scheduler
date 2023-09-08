@@ -257,7 +257,7 @@ const EditTask = ({ task }: EditTaskProps) => {
     <input type="submit" value="Done" className="form-control btn btn-secondary submit-btn" />
     {daysRecurring.map(dayRecurring => (
       <ul className="days-list">
-        <li key={dayRecurring}>
+        <li key={`${dayRecurring}-edit-task`}>
           {dayRecurring}
         </li>
       </ul>

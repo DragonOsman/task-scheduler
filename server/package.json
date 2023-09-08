@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/DragonOsman/task-scheduler#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongodb": "^6.0.0",
     "mongoose": "^7.5.0",

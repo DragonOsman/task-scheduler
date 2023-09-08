@@ -179,3 +179,19 @@ body {
 .next-two-tasks .task-timer {
   color: #fff;
 }
+
+.task-details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-details-table th,
+.task-details-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.task-details-table th {
+  font-weight: bold;
+}

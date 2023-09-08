@@ -13,7 +13,6 @@ const tasks = data["Amira"]["Chores"];
 
 export interface ITask {
   id: number;
-  taskId?: number;
   title: string;
   startTime: Date;
   endTime: Date;
@@ -83,7 +82,7 @@ const tasksReducer = (state: State, action: Action): State => {
     case "ADD_TASK":
       return {
         tasks: action.payload.task ? [...action.payload.tasks, action.payload.task]
-        : [...action.payload.tasks],
+          : [...action.payload.tasks],
         task: action.payload.task
       };
     case "EDIT_TASK":
@@ -94,17 +93,20 @@ const tasksReducer = (state: State, action: Action): State => {
       };
     case "DELETE_TASK":
       return {
-        tasks: action.payload.tasks.filter(task => task.id !== action.payload.task?.id)
+        tasks: action.payload.tasks.filter(task => task.id !== action.payload.task?.id),
+        task: action.payload.task
       };
     case "SELECT_CURRENT_TASK":
       return {
         tasks: action.payload.tasks,
-        currentTask: action.payload.currentTask
+        currentTask: action.payload.currentTask,
+        task: action.payload.task
       };
     case "SELECT_UPCOMING_TASK":
       return {
         tasks: action.payload.tasks,
-        upcomingTask: action.payload.upcomingTask
+        upcomingTask: action.payload.upcomingTask,
+        task: action.payload.task
       };
     default:
       return state;
@@ -149,7 +151,8 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
         type: "SELECT_UPCOMING_TASK",
         payload: {
           tasks: state.tasks,
-          upcomingTask
+          upcomingTask,
+          task: state.task
         }
       });
     }
@@ -175,7 +178,7 @@ const TaskProvider = ({ children }: TaskProviderProps) => {
         return { ...task, startTime, endTime };
       })
     } });
-  }, []);
+  }, [tasks, state.task]);
 
   return (
     <TaskContext.Provider value={[state, dispatch]}>

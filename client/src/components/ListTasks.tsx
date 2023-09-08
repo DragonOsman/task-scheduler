@@ -1,11 +1,13 @@
 import { useTaskContext, ITask } from "src/context/taskContext";
 import { useState } from "react";
 import EditTask from "./EditTask";
+import TaskDetails from "./TaskDetails";
+import { Link } from "react-router-dom";
 
 const ListTasks = () => {
   const [{ tasks }, dispatch] = useTaskContext();
   const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [showTaskDetails, setShowTaskDetails] = useState(false);
 
   const taskListElems = tasks.map(task => {
     return (
@@ -13,30 +15,15 @@ const ListTasks = () => {
         key={task.id}
         className={`task ${task.isCompleted ? "completed" : ""}`}
       >
-        <button
-          type="button"
-          title="mark as completed"
-          className="btn btn-success"
-          onClick={(event) => {
-            event.preventDefault();
-            setIsCompleted(!isCompleted);
-            dispatch({
-              type: "EDIT_TASK",
-              payload: {
-                task: {
-                  ...task,
-                  isCompleted
-                },
-                tasks
-              }
-            });
-          }}
-        >
-          Done
-        </button>
-        {task.title}
+        <span onClick={() => {
+          setSelectedTask(task);
+          setShowTaskDetails(true);
+          }}>{task.title}</span>
         {" "}
-        {task.startTime.toTimeString()}-{task.endTime.toTimeString()}
+        {task.scheduled ? (
+          `${task.startTime.toTimeString()}-${task.endTime.toTimeString()}`) :
+            task.flexible ?
+            `${(task.endTime.getTime() / 1000 / 60) - (task.startTime.getTime() / 1000 / 60)}mins` : ""}
         {" "}
         <button
           type="button"
@@ -68,14 +55,17 @@ const ListTasks = () => {
   return (
     <div className="task-list">
       <div className="container container-fluid">
-        <h3>Amira's Chores</h3>
+        <h3>Amira's Schedule</h3>
         <ul className="list">
           {taskListElems}
         </ul>
       </div>
 
-      {selectedTask && (
+      {(selectedTask && !showTaskDetails) && (
         <EditTask task={selectedTask} />
+      )}
+      {(selectedTask && showTaskDetails) && (
+        <TaskDetails task={selectedTask} />
       )}
     </div>
   );

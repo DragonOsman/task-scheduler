@@ -1,30 +1,38 @@
 import { useTaskContext } from "../context/taskContext";
 import { useState, useEffect } from "react";
 
-const Pet = () => {
+interface PetProps {
+  isInGreeting: boolean;
+};
+
+const Pet = ({ isInGreeting }: PetProps) => {
   const [{ currentTask, tasks }] = useTaskContext();
   const [petMood, setPetMood] = useState("");
   const [numberCompleted, setNumberCompleted] = useState(0);
 
   useEffect(() => {
-    if (currentTask && new Date().getTime() < currentTask.endTime.getTime()) {
+    if (isInGreeting) {
       setPetMood("happy");
-    } else if (currentTask && new Date().getTime() > currentTask.endTime.getTime()) {
-      setPetMood("sad");
-    } else if (currentTask && new Date().getTime() === currentTask.endTime.getTime()) {
-      setPetMood("neutral");
-    }
+    } else {
+      if (currentTask && new Date().getTime() < currentTask.endTime.getTime()) {
+        setPetMood("happy");
+      } else if (currentTask && new Date().getTime() > currentTask.endTime.getTime()) {
+        setPetMood("sad");
+      } else if (currentTask && new Date().getTime() === currentTask.endTime.getTime()) {
+        setPetMood("neutral");
+      }
 
-    if (currentTask && tasks.indexOf(currentTask) !== 0 && numberCompleted === tasks.length) {
-      setPetMood("happy");
-    } else if (currentTask && tasks.indexOf(currentTask) !== 0 &&
-      numberCompleted === (tasks.length / 2)) {
-      setPetMood("neutral");
-    } else if (currentTask && tasks.indexOf(currentTask) !== 0 &&
-      (numberCompleted < tasks.length || numberCompleted === 0)) {
-      setPetMood("sad");
-    } else if (currentTask && tasks.indexOf(currentTask) && numberCompleted < (tasks.length / 2)) {
-      setPetMood("sad");
+      if (currentTask && tasks.indexOf(currentTask) !== 0 && numberCompleted === tasks.length) {
+        setPetMood("happy");
+      } else if (currentTask && tasks.indexOf(currentTask) !== 0 &&
+        numberCompleted === (tasks.length / 2)) {
+        setPetMood("neutral");
+      } else if (currentTask && tasks.indexOf(currentTask) !== 0 &&
+        (numberCompleted < tasks.length || numberCompleted === 0)) {
+        setPetMood("sad");
+      } else if (currentTask && tasks.indexOf(currentTask) && numberCompleted < (tasks.length / 2)) {
+        setPetMood("sad");
+      }
     }
   }, [currentTask, numberCompleted, tasks]);
 

@@ -2,7 +2,6 @@ import { useState } from "react";
 import CurrentTask from "./CurrentTask";
 import ListTasks from "./ListTasks";
 import { Link } from "react-router-dom";
-import Greeting from "./Greeting";
 
 const Home = () => {
   const [userRole, setUserRole] = useState("child");
@@ -40,11 +39,7 @@ const Home = () => {
       <div className="d-flex justify-content-center text-center
         align-items-center flex-direction-column">
         {userRole === "child" ? (
-          <>
-            {currentDate.getHours() === 7 ?
-              <Greeting /> :
-              <CurrentTask role={userRole} />}
-          </>
+          <CurrentTask />
         ) : (
           <div className="task-list-container">
             <ListTasks />
