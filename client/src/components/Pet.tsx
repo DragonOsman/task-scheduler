@@ -6,7 +6,7 @@ interface PetProps {
 };
 
 const Pet = ({ isInGreeting }: PetProps) => {
-  const [{ currentTask, tasks }] = useTaskContext();
+  const [{ currentTask, upcomingTask, tasks }] = useTaskContext();
   const [petMood, setPetMood] = useState("");
   const [numberCompleted, setNumberCompleted] = useState(0);
 
@@ -32,6 +32,10 @@ const Pet = ({ isInGreeting }: PetProps) => {
         setPetMood("sad");
       } else if (currentTask && tasks.indexOf(currentTask) && numberCompleted < (tasks.length / 2)) {
         setPetMood("sad");
+      }
+
+      if (!currentTask && !upcomingTask) {
+        setPetMood("happy");
       }
     }
   }, [currentTask, numberCompleted, tasks]);
