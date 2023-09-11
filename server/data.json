@@ -1,27 +1,24 @@
 {
   "Amira": {
     "Chores": [{
-      "id": 0,
       "title": "Brush teeth",
-      "startTime": "07:05:00",
-      "endTime": "07:10:00",
+      "time": "07:05AM - 07:10AM",
+      "timer": "",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       "scheduled": false,
       "flexible": false
     }, {
-      "id": 1,
       "title": "Make bed",
-      "startTime": "7:10:00",
-      "endTime": "7:15:00",
+      "time": "",
+      "timer": "5mins",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       "scheduled": false,
       "flexible": true
     }, {
-      "id": 2,
       "title": "Set table",
       "startTime": "7:15:00",
       "endTime": "7:20:00",
@@ -31,7 +28,6 @@
       "scheduled": false,
       "flexible": false
     }, {
-      "id": 3,
       "title": "Eat breakfast",
       "startTime": "7:20:00",
       "endTime": "7:35:00",
@@ -41,20 +37,22 @@
       "scheduled": true,
       "flexible": false
     }, {
-      "id": 4,
       "title": "Get ready for school",
-      "startTime": "7:35:00",
-      "endTime": "7:45:00",
+      "startTime": "",
+      "endTime": "",
+      "time": "7:35AM - 7:45AM",
+      "timer": "",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "scheduled": true,
       "flexible": false
     }, {
-      "id": 5,
       "title": "Go to school",
-      "startTime": "7:45:00",
-      "endTime": "4:30:00",
+      "startTime": "",
+      "endTime": "",
+      "time": "7:45AM - 4:30PM",
+      "timer": "",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],

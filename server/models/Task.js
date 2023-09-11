@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema({
-  id: {
-    type: Number,
-    required: true,
-    default: 0
-  },
   title: {
     type: String,
     required: true,
@@ -14,13 +9,23 @@ const TaskSchema = new Schema({
   },
   startTime: {
     type: Date,
-    requred: true,
+    requred: false,
     default: new Date()
   },
   endTime: {
     type: Date,
-    required: true,
+    required: false,
     default: new Date()
+  },
+  timer: {
+    type: String,
+    required: false,
+    default: ""
+  },
+  time: {
+    type: String,
+    required: false,
+    default: ""
   },
   scheduled: {
     type: Boolean,
@@ -52,4 +57,6 @@ const TaskSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("Task", TaskSchema);
+const Task = mongoose.model("Task", TaskSchema);
+
+module.exports = Task;
