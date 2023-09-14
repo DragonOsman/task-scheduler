@@ -16,7 +16,6 @@ const Register = () => {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
-        username: values.email,
         password: values.password,
         confirmPassword: values.confirmPassword,
         role: values.role
@@ -49,7 +48,6 @@ const Register = () => {
       firstName: "",
       lastName: "",
       email: "",
-      username: "",
       role: "",
       password: "",
       confirmPassword: ""

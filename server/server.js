@@ -5,6 +5,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongodb-session")(session);
 const connectDB = require("./config/db");
 const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -53,14 +54,16 @@ app.use(session({
 }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStrategy({
+  usernameField: "email"
+}, User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-passport.use(User.createStrategy());
 
 app.get("/", (req, res) => res.send(req.sessionID));
 

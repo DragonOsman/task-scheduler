@@ -48,10 +48,8 @@ const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
   return (
     <div className="container-fluid">
       <>
-        <span className="timer-label">{hours > 0 && hourStr}</span>
-        {hours > 0 && ":"}
-        <span className="timer-label">{minuteStr}</span>:
-        <span className="timer-label">{secondStr}</span>
+        <span className="timer-label">{`${hours > 0 ? `${hourStr}:` : ""+
+        `${minuteStr}:${secondStr}`}`}</span>
 
         <ProgressBar
           completed={progressPercentage}
@@ -80,7 +78,7 @@ const CurrentTask = () => {
 
   return (
     <div className="current-task container-fluid d-flex justify-content-center align-items-center">
-      <div className="row container-fluid">
+      <div className="container-fluid text-center">
         {currentTask && (
           <>
             <Pet isInGreeting={false} />
@@ -105,7 +103,7 @@ const CurrentTask = () => {
             </button>
             <NextTwoTasks />
           </>
-        )}{upcomingTask && (
+        )}{(upcomingTask && !currentTask) && (
           <>
             <Pet isInGreeting={false} />
             <br />

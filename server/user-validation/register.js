@@ -4,6 +4,11 @@ const isEmpty = require("is-empty");
 const validateRegisterInput = data => {
   const errors = {};
 
+  console.log("In validateRegisterInput: data looks like this:");
+  for (const [key, value] of Object.entries(data)) {
+    console.log(`${key}: ${value}`);
+  }
+
   // Convert empty fields to an empty string so we can use validator functions
   data.firstName = !isEmpty(data.firstName) ? data.firstName : "";
   data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
@@ -38,6 +43,10 @@ const validateRegisterInput = data => {
 
   if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
     errors.password = "Password must be at least 6 characters";
+  }
+
+  if (!Validator.isStrongPassword(data.password, { minLength: 6 })) {
+    errors.password = "Password is not strong enough";
   }
 
   if (!Validator.equals(data.password, data.confirmPassword)) {

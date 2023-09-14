@@ -2,7 +2,6 @@ const express = require("express");
 const userRouter = express.Router();
 const User = require("../../models/User");
 const passport = require("passport");
-const connectEnsureLogin = require("connect-ensure-login");
 
 const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
@@ -35,20 +34,23 @@ userRouter.post("/register", (req, res) => {
       }
     } else {
       User.register(new User({
+        email: req.body.email,
         username: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName
       }), req.body.password, async (err, user) => {
         if (err) {
           res.status(500).json({ error: err, success: false });
+          console.log(err);
         }
 
         try {
-          await user.save();
-          res.status(200).json({ success: true, message: "you are registered!", user });
+          if (user) {
+            await user.save();
+            res.status(200).json({ success: true, message: "you are registered!", user });
+          }
         } catch (err) {
           console.log(err);
-          res.status(500).json({ error: err, success: false });
         }
       });
     }
@@ -88,14 +90,23 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
   }
 });
 
-userRouter.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/login");
+userRouter.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
+  });
 });
 
-userRouter.get("/user", [
-  passport.authenticate("local"),
-  connectEnsureLogin.ensureLoggedIn()], (req, res) => {
+userRouter.get("/user-details", passport.authenticate("local"), (req, res) => {
+  console.log("trying to user info in /user-details route:");
+  for (const [key, value] of Object.entries(req)) {
+    console.log(`${key}: ${value}`);
+    for (const [innerKey, innerValue] of Object.entries(req.user)) {
+      console.log(`${innerKey}: ${innerValue}`);
+    }
+  }
   res.status(200).json({ success: true, user: req.user });
 });
 
