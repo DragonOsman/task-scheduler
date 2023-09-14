@@ -40,10 +40,6 @@ const validateRegisterInput = data => {
     errors.password = "Password must be at least 6 characters";
   }
 
-  if (!Validator.isStrongPassword(data.password)) {
-    errors.password = "Password is not strong enough";
-  }
-
   if (!Validator.equals(data.password, data.confirmPassword)) {
     errors.confirmPassword = "Passwords must match";
   }

@@ -1,67 +1,46 @@
-import { useTaskContext } from "../context/taskContext";
+/* eslint-disable linebreak-style */
 import { useState, useEffect } from "react";
+import { useTaskContext } from "src/context/taskContext";
 
 interface PetProps {
   isInGreeting: boolean;
-};
+}
 
 const Pet = ({ isInGreeting }: PetProps) => {
-  const [{ currentTask, upcomingTask, tasks }] = useTaskContext();
-  const [petMood, setPetMood] = useState("");
-  const [numberCompleted, setNumberCompleted] = useState(0);
+  const [mood, setMood] = useState("");
+  const { tasks, currentTask } = useTaskContext();
 
   useEffect(() => {
-    if (isInGreeting) {
-      setPetMood("happy");
-    } else {
-      if (currentTask && new Date().getTime() < currentTask.endTime.getTime()) {
-        setPetMood("happy");
-      } else if (currentTask && new Date().getTime() > currentTask.endTime.getTime()) {
-        setPetMood("sad");
-      } else if (currentTask && new Date().getTime() === currentTask.endTime.getTime()) {
-        setPetMood("neutral");
+    if (currentTask) {
+      const currentTime = new Date().getTime();
+      const isCurrentTaskIncomplete = !currentTask.isCompleted;
+      const isCurrentTaskNearEnd = currentTask.endTime.getTime() - currentTime <= 60000; // Within 1 minute
+
+      if (tasks.length === 0) {
+        setMood("neutral"); // No tasks available
+      } else if (currentTask.endTime.getTime() < currentTime) {
+        setMood("happy"); // Current task is completed
+      } else if (
+        tasks.indexOf(currentTask) === tasks.length - 1 &&
+        (isCurrentTaskIncomplete || isCurrentTaskNearEnd)
+      ) {
+        setMood("sad"); // Last task and either completed or near end
+      } else {
+        setMood("neutral"); // Default neutral mood
       }
 
-      if (currentTask && tasks.indexOf(currentTask) !== 0 && numberCompleted === tasks.length) {
-        setPetMood("happy");
-      } else if (currentTask && tasks.indexOf(currentTask) !== 0 &&
-        numberCompleted === (tasks.length / 2)) {
-        setPetMood("neutral");
-      } else if (currentTask && tasks.indexOf(currentTask) !== 0 &&
-        (numberCompleted < tasks.length || numberCompleted === 0)) {
-        setPetMood("sad");
-      } else if (currentTask && tasks.indexOf(currentTask) && numberCompleted < (tasks.length / 2)) {
-        setPetMood("sad");
-      }
-
-      if (!currentTask && !upcomingTask) {
-        setPetMood("happy");
+      if (isInGreeting) {
+        setMood("happy");
       }
     }
-  }, [currentTask, numberCompleted, tasks]);
-
-  useEffect(() => {
-    for (const task of tasks) {
-      if (task.isCompleted) {
-        setNumberCompleted(score => score++);
-      }
-    }
-  }, [tasks]);
+  }, [currentTask, tasks, isInGreeting]);
 
   return (
-    <div className="pet">
+    <div className="container-fluid">
       <p className="pet-mood">
-        The pet's mood is <span className={`${
-          petMood === "happy" ?
-            "text-success" :
-            petMood === "sad" ?
-            "text-danger" :
-            petMood === "neutral" ?
-            "text-warning" : ""}`
-          }
-          >
-            {petMood}
-          </span>
+        The pet&apos;s mood is <span className={`${mood === "happy" ? "text-success" :
+          mood === "neutral" ? "text-warning" : mood === "sad" ? "text-danger" : "not set"}`}>
+        </span>
       </p>
     </div>
   );

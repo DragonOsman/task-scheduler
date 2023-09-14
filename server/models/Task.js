@@ -53,7 +53,8 @@ const TaskSchema = new Schema({
     required: true
   },
   userId: {
-    type: Schema.ObjectId
+    type: Schema.ObjectId,
+    required: true
   }
 });
 

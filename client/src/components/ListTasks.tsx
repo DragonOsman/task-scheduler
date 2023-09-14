@@ -1,72 +1,52 @@
-import { useTaskContext, ITask } from "src/context/taskContext";
-import { useState } from "react";
-import EditTask from "./EditTask";
-import TaskDetails from "./TaskDetails";
-import { Link } from "react-router-dom";
+import { useTaskContext } from "src/context/taskContext";
+import { UserContext } from "src/context/userContext";
+import { useState, useContext } from "react";
 
 const ListTasks = () => {
-  const [{ tasks }, dispatch] = useTaskContext();
-  const [selectedTask, setSelectedTask] = useState<ITask | null>(null);
-  const [showTaskDetails, setShowTaskDetails] = useState(false);
+  const { tasks, updateTask, deleteTask } = useTaskContext();
+  const [isCompleted, setIsCompleted] = useState(false);
+  const { state } = useContext(UserContext);
 
-  const taskListElems = tasks.map(task => {
-    return (
-      <li
-        key={task.id}
-        className={`task ${task.isCompleted ? "completed" : ""}`}
-      >
-        <span onClick={() => {
-          setSelectedTask(task);
-          setShowTaskDetails(true);
-          }}>{task.title}</span>
-        {" "}
-        {task.scheduled ? (
-          `${task.startTime.toTimeString()}-${task.endTime.toTimeString()}`) :
-            task.flexible ?
-            `${(task.endTime.getTime() / 1000 / 60) - (task.startTime.getTime() / 1000 / 60)}mins` : ""}
-        {" "}
-        <button
-          type="button"
-          title="delete task"
-          className="btn btn-danger"
-          onClick={() => {
-            dispatch({ type: "DELETE_TASK", payload: {
-              task,
-              tasks
-            } });
-          }}
-        >
-          Delete
-        </button>
-        <button
-          type="button"
-          title="edit task"
-          onClick={() => {
-            setSelectedTask(task);
-          }}
-          className="btn btn-warning"
-        >
-          Edit
-        </button>
-      </li>
-    );
-  });
+  const list = (
+    <ul>
+      {tasks.map(task => (
+        <li className="task" key={task._id}>
+          <button
+            type="button"
+            title="mark task as completed"
+            className="btn btn-success"
+            onClick={() => {
+              setIsCompleted(!isCompleted);
+              updateTask(task._id, {
+                ...task,
+                isCompleted
+              });
+            }}
+          >
+            Done
+          </button>
+          {task.title}
+          <button
+            type="button"
+            title="delete task"
+            className="btn btn-danger"
+            onClick={() => {
+              deleteTask(task._id, task);
+            }}
+          >
+            Delete
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
-    <div className="task-list">
-      <div className="container container-fluid">
-        <h3>Amira's Schedule</h3>
-        <ul className="list">
-          {taskListElems}
-        </ul>
+    <div className="container-fluid">
+      <h3>{state.currentUser?.firstName}&apos;s Chores</h3>
+      <div className="list">
+        {list}
       </div>
-
-      {(selectedTask && !showTaskDetails) && (
-        <EditTask task={selectedTask} />
-      )}
-      {(selectedTask && showTaskDetails) && (
-        <TaskDetails task={selectedTask} />
-      )}
     </div>
   );
 };

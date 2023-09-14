@@ -14,18 +14,23 @@ userRouter.post("/register", (req, res) => {
       res.statusCode = 400;
       if (errors.password) {
         res.json({ error: errors.password });
+        console.log(`error: ${errors.password}`);
         return;
       } else if (errors.confirmPassword) {
         res.json({ error: errors.confirmPassword });
+        console.log(`error: ${errors.confirmPassword}`);
         return;
       } else if (errors.email) {
         res.json({ error: errors.email });
+        console.log(`error: ${errors.email}`);
         return;
       } else if (errors.firstName) {
         res.json({ error: errors.firstName });
+        console.log(`error: ${errors.firstName}`);
         return;
       } else if (errors.lastName) {
         res.json({ error: errors.lastName });
+        console.log(`error: ${errors.lastName}`);
         return;
       }
     } else {
@@ -88,7 +93,9 @@ userRouter.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-userRouter.get("/user", connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+userRouter.get("/user", [
+  passport.authenticate("local"),
+  connectEnsureLogin.ensureLoggedIn()], (req, res) => {
   res.status(200).json({ success: true, user: req.user });
 });
 

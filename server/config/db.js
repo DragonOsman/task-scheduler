@@ -7,7 +7,7 @@ const connectDB = () => {
   try {
     mongoose.connect(MONGO_URI);
     mongoose.connection.on("error", () => console.log("an error occurred!"))
-      .on("disconnected", err => console.log(`disconnected from database! ${err}`))
+      .on("disconnected", () => console.log("disconnected from database!"))
     ;
     console.log("database connected");
   } catch (err) {

@@ -1,7 +1,9 @@
+/* eslint-disable linebreak-style */
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
-import TaskContextProvider from "./context/taskContext";
+import { TaskProvider } from "./context/taskContext";
+import { UserContextProvider } from "./context/userContext";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -13,11 +15,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <TaskContextProvider>
-      <Router>
-        <App />
-      </Router>
-    </TaskContextProvider>
+    <UserContextProvider>
+      <TaskProvider>
+        <Router>
+          <App />
+        </Router>
+      </TaskProvider>
+    </UserContextProvider>
   </React.StrictMode>
 );
 

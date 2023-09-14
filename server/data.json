@@ -3,6 +3,8 @@
     "Chores": [{
       "title": "Brush teeth",
       "time": "07:05AM - 07:10AM",
+      "startTime": "07:05:00",
+      "endTime": "07:10:00",
       "timer": "",
       "isRecurring": true,
       "isCompleted": false,
@@ -13,6 +15,8 @@
       "title": "Make bed",
       "time": "",
       "timer": "5mins",
+      "startTime": "07:10:00",
+      "endTime": "07:15:00",
       "isRecurring": true,
       "isCompleted": false,
       "daysRecurring": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -38,8 +42,8 @@
       "flexible": false
     }, {
       "title": "Get ready for school",
-      "startTime": "",
-      "endTime": "",
+      "startTime": "07:35:00",
+      "endTime": "07:45:00",
       "time": "7:35AM - 7:45AM",
       "timer": "",
       "isRecurring": true,
@@ -49,8 +53,8 @@
       "flexible": false
     }, {
       "title": "Go to school",
-      "startTime": "",
-      "endTime": "",
+      "startTime": "7:45:00",
+      "endTime": "04:30:00",
       "time": "7:45AM - 4:30PM",
       "timer": "",
       "isRecurring": true,

@@ -17,7 +17,7 @@ const userRouter = require("./routes/api/users");
 
 const app = express();
 
-const CLIENT_URL = "http://localhost:5173/";
+const CLIENT_URL = "http://localhost:5173";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
   origin: (origin, callback) => {
@@ -69,4 +69,4 @@ const port = process.env.PORT || 3000;
 app.use("/api/users", userRouter);
 app.use("/api/tasks", taskRouter);
 
-app.listen(() => console.log(`Server listening on port ${port}`));
+app.listen(port, () => console.log(`Server listening on port ${port}`));

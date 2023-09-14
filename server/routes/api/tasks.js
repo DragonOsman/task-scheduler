@@ -10,32 +10,52 @@ const fs = require("fs");
 // database already has tasks
 const addOrEditTasksInDB = async (req, calledInAdd) => {
   try {
-    const userId = req.user._id;
+    if (req.isAuthenticated()) {
+      const userId = req.user._id;
 
-    const isEmpty = await Task.countDocuments({ userId }) === 0;
-
-    if (isEmpty) {
-      const tasks = data.Amira.Chores.map((task) => ({ ...task, userId }));
-      await Task.insertMany(tasks);
-
-      if (calledInAdd) {
-        return;
-      }
-    } else {
-      if (!calledInAdd) {
-        const operations = data.Amira.Chores.map((task) => ({
-          updateOne: {
-            filter: { title: task.title },
-            update: task,
-            upsert: true,
-          },
+      if (isEmpty) {
+        const tasks = data.Amira.Chores.map((task) => ({
+          ...task,
+          userId,
+          startTime: createDateFromTimeString(task.startTime),
+          endTime: createDateFromTimeString(task.endTime),
         }));
-        await Task.bulkWrite(operations);
+        await Task.insertMany(tasks);
+
+        if (calledInAdd) {
+          return;
+        }
+      } else {
+        if (!calledInAdd) {
+          const operations = data.Amira.Chores.map((task) => ({
+            updateOne: {
+              filter: { title: task.title },
+              update: {
+                ...task,
+                startTime: createDateFromTimeString(task.startTime),
+                endTime: createDateFromTimeString(task.endTime),
+              },
+              upsert: true,
+            },
+          }));
+          await Task.bulkWrite(operations);
+        }
       }
+
+      const isEmpty = await Task.countDocuments({ userId }) === 0;
     }
   } catch (err) {
     console.log(`Failed to add or update tasks in db: ${err}`);
   }
+};
+
+const createDateFromTimeString = (timeString) => {
+  const [hours, minutes, seconds] = timeString.split(":");
+  const date = new Date();
+  date.setHours(parseInt(hours));
+  date.setMinutes(parseInt(minutes));
+  date.setSeconds(parseInt(seconds));
+  return date;
 };
 
 // Read the JSON file
@@ -46,10 +66,11 @@ const data = JSON.parse(rawData);
 taskRouter.post("/add-task", async (req, res, next) => {
   try {
     await addOrEditTasksInDB(req, true);
-    const user = await User.findById(req.user._id);
-    const userId = user._id;
-    const task = await Task.create({ ...req.body, userId });
-    res.status(200).json({ success: true, message: "Task added successfully", task });
+    if (req.isAuthenticated()) {
+      const userId = req.user._id;
+      const task = await Task.create({ ...req.body, userId });
+      res.status(200).json({ success: true, message: "Task added successfully", task });
+    }
   } catch (err) {
     res.status(400).json({ success: false, error: err, message: "Could not add your task" });
     return next(err);
@@ -58,9 +79,12 @@ taskRouter.post("/add-task", async (req, res, next) => {
 
 taskRouter.get("/", async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id);
-    const tasks = await Task.find({ userId: user._id });
-    res.status(200).json({ success: true, tasks });
+    if (req.isAuthenticated()) {
+      const user = req.user;
+      const userId = user._id;
+      const tasks = await Task.find({ userId });
+      res.status(200).json({ success: true, tasks });
+    }
   } catch (err) {
     res.status(404).json({ success: false, error: err, message: "No tasks found" });
     return next(err);
