@@ -34,6 +34,7 @@
     "@types/passport": "^1.0.12",
     "@types/uuid": "^9.0.3",
     "@types/validator": "^13.11.1",
+    "@types/validatorjs": "^3.15.0",
     "body-parser": "^1.20.2",
     "connect-ensure-login": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
