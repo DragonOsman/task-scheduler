@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const navigate = useNavigate();
 
   const formikValues: FormikConfig<FormikValues> = {
@@ -28,6 +28,7 @@ const Login = () => {
           body: JSON.stringify(user)
         });
 
+        setSubmitting(false);
         if (response.ok) {
           const data = await response.json();
           dispatch({ type: "SET_CURRENT_USER", payload: data.user });
@@ -60,7 +61,7 @@ const Login = () => {
     <div className="container-fluid login-form-container">
       <form
         method="post"
-        className="register-form container-fluid"
+        className="login-form container-fluid"
         onSubmit={(event) => {
           event.preventDefault();
           formik.handleSubmit(event);

@@ -12,9 +12,10 @@ const validateRegisterInput = data => {
   // Convert empty fields to an empty string so we can use validator functions
   data.firstName = !isEmpty(data.firstName) ? data.firstName : "";
   data.lastName = !isEmpty(data.lastName) ? data.lastName : "";
-  data.email = !isEmpty(data.email) ? data.email : "";
+  data.username = !isEmpty(data.username) ? data.username : "";
   data.password = !isEmpty(data.password) ? data.password : "";
   data.confirmPassword = !isEmpty(data.confirmPassword) ? data.confirmPassword : "";
+  data.role = !isEmpty(data.role) ? data.role : "";
 
   // First and last name checks
   if (Validator.isEmpty(data.firstName)) {
@@ -25,11 +26,12 @@ const validateRegisterInput = data => {
     errors.lastName = "Last name field is required";
   }
 
-  // Email checks
-  if (Validator.isEmpty(data.email)) {
-    errors.email = "Email field is required";
-  } else if (!Validator.isEmail(data.email)) {
-    errors.email = "Email is invalid";
+  // Username checks
+  const usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+  if (Validator.isEmpty(data.username)) {
+    errors.username = "Username field is required";
+  } else if (!Validator.matches(data.username, usernameRegex)) {
+    errors.username = "Username is invalid";
   }
 
   // Password checks
@@ -45,12 +47,12 @@ const validateRegisterInput = data => {
     errors.password = "Password must be at least 6 characters";
   }
 
-  if (!Validator.isStrongPassword(data.password, { minLength: 6 })) {
-    errors.password = "Password is not strong enough";
-  }
-
   if (!Validator.equals(data.password, data.confirmPassword)) {
     errors.confirmPassword = "Passwords must match";
+  }
+
+  if (Validator.isEmpty(data.role)) {
+    errors.role = "Role is required";
   }
 
   return {

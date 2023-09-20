@@ -5,14 +5,15 @@ const validateLoginInput = data => {
   const errors = {};
 
   // Convert empty fields to an empty string so we can use validator functions
-  data.email = !isEmpty(data.email) ? data.email : "";
+  data.username = !isEmpty(data.username) ? data.username : "";
   data.password = !isEmpty(data.password) ? data.password : "";
 
-  // Email checks
-  if (Validator.isEmpty(data.email)) {
-    errors.email = "Email field is required";
-  } else if (!Validator.isEmail(data.email)) {
-    errors.email = "Email is invalid";
+  // Username checks
+  const usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+  if (Validator.isEmpty(data.username)) {
+    errors.email = "Username field is required";
+  } else if (!Validator.matches(data.username, usernameRegex)) {
+    errors.email = "Username is invalid";
   }
 
   // Password checks

@@ -48,8 +48,11 @@ const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
   return (
     <div className="container-fluid">
       <>
-        <span className="timer-label">{`${hours > 0 ? `${hourStr}:` : ""+
-        `${minuteStr}:${secondStr}`}`}</span>
+        <p>
+          <span className="timer-label">{`${hours > 0 ? `${hourStr}:` : ""+
+            `${minuteStr}:${secondStr}`}`}
+          </span>
+        </p>
 
         <ProgressBar
           completed={progressPercentage}
@@ -133,7 +136,7 @@ const CurrentTask = () => {
             <br />
             <br />
             <br />
-            <p>Good morning</p>
+            <h3>Good morning</h3>
             <button
               type="button"
               title="task completion button"

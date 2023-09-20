@@ -1,6 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();
 const User = require("../../models/User");
+const connectEnsureLogin = require("connect-ensure-login");
 const passport = require("passport");
 
 const validateRegisterInput = require("../../user-validation/register");
@@ -19,9 +20,9 @@ userRouter.post("/register", (req, res) => {
         res.json({ error: errors.confirmPassword });
         console.log(`error: ${errors.confirmPassword}`);
         return;
-      } else if (errors.email) {
-        res.json({ error: errors.email });
-        console.log(`error: ${errors.email}`);
+      } else if (errors.username) {
+        res.json({ error: errors.username });
+        console.log(`error: ${errors.username}`);
         return;
       } else if (errors.firstName) {
         res.json({ error: errors.firstName });
@@ -34,10 +35,10 @@ userRouter.post("/register", (req, res) => {
       }
     } else {
       User.register(new User({
-        email: req.body.email,
-        username: req.body.email,
+        username: req.body.username,
         firstName: req.body.firstName,
-        lastName: req.body.lastName
+        lastName: req.body.lastName,
+        role: req.body.role
       }), req.body.password, async (err, user) => {
         if (err) {
           res.status(500).json({ error: err, success: false });
@@ -65,8 +66,8 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     const { isValid, errors } = validateLoginInput(req.body);
     if (!isValid) {
       res.statusCode = 400;
-      if (errors.email) {
-        res.json({ error: errors.email });
+      if (errors.username) {
+        res.json({ error: errors.username });
         return;
       } else if (errors.password) {
         res.json({ error: errors.password });
@@ -79,7 +80,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
         await user.save();
         res.json({ success: true, user });
       } catch (err) {
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: err, success: false });
       }
     } else {
       res.status(401).json({ message: "Unauthorized: User not found" });
@@ -90,24 +91,41 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
   }
 });
 
-userRouter.get("/logout", (req, res, next) => {
+userRouter.get("/logout", connectEnsureLogin.ensureLoggedIn(), (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);
     }
-    res.redirect("/login");
+    res.redirect("/");
   });
 });
 
-userRouter.get("/user-details", passport.authenticate("local"), (req, res) => {
-  console.log("trying to user info in /user-details route:");
-  for (const [key, value] of Object.entries(req)) {
-    console.log(`${key}: ${value}`);
-    for (const [innerKey, innerValue] of Object.entries(req.user)) {
-      console.log(`${innerKey}: ${innerValue}`);
-    }
-  }
+userRouter.get("/user-details", connectEnsureLogin.ensureLoggedIn(), (req, res) => {
   res.status(200).json({ success: true, user: req.user });
+});
+
+userRouter.delete("/delete-user", connectEnsureLogin.ensureLoggedIn(), async (req, res, next) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.user._id);
+    if (deletedUser) {
+      res.status(200).json({ success: true, message: "Account deleted successfully" });
+    }
+  } catch (err) {
+    console.error(`Error deleting account: ${err}`);
+    return next(err);
+  }
+});
+
+userRouter.put("/edit-user", connectEnsureLogin.ensureLoggedIn(), async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.user._id, req.body);
+    if (user) {
+      res.status(200).json({ success: true, message: "Account editd successfully" });
+    }
+  } catch (err) {
+    console.error(`Error editing account: ${err}`);
+    return next(err);
+  }
 });
 
 module.exports = userRouter;

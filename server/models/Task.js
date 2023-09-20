@@ -7,14 +7,39 @@ const TaskSchema = new Schema({
     required: true,
     default: ""
   },
+  text: {
+    type: String,
+    required: false,
+    default: ""
+  },
   startTime: {
-    type: Date,
-    requred: false,
-    default: new Date()
+    type: String,
+    required: false,
+    default: ""
   },
   endTime: {
-    type: Date,
+    type: String,
     required: false,
+    default: ""
+  },
+  startDate: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  endDate: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  start: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  end: {
+    type: Date,
+    required: true,
     default: new Date()
   },
   timer: {
@@ -55,6 +80,11 @@ const TaskSchema = new Schema({
   userId: {
     type: Schema.ObjectId,
     required: true
+  },
+  rRule: {
+    type: String,
+    required: false,
+    default: ""
   }
 });
 

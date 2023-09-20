@@ -1,173 +1,147 @@
-import { useFormik, FormikConfig, FormikValues, FormikHelpers } from "formik";
+import { useFormik, FormikValues, FormikHelpers } from "formik";
 import { UserContext, User } from "src/context/userContext";
 import { useContext } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const formikValues: FormikConfig<FormikValues> = {
-    onSubmit: async (values: FormikValues, { setSubmitting }: FormikHelpers<FormikValues>) => {
-      setSubmitting(true);
+  const initialValues: FormikValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "parent",
+    dateRegisered: new Date()
+  };
 
-      const user: User = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password,
-        confirmPassword: values.confirmPassword,
-        role: values.role
-      };
+  const handleSubmit = async (values: FormikValues, { setSubmitting }: FormikHelpers<FormikValues>) => {
+    setSubmitting(true);
 
-      try {
-        const response = await fetch("http://localhost:3000/api/users/register", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-          mode: "cors"
+    const user: User = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+      confirmPassword: values.confirmPassword,
+      role: values.role,
+      dateRegistered: values.dateRegistered
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/users/register", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+
+      setSubmitting(false);
+      if (response.ok) {
+        const data = await response.json();
+        dispatch({
+          type: "ADD_USER",
+          payload: data.user
         });
-
-        setSubmitting(false);
-        if (response.ok) {
-          const data = await response.json();
-          dispatch({ type: "ADD_USER", payload: data.user });
-          navigate("/");
-        } else {
-          console.error(`Something went wrong: ${response.statusText}; ${response.status}`);
-        }
-      } catch (error) {
-        console.error(`Error registering user: ${error}`);
+        navigate("/login");
+      } else {
+        console.error(`Couldn't register you: ${response.status}: ${response.statusText}`);
       }
-    },
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      role: "",
-      password: "",
-      confirmPassword: ""
-    },
+    } catch (err) {
+      console.error(`Something went wrong when trying to register: ${err}`);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit: handleSubmit,
     validationSchema: Yup.object({
       firstName: Yup.string()
         .max(20, "Must be at most 20 characters")
         .required("This is a required field"),
       lastName: Yup.string()
-        .max(20, "Must be at most 20 characters")
+        .max(20, "Must be at least 20 characters")
         .required("This is a required field"),
       email: Yup.string()
-        .email("Invalid email address")
+        .email("Must be a valid email address")
         .required("This is a required field"),
       password: Yup.string()
         .min(6, "Must be at least 6 characters")
-        .required("This is a required field"),
+        .required("This is a requried field"),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password")], "Passwords must match")
-        .required("This is a required field"),
-      role: Yup.string()
-        .oneOf(["parent", "child"], "Please select a role")
         .required("This is a required field")
     })
-  };
-
-  const formik = useFormik(formikValues);
+  });
 
   return (
-    <div className="container-fluid register-form-container">
+    <div className="register-form-container container-fluid">
       <form
-        method="post"
-        className="register-form container-fluid"
-        onSubmit={(event) => {
+        className="parent-registration-form container-fluid"
+        onSubmit={event => {
           event.preventDefault();
           formik.handleSubmit(event);
         }}
+        method="post"
       >
         <fieldset className="mb-3">
           <legend>Parent registration form</legend>
-          <label className="form-label" htmlFor="firstName">First name:</label>
+          <label htmlFor="firstName" className="form-label">First name:</label>
           <input
             type="text"
-            className="first-name form-control form-control-lg"
-            placeholder="Please your first name"
+            className="form-control"
             required
             {...formik.getFieldProps("firstName")}
           />
           {formik.touched.firstName && formik.errors.firstName ? (
             <small className="text-danger">{formik.errors.firstName as string}</small>
           ) : null}
-          <label className="form-label" htmlFor="lastName">Last name:</label>
+          <label htmlFor="lastName" className="form-label">Last name:</label>
           <input
             type="text"
-            className="last-name form-control form-control-lg"
-            placeholder="Please enter your last name"
+            className="form-control"
             required
             {...formik.getFieldProps("lastName")}
           />
           {formik.touched.lastName && formik.errors.lastName ? (
             <small className="text-danger">{formik.errors.lastName as string}</small>
           ) : null}
-          <label className="form-label" htmlFor="email">Email:</label>
+          <label htmlFor="email" className="form-label">Email:</label>
           <input
-            type="email"
-            className="email form-control form-control-lg"
-            placeholder="Please enter your email address"
+            type="text"
+            className="form-control"
             required
             {...formik.getFieldProps("email")}
           />
           {formik.touched.email && formik.errors.email ? (
             <small className="text-danger">{formik.errors.email as string}</small>
           ) : null}
-          <label className="form-label" htmlFor="password">Password:</label>
+          <label htmlFor="password" className="form-label">Password:</label>
           <input
-            type="password"
-            className="password form-control form-control-lg"
-            placeholder="Please choose a (strong) password"
+            type="text"
+            className="form-control"
             required
             {...formik.getFieldProps("password")}
           />
           {formik.touched.password && formik.errors.password ? (
             <small className="text-danger">{formik.errors.password as string}</small>
           ) : null}
-          <label className="form-label" htmlFor="confirmPassword">Confirm password:</label>
+          <label htmlFor="confirmPassword" className="form-label">Confirm password:</label>
           <input
-            type="password"
-            className="confirm-password form-control form-control-lg"
-            placeholder="Please re-enter the password"
+            type="text"
+            className="form-control"
             required
             {...formik.getFieldProps("confirmPassword")}
           />
           {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
             <small className="text-danger">{formik.errors.confirmPassword as string}</small>
           ) : null}
-          <div className="form-check">
-            <input
-              type="radio"
-              title="role parent option"
-              className="form-check-input"
-              {...formik.getFieldProps("role")}
-              value="parent"
-            />
-            <label htmlFor="parent-role" className="form-label">Parent</label>
-          </div>
-          <div className="form-check">
-            <input
-              type="radio"
-              title="role child option"
-              className="form-check-input"
-              {...formik.getFieldProps("role")}
-              value="child"
-            />
-            <label htmlFor="child-role" className="form-label">Child</label>
-            {formik.touched.role && formik.errors.role ? (
-              <small className="text-danger">{formik.errors.role as string}</small>
-            ) : null}
-          </div>
         </fieldset>
-        <input type="submit" value="Register" className="btn btn-primary btn-lg" />
       </form>
     </div>
   );

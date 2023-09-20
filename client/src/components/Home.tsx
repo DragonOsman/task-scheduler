@@ -2,9 +2,13 @@ import { UserContext } from "src/context/userContext";
 import { useContext, useEffect } from "react";
 import CurrentTask from "./CurrentTask";
 import ListTasks from "./ListTasks";
+import ChildRegistrationModals from "./ChildRegistrationModals";
+import { Modal, Button } from "react-bootstrap";
+import { useTaskContext } from "../context/taskContext";
 
 const Home = () => {
   const { state, dispatch } = useContext(UserContext);
+  const { addTask } = useTaskContext();
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -20,7 +24,7 @@ const Home = () => {
 
         if (detailsResponse.ok) {
           const data = await detailsResponse.json();
-          console.log("in userContext, data.user is:");
+          console.log("in Home, data.user is:");
           for (const [key, value] of Object.entries(data.user)) {
             console.log(`${key}: ${value}`);
           }
@@ -41,6 +45,57 @@ const Home = () => {
 
   if (state.currentUser) {
     console.log(state.currentUser.role);
+
+    if (state.currentUser.role === "parent" &&
+    state.currentUser.dateRegistered === new Date()) {
+      let firstChild;
+      let children;
+      if (state.currentUser.children) {
+        if (state.currentUser.children.length === 1) {
+          firstChild = state.currentUser.children[0];
+        } else if (state.currentUser.children.length > 1) {
+          children = state.currentUser.children;
+        }
+      }
+      return (
+        Array.isArray(children) ? (
+          <>
+            <ChildRegistrationModals />
+            <Modal closeButton>
+              <Modal.Header>
+                <Modal.Title>Add Tasks Now?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <p>Would you like to add tasks for your children now or later?</p>
+                <Button>
+                  Add Tasks
+                </Button>
+                <Button>
+                  Later
+                </Button>
+              </Modal.Body>
+            </Modal>
+          </>
+        ) : (firstChild && (
+          <>
+            <ChildRegistrationModals />
+            <Modal closeButton>
+              <Modal.Header>
+                <Modal.Title>Add {firstChild.firstName}&apos;s Tasks Now?</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <p>Would you like to add {firstChild.firstName}&apos;s tasks now or later?</p>
+                <Button>
+                  Add Tasks
+                </Button>
+                <Button>
+                  Later
+                </Button>
+              </Modal.Body>
+            </Modal>
+          </>
+        )));
+    }
   }
 
   return (

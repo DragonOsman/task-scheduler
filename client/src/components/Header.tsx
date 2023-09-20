@@ -1,80 +1,80 @@
 import logo from "../logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { UserContext } from "src/context/userContext";
+import { Container, Nav, Navbar, NavbarBrand } from "react-bootstrap";
+import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 
 const Header = () => {
-  const [expanded, setExpanded] = useState(false);
   const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleToggle = () => setExpanded(!expanded);
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/users/logout", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.ok) {
+        dispatch({ type: "SET_CURRENT_USER", payload: null });
+        navigate("/login");
+      } else {
+        console.error(`${response.status}: ${response.statusText}`);
+      }
+    } catch (err) {
+      console.error(`Error logging you out: ${err}`);
+    }
+  };
 
   return (
-    <header>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            <img src={logo} alt="dragon logo" className="logo" />
-          </Link>
-          <button
-            type="button"
-            title="toggle navbar"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbar-content"
-            aria-controls="navbar-content"
-            aria-expanded={expanded}
-            aria-label="Toggle navigation"
-            onClick={handleToggle}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className={`collapse navbar-collapse ${expanded ? "show" : ""}`} id="navbar-content">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              {state.currentUser && (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/">Home</Link>
-                </li>
-              )}
+    <header className="container-fluid">
+      <Navbar className="bg-body-tertiary" expand="lg" fixed="top">
+        <Container className="container-fluid row">
+          <NavbarBrand className="col-auto">
+            {state.currentUser ? (
+              <Link to="/">
+                <img src={logo} alt="dragon-logo" className="dragon-logo" />
+              </Link>
+            ) : (
+              <img src={logo} alt="dragon-logo" className="dragon-logo" />
+            )}
+          </NavbarBrand>
+          <Navbar.Toggle aria-controls="navbar-content" className="col-auto" />
+          <NavbarCollapse id="navbar-content">
+            <Nav className="me-auto mb-2 navbar-lg-0">
               {state.currentUser ? (
-                <li className="nav-item">
-                  <button
-                    type="button"
-                    title="logout button"
-                    onClick={async () => {
-                      try {
-                        const response = await fetch("http://localhost:3000/api/users/logout", {
-                          method: "GET",
-                          credentials: "include",
-                          headers: {
-                            "Content-Type": "application/json"
-                          }
-                        });
-
-                        if (response.ok) {
-                          navigate("/login");
-                        }
-                      } catch (error) {
-                        console.error(`Error logging out: ${error}`);
-                      }
-                    }}
-                    className="btn btn-danger"
-                  >Logout</button>
-                </li>
+                <ul className="navbar-nav col">
+                  <li className="nav-item">
+                    <Link to="/" className="nav-link">Home</Link>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="btn btn-danger"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
               ) : (
-                <>
+                <ul className="navbar-nav">
                   <li className="nav-item">
-                    <Link className="nav-link" to="/register">Register</Link>
+                    <Link to="/login" className="nav-link">Login</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/login">Login</Link>
+                    <Link to="/register" className="nav-link">Register</Link>
                   </li>
-                </>
+                </ul>
               )}
-            </ul>
-          </div>
-        </div>
-      </nav>
+            </Nav>
+          </NavbarCollapse>
+        </Container>
+      </Navbar>
     </header>
   );
 };

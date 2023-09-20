@@ -1,6 +1,17 @@
 body {
   margin: 5px;
+  margin-top: 120px;
   text-align: center;
+}
+
+header nav {
+  height: 70px;
+  background-size: cover;
+}
+
+header {
+  height: 100px;
+  background-size: cover;
 }
 
 .home {

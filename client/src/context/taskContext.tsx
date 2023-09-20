@@ -4,15 +4,21 @@ import { createContext, useReducer, useContext, useEffect, ReactNode } from "rea
 export interface Task {
   _id: string;
   title: string;
-  startTime: Date;
-  endTime: Date;
-  timer?: string;
-  time?: string;
-  scheduled?: boolean;
-  flexible?: boolean;
+  text: string;
+  startTime?: string;
+  endTime?: string;
+  startDate: Date;
+  endDate: Date;
+  start: Date,
+  end: Date,
+  timer: string;
+  time: string;
+  scheduled: boolean;
+  flexible: boolean;
   isRecurring: boolean;
   daysRecurring?: string[];
   isCompleted: boolean;
+  rRule: string;
 }
 
 interface TaskState {
@@ -29,24 +35,40 @@ const initialTaskState: TaskState = {
   currentTask: {
     _id: "",
     title: "",
+    text: "",
     timer: "",
     time: "",
-    startTime: new Date,
-    endTime: new Date,
+    startTime: "",
+    endTime: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    start: new Date(),
+    end: new Date(),
+    scheduled: false,
+    flexible: false,
     isCompleted: false,
     isRecurring: false,
-    daysRecurring: []
+    daysRecurring: [],
+    rRule: ""
   },
   upcomingTask: {
     _id: "",
     title: "",
+    text: "",
     timer: "",
     time: "",
-    startTime: new Date,
-    endTime: new Date,
+    startTime: "",
+    endTime: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    start: new Date(),
+    end: new Date(),
+    scheduled: false,
+    flexible: false,
     isCompleted: false,
     isRecurring: false,
-    daysRecurring: []
+    daysRecurring: [],
+    rRule: ""
   },
   addTask: () => {},
   updateTask: () => {},
@@ -175,28 +197,41 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
   };
 
   useEffect(() => {
-    const currentTask = state.tasks.find(task => !task.isCompleted);
-    if (currentTask) {
-      dispatch({
-        type: "SELECT_CURRENT_TASK",
-        payload: {
-          currentTask
-        }
+    if (state.tasks.length > 0) {
+      const currentTask = state.tasks.find(task => {
+        return !task.isCompleted &&
+        task.startDate.getTime() <= new Date().getTime() &&
+        new Date().getTime() <= task.endDate.getTime();
       });
+      if (currentTask) {
+        dispatch({
+          type: "SELECT_CURRENT_TASK",
+          payload: {
+            currentTask
+          }
+        });
+      }
     }
   }, [state.tasks]);
 
   useEffect(() => {
-    const upcomingTask = state.tasks.find(task => {
-      return !task.isCompleted && new Date().getTime() < task.startTime.getTime();
-    });
-    if (upcomingTask) {
-      dispatch({
-        type: "SELECT_UPCOMING_TASK",
-        payload: {
-          upcomingTask
-        }
+    if (state.tasks.length > 0) {
+      const currentTime = new Date();
+      const upcomingTask = state.tasks.find(task => {
+        const timeDifference = task.startDate.getTime() - currentTime.getTime();
+
+        // Convert milliseconds to minutes
+        const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+        return !task.isCompleted && minutesDifference <= 30 && minutesDifference >= 0;
       });
+      if (upcomingTask) {
+        dispatch({
+          type: "SELECT_UPCOMING_TASK",
+          payload: {
+            upcomingTask
+          }
+        });
+      }
     }
   }, [state.tasks]);
 

@@ -65,11 +65,15 @@ const data = JSON.parse(rawData);
 
 taskRouter.post("/add-task", async (req, res, next) => {
   try {
-    await addOrEditTasksInDB(req, true);
-    if (req.isAuthenticated()) {
-      const userId = req.user._id;
-      const task = await Task.create({ ...req.body, userId });
-      res.status(200).json({ success: true, message: "Task added successfully", task });
+    const user = User.findOne({ firstName: "Amira", lastName: "Naeem" });
+    if (user) {
+      await addOrEditTasksInDB(req, true);
+    } else {
+      if (req.isAuthenticated()) {
+        const userId = req.user._id;
+        const task = await Task.create({ ...req.body, userId });
+        res.status(200).json({ success: true, message: "Task added successfully", task });
+      }
     }
   } catch (err) {
     res.status(400).json({ success: false, error: err, message: "Could not add your task" });
@@ -103,7 +107,10 @@ taskRouter.get("/task-details/:id", async (req, res, next) => {
 
 taskRouter.put("/edit-task/:id", async (req, res, next) => {
   try {
-    await addOrEditTasksInDB(req, false);
+    const user = User.findOne({ firstName: "Amira", lastName: "Naeem" });
+    if (user) {
+      await addOrEditTasksInDB(req, false);
+    }
     const taskId = req.params.id;
     const updatedTask = await Task.findByIdAndUpdate(taskId, req.body);
     res.status(200).json({ success: true, message: "Task updated successfully", task: updatedTask });
