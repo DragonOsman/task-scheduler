@@ -13,11 +13,11 @@ export interface User {
   children?: User[],
   dateRegistered: Date;
   parents?: User[],
-  wakeTime: Date,
-  breakfastTime: Date,
-  lunchTime: Date,
-  dinnerTime: Date,
-  sleepTime: Date
+  wakeTime?: Date,
+  breakfastTime?: Date,
+  lunchTime?: Date,
+  dinnerTime?: Date,
+  sleepTime?: Date
 }
 
 // Interface representing a User Action
