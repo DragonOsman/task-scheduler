@@ -1,11 +1,13 @@
-import { useTaskContext } from "src/context/taskContext";
+import { useTaskContext, Task } from "src/context/taskContext";
 import { UserContext } from "src/context/userContext";
 import { useState, useContext } from "react";
+import EditTask from "./EditTask";
 //import { Link } from "react-router-dom";
 
 const ListTasks = () => {
   const { tasks, updateTask, deleteTask } = useTaskContext();
   const [isCompleted, setIsCompleted] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState<Task>();
   const { state } = useContext(UserContext);
 
   let list: JSX.Element | null = null;
@@ -42,6 +44,14 @@ const ListTasks = () => {
                     >
                       Delete
                     </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => setTaskToEdit(task)}
+                      title="update task"
+                    >
+                      Edit
+                    </button>
                   </li>
                 ))}</ul>
               ) : <p>This child has no tasks to show at the moment</p>}
@@ -58,6 +68,9 @@ const ListTasks = () => {
         <>
           <h3>Your children and their tasks</h3>
           {list}
+          {taskToEdit ? (
+            <EditTask task={taskToEdit} />
+          ) : null}
         </>
       ) : (
         <p>No children registered to show data for</p>
