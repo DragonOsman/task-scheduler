@@ -1,5 +1,6 @@
 import { useTaskContext, Task } from "../context/taskContext";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface EditTaskProps {
   task: Task;
@@ -7,28 +8,11 @@ interface EditTaskProps {
 
 const EditTask = ({ task }: EditTaskProps) => {
   const { updateTask } = useTaskContext();
-  const [updatedTask, setUpdatedTask] = useState<Task>({
-    _id: task._id,
-    title: "",
-    text: "",
-    timer: "",
-    time: "",
-    startTime: "",
-    endTime: "",
-    startDate: new Date(),
-    endDate: new Date(),
-    start: new Date(),
-    end: new Date(),
-    isRecurring: false,
-    scheduled: false,
-    daysRecurring: [],
-    flexible: false,
-    isCompleted: false,
-    rRule: ""
-  });
+  const [updatedTask, setUpdatedTask] = useState<Task>(task);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (updatedTask.time !== "") {
+    if (updatedTask.time !== "" && updatedTask.time != task.time) {
       const [startTimeStr, endTimeStr] = updatedTask.time.split("-");
       const startTime = new Date();
       const [startHours, startMins] = startTimeStr.split(":");
@@ -43,16 +27,16 @@ const EditTask = ({ task }: EditTaskProps) => {
         ...prevState,
         startDate: startTime,
         endDate: endTime,
-        startTime: startTimeStr,
-        endTime: endTimeStr,
+        startTime: startTime.toLocaleTimeString(),
+        endTime: endTime.toLocaleTimeString(),
         start: startTime,
         end: endTime
       }));
     }
-  }, [updatedTask.time]);
+  }, [updatedTask.time, task.time]);
 
   useEffect(() => {
-    if (updatedTask.timer) {
+    if (updatedTask.timer != task.timer) {
       const timeInMinutes = parseInt(updatedTask.timer);
       const currentTime = new Date();
       const endTime = new Date(currentTime.getTime() + timeInMinutes * 60000); // Convert minutes to milliseconds
@@ -67,7 +51,7 @@ const EditTask = ({ task }: EditTaskProps) => {
         endTime: endTime.toLocaleTimeString()
       }));
     }
-  }, [updatedTask.timer]);
+  }, [updatedTask.timer, task.timer]);
 
   const handleSubmit = async () => {
     try {
@@ -83,6 +67,7 @@ const EditTask = ({ task }: EditTaskProps) => {
       if (response.ok) {
         const data = await response.json();
         updateTask(task._id, data.task);
+        navigate("/");
       } else {
         console.error(`${response.status}: ${response.statusText}`);
       }
@@ -95,7 +80,7 @@ const EditTask = ({ task }: EditTaskProps) => {
 
   return (
     <div className="container-fluid add-task">
-      <i className="fa-solid fa-arrow-left"></i>
+      <i className="fa-solid fa-arrow-left" onClick={() => navigate(-1)}></i>
       <h3>Edit Task</h3>
       <form onSubmit={event => {
         event.preventDefault();
@@ -141,7 +126,6 @@ const EditTask = ({ task }: EditTaskProps) => {
                 onChange={event => setUpdatedTask(prevData => ({
                   ...prevData, [event.target.name]: event.target.value
                 }))}
-                placeholder="7:00AM-8:00AM"
               />
             </>
           )}{(updatedTask.scheduled && !updatedTask.flexible) && (
@@ -170,7 +154,6 @@ const EditTask = ({ task }: EditTaskProps) => {
                 onChange={event => setUpdatedTask(prevData => ({
                   ...prevData, [event.target.name]: event.target.value
                 }))}
-                placeholder="30mins"
               />
               <div className="form-check form-switch">
                 <label htmlFor="flexible" className="form-label">Flexible</label>
@@ -189,7 +172,7 @@ const EditTask = ({ task }: EditTaskProps) => {
           )}{updatedTask.isRecurring && (
             <>
               {days.map(day => {
-                if (updatedTask.daysRecurring?.includes(day)) {
+                if (updatedTask.daysRecurring && updatedTask.daysRecurring.includes(day)) {
                   const answer =
                     confirm(`Are you sure you want to remove ${day} from the list of days recurring?`)
                   ;

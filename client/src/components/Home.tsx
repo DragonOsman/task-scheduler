@@ -1,14 +1,16 @@
 import { UserContext } from "src/context/userContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import CurrentTask from "./CurrentTask";
-import ListTasks from "./ListTasks";
+import { Link } from "react-router-dom";
 import ChildRegistrationModals from "./ChildRegistrationModals";
+import ChildSchedule from "./ChildSchedule";
 import { Modal, Button } from "react-bootstrap";
-import { useTaskContext } from "../context/taskContext";
 
 const Home = () => {
   const { state, dispatch } = useContext(UserContext);
-  const { addTask } = useTaskContext();
+  const [showModal, setShowModal] = useState(true);
+
+  const handleModalToggle = () => setShowModal(!showModal);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -61,7 +63,7 @@ const Home = () => {
         Array.isArray(children) ? (
           <>
             <ChildRegistrationModals />
-            <Modal closeButton>
+            <Modal closeButton={handleModalToggle} show={showModal}>
               <Modal.Header>
                 <Modal.Title>Add Tasks Now?</Modal.Title>
               </Modal.Header>
@@ -79,16 +81,16 @@ const Home = () => {
         ) : (firstChild && (
           <>
             <ChildRegistrationModals />
-            <Modal closeButton>
+            <Modal closeButton={handleModalToggle} show={showModal}>
               <Modal.Header>
                 <Modal.Title>Add {firstChild.firstName}&apos;s Tasks Now?</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <p>Would you like to add {firstChild.firstName}&apos;s tasks now or later?</p>
-                <Button>
+                <Button href="/add-task">
                   Add Tasks
                 </Button>
-                <Button>
+                <Button onClick={handleModalToggle}>
                   Later
                 </Button>
               </Modal.Body>
@@ -106,7 +108,22 @@ const Home = () => {
             <CurrentTask />
           ) : state.currentUser && state.currentUser.role === "parent" ? (
             <>
-              <ListTasks />
+              {state.currentUser.children && (
+                state.currentUser.children.length === 1 ? (
+                  <ChildSchedule child={state.currentUser.children[0]} />
+                ) : (
+                  <ul className="schedules">
+                    {state.currentUser.children && state.currentUser.children.map(child => (
+                      <li className="link" key={child._id}>
+                        {state.currentUser && state.currentUser.children && (
+                          <ChildSchedule child={child} />
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )
+              )}
+              <Link to="/tasks">Tasks Page</Link>
             </>
           ) : null}
         </div>

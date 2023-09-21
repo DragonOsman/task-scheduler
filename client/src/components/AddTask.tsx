@@ -1,5 +1,6 @@
 import { useTaskContext } from "../context/taskContext";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
   const { addTask } = useTaskContext();
@@ -15,6 +16,8 @@ const AddTask = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [daysRecurring, setDaysRecurring] = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (time !== "") {
@@ -92,6 +95,7 @@ const AddTask = () => {
       if (response.ok) {
         const data = await response.json();
         addTask(data.task);
+        navigate("/");
       } else {
         console.error(`${response.status}: ${response.statusText}`);
       }
@@ -104,7 +108,7 @@ const AddTask = () => {
 
   return (
     <div className="container-fluid add-task">
-      <i className="fa-solid fa-arrow-left"></i>
+      <i className="fa-solid fa-arrow-left" onClick={() => navigate(-1)}></i>
       <h3>Add Task</h3>
       <form onSubmit={event => {
         event.preventDefault();

@@ -4,8 +4,7 @@ import {
   Scheduler,
   DayView,
   ViewState,
-  Appointments,
-  AllDayPanel
+  Appointments
 } from "@devexpress/dx-react-scheduler";
 
 interface ChildScheduleProps {
