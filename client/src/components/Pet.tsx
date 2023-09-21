@@ -14,11 +14,11 @@ const Pet = ({ isInGreeting }: PetProps) => {
     if (currentTask) {
       const currentTime = new Date().getTime();
       const isCurrentTaskIncomplete = !currentTask.isCompleted;
-      const isCurrentTaskNearEnd = currentTask.endTime.getTime() - currentTime <= 60000; // Within 1 minute
+      const isCurrentTaskNearEnd = currentTask.endDate.getTime() - currentTime <= 60000; // Within 1 minute
 
       if (tasks.length === 0) {
         setMood("neutral"); // No tasks available
-      } else if (currentTask.endTime.getTime() < currentTime) {
+      } else if (currentTask.endDate.getTime() < currentTime) {
         setMood("happy"); // Current task is completed
       } else if (
         tasks.indexOf(currentTask) === tasks.length - 1 &&

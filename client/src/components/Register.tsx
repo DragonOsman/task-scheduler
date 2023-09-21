@@ -11,7 +11,7 @@ const Register = () => {
   const initialValues: FormikValues = {
     firstName: "",
     lastName: "",
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
     role: "parent",
@@ -24,7 +24,7 @@ const Register = () => {
     const user: User = {
       firstName: values.firstName,
       lastName: values.lastName,
-      email: values.email,
+      username: values.email,
       password: values.password,
       confirmPassword: values.confirmPassword,
       role: values.role,

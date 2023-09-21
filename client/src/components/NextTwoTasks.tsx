@@ -91,7 +91,7 @@ const NextTwoTasks = () => {
         <div key={task._id} className="next-two-tasks contaier-fluid">
           {task.title}
           {task.flexible && (
-            <TaskTimer expiryTimestamp={task.endTime} isUpcomingTask={false} />
+            <TaskTimer expiryTimestamp={task.endDate} isUpcomingTask={false} />
           )}
         </div>
       ))}
