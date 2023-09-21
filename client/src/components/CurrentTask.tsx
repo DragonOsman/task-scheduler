@@ -89,7 +89,7 @@ const CurrentTask = () => {
             <br />
             <br />
             {currentTask.title}
-            <TaskTimer expiryTimestamp={currentTask.endTime} isUpcomingTask={false} />
+            <TaskTimer expiryTimestamp={currentTask.endDate} isUpcomingTask={false} />
             <button
               type="button"
               title="task completion button"
@@ -113,7 +113,7 @@ const CurrentTask = () => {
             <br />
             <br />
             {upcomingTask.title}
-            <TaskTimer expiryTimestamp={upcomingTask.startTime} isUpcomingTask={true} />
+            <TaskTimer expiryTimestamp={upcomingTask.startDate} isUpcomingTask={true} />
             <button
               type="button"
               title="task completion button"

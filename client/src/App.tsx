@@ -17,7 +17,7 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={state.currentUser ? <Home /> : <Login />} />
+        <Route path="/" element={state.currentUser && Home ? <Home /> : <Login />} />
         <Route path="/tasks" element={<ListTasks />} />
         <Route path="/current-task" element={<CurrentTask />} />
         <Route path="/login" element={<Login />} />

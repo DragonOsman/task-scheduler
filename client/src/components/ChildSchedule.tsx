@@ -1,5 +1,6 @@
 import { User } from "../context/userContext";
 import { useTaskContext } from "../context/taskContext";
+import { ReactNode } from "react";
 import {
   Scheduler,
   DayView,
@@ -107,9 +108,14 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
     );
   };
 
-  const TimeTableLayout = () => {
+  const TimeTableLayout = ({ cellsData }: DayView.TimeTableLayoutProps) => {
     return (
       <div className="container-fluid">
+        {cellsData.map(outerItem => (
+          outerItem.map((innerItem, innerIndex) => (
+            <p className="cell-info" key={innerIndex}>{innerItem.startDate.toLocaleString()}</p>
+          ))
+        ))}
         <table>
           <thead>
             <tr>
@@ -165,28 +171,23 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
     );
   };
 
-  const TimeTableCell = () => {
+  interface TimeTableCellProps {
+    children?: ReactNode;
+  }
+
+  const TimeTableCell = ({ children }: TimeTableCellProps) => {
     return (
-      tasks.map(task => (
-        <tr key={task.text} className="time-table-cell">
-          <td>{task.scheduled && " Scheduled"}</td>
-          <td>{task.flexible && " Flexible"}</td>
-          <td>{task.isRecurring && " Recurring"}</td>
-          <td>{task.isRecurring && task.daysRecurring?.map(day => (
-            <span key={day}>{day}</span>
-          ))}</td>
-        </tr>
-      ))
+      <div className="container-fluid time-table-cell">
+        {children}
+      </div>
     );
   };
 
-  const TimeTableRow = () => {
+  const TimeTableRow = ({ children }: DayView.RowProps) => {
     return (
-      tasks.map(task => (
-        <tr className="time-table-row" key={task.text}>
-          <td>Day of Week: {task.startDate.getDay()}</td>
-        </tr>
-      ))
+      <div className="time-table-row container">
+        {children}
+      </div>
     );
   };
 
@@ -195,7 +196,19 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
       <div className="appointment-layer">
         {tasks.map(task => {
           for (const [key, value] of Object.entries(task)) {
-            return <p key={key}>{value.toString()}</p>;
+            if (Array.isArray(value)) {
+              return (
+                <ul>
+                  {value.map((element, index) => (
+                    <li key={index}>{element}</li>
+                  ))}
+                </ul>);
+            } else if (typeof value === "object") {
+              for (const [innerKey, innerValue] of Object.entries(value)) {
+                <p>{`${innerKey}: ${innerValue}`}</p>;
+              }
+            }
+            return <p key={key}>{`${key}: ${value.toString()}`}</p>;
           }
         }
         )}
@@ -203,23 +216,75 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
     );
   };
 
-  const AppointmentContent = () => {
+  const AppointmentContent = ({ children, data }: Appointments.AppointmentContentProps) => {
     return (
       <div className="container-fluid">
-        {tasks.map(task => (
-          <p className="appointment-info" key={task._id}>
-            {task.text}
-            {`${task.startTime} - ${task.endTime}`}
-          </p>
-        ))}
+        <p className="title">{data.title}</p>
+        <p>{data.allDay && " This is an all-day appointment"}</p>
+        <p>{data.endDate && `${data.startDate.toLocaleString()} - ${data.endDate.toLocaleString()}`}</p>
+        {children}
       </div>
     );
+  };
+
+  const RepeatIcon = () => {
+    return (
+      <div className="repeat-icon">
+        <i className="fa-solid fa-repeat"></i>
+      </div>
+    );
+  };
+
+  const formatDate = (nextDate: Date | string | number | undefined,
+    nextOptions: Intl.DateTimeFormatOptions = {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric"
+    }) => {
+    return new Intl.DateTimeFormat("en-US", nextOptions).format(nextDate as Date);
   };
 
   const AppointmentComponent = () => {
     return (
       <>
-        <AppointmentContent />
+        {tasks.map(task => {
+          return (
+            <AppointmentContent
+              key={task._id}
+              data={task}
+              durationType={task.endDate.getTime() - task.startDate.getTime() === 3600000 ?
+                "long" : "short"}
+              recurringIconComponent={RepeatIcon}
+              resources={[{
+                fieldName: "flexible",
+                title: "Flexible",
+                id: 1,
+                isMain: false,
+                color: "#FF0000",
+                text: "don't delay this task because the timer starts early",
+                allowMultiple: true
+              }, {
+                fieldName: "scheduled",
+                title: "Scheduled",
+                id: 2,
+                isMain: true,
+                color: "#00FF00",
+                text: "task will occur at a specified time each day; please complete it on time",
+                allowMultiple: true
+              }, {
+                fieldName: "isRecurring",
+                title: "Recurring",
+                id: 3,
+                isMain: false,
+                color: "#0000FF",
+                text: "task will occur at a specified time each day; please complete it on time",
+                allowMultiple: true
+              }]}
+              type="vertical"
+              formatDate={formatDate}
+            />
+          );
+        })}
       </>
     );
   };
@@ -236,14 +301,6 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
     return (
       <div className="split-indicator">
         <i className="fa-solid fa-arrows-split-up-and-left"></i>
-      </div>
-    );
-  };
-
-  const RepeatIcon = () => {
-    return (
-      <div className="repeat-icon">
-        <i className="fa-solid fa-repeat"></i>
       </div>
     );
   };
