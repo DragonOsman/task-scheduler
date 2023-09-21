@@ -6,7 +6,7 @@ import ChildRegistrationModals from "./ChildRegistrationModals";
 import ChildSchedule from "./ChildSchedule";
 import { Modal, Button } from "react-bootstrap";
 
-const Home = () => {
+const Home = (): JSX.Element => {
   const { state, dispatch } = useContext(UserContext);
   const [showModal, setShowModal] = useState(true);
 
@@ -45,6 +45,7 @@ const Home = () => {
     fetchUserDetails();
   }, [dispatch]);
 
+  let data;
   if (state.currentUser) {
     console.log(state.currentUser.role);
 
@@ -59,7 +60,7 @@ const Home = () => {
           children = state.currentUser.children;
         }
       }
-      return (
+      data = (
         Array.isArray(children) ? (
           <>
             <ChildRegistrationModals />
@@ -108,6 +109,7 @@ const Home = () => {
             <CurrentTask />
           ) : state.currentUser && state.currentUser.role === "parent" ? (
             <>
+              {data && data}
               {state.currentUser.children && (
                 state.currentUser.children.length === 1 ? (
                   <ChildSchedule child={state.currentUser.children[0]} />
