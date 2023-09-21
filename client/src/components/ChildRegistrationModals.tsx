@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect, useRef } from "react";
 import { UserContext, User } from "src/context/userContext";
 import { useTaskContext } from "../context/taskContext";
+import { useNavigate } from "react-router-dom";
 import {
   Carousel,
   Button,
@@ -21,16 +22,19 @@ const ChildRegistrationModals = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showDialog, setShowDialog] = useState(false);
 
+  const navigate = useNavigate();
+
   const firstNameRef = useRef<HTMLInputElement>(null);
 
-  const handleModalToggle = () => {
-    setShowModal(!showModal);
+  const handleSlideToggle = () => {
     if (currentSlide === modalArray.length - 1) {
       setShowDialog(true);
     } else {
       setCurrentSlide(currentSlide + 1);
     }
   };
+
+  const handleModalToggle = () => setShowModal(!showModal);
 
   const modalArray = [
     {
@@ -107,6 +111,7 @@ const ChildRegistrationModals = () => {
         if (state.currentUser && state.currentUser.children) {
           state.currentUser.children.push(data.user);
         }
+        navigate("/");
 
         setCurrentSlide(0);
         setShowDialog(false);
@@ -150,6 +155,11 @@ const ChildRegistrationModals = () => {
     return (
       <Modal closeButton={handleModalToggle} show={showModal}>
         <ModalHeader>
+          <i className="fa-solid fa-arrow-left" onClick={() => {
+            if (currentSlide !== 0) {
+              setCurrentSlide(currentSlide - 1);
+            }
+          }}></i>
           <ModalTitle>
             <h2>
               {textInputTitle}:
@@ -179,7 +189,7 @@ const ChildRegistrationModals = () => {
             type="button"
             title="next slide"
             className="btn btn-secondary"
-            onClick={handleModalToggle}
+            onClick={handleSlideToggle}
           >
             Next
           </button>
