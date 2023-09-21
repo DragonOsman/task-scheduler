@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@types/hoist-non-react-statics": "^3.3.2",
     "@types/howler": "^2.2.8",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
     "@typescript-eslint/parser": "^6.7.0",
