@@ -9,11 +9,12 @@ const validateLoginInput = data => {
   data.password = !isEmpty(data.password) ? data.password : "";
 
   // Username checks
-  const usernameRegex = /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+  const usernameRegex =
+    /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   if (Validator.isEmpty(data.username)) {
-    errors.email = "Username field is required";
+    errors.username = "Username field is required";
   } else if (!Validator.matches(data.username, usernameRegex)) {
-    errors.email = "Username is invalid";
+    errors.username = "Username is invalid";
   }
 
   // Password checks

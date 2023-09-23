@@ -13,7 +13,6 @@ const Login = () => {
       setSubmitting(true);
 
       const user = {
-        email: values.email,
         username: values.email,
         password: values.password
       };
@@ -42,13 +41,12 @@ const Login = () => {
       }
     },
     initialValues: {
-      email: "",
-      password: "",
-      username: ""
+      username: "",
+      password: ""
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Invalid email address")
+      username: Yup.string()
+        .matches(/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
         .required("This is a required field"),
       password: Yup.string()
         .min(6, "Must be at least 6 characters")
