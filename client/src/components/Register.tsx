@@ -143,6 +143,7 @@ const Register = () => {
             <small className="text-danger">{formik.errors.confirmPassword as string}</small>
           ) : null}
         </fieldset>
+        <input type="submit" className="btn btn-submit btn-secondary" value="Register" />
       </form>
     </div>
   );

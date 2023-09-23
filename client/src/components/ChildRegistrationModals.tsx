@@ -153,7 +153,7 @@ const ChildRegistrationModals = () => {
     return (
       <Modal closeButton={handleModalToggle} show={showModal}>
         <ModalHeader>
-          <i className="fa-solid fa-arrow-left" onClick={() => {
+          <i className="fa-solid fa-angle-left" onClick={() => {
             if (currentSlide !== 0) {
               setCurrentSlide(currentSlide - 1);
             }
