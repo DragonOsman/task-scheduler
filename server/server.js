@@ -18,7 +18,7 @@ const userRouter = require("./routes/api/users");
 
 const app = express();
 
-const CLIENT_URL = "https://task-scheduler-dragonosman.vercel.app";
+const CLIENT_URL = "https://task-scheduler-app.onrender.com";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
   origin: (origin, callback) => {
