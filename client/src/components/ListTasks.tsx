@@ -2,6 +2,7 @@ import { useTaskContext, Task } from "src/context/taskContext";
 import { UserContext } from "src/context/userContext";
 import { useState, useContext } from "react";
 import EditTask from "./EditTask";
+import { Link } from "react-router-dom";
 
 const ListTasks = () => {
   const { tasks, updateTask, deleteTask } = useTaskContext();
@@ -70,6 +71,7 @@ const ListTasks = () => {
           {taskToEdit ? (
             <EditTask task={taskToEdit} />
           ) : null}
+          <Link to="/add-task" className="btn btn-secondary">Add Task</Link>
         </>
       ) : (
         <p>No children registered to show data for</p>
