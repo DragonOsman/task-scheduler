@@ -68,9 +68,11 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
       res.statusCode = 400;
       if (errors.username) {
         res.json({ error: errors.username });
+        console.log(`In login route, errors.username check: ${errors.username}`);
         return;
       } else if (errors.password) {
         res.json({ error: errors.password });
+        console.log(`In login route, errors.password check: ${errors.password}`);
         return;
       }
     }
