@@ -68,12 +68,12 @@ const Login = () => {
       >
         <fieldset className="mb-3">
           <legend>User login form</legend>
-          <label htmlFor="email" className="form-label">Email</label>:
+          <label htmlFor="username" className="form-label">Email or Username</label>:
           <input
             type="text"
             className="form-control"
             required
-            {...formik.getFieldProps("email")}
+            {...formik.getFieldProps("username")}
           />
           {formik.touched.email && formik.errors.email ? (
             <small className="text-danger">{formik.errors.email as string}</small>

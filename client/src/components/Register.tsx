@@ -112,12 +112,12 @@ const Register = () => {
           {formik.touched.lastName && formik.errors.lastName ? (
             <small className="text-danger">{formik.errors.lastName as string}</small>
           ) : null}
-          <label htmlFor="email" className="form-label">Email:</label>
+          <label htmlFor="username" className="form-label">Email or Username:</label>
           <input
             type="text"
             className="form-control"
             required
-            {...formik.getFieldProps("email")}
+            {...formik.getFieldProps("username")}
           />
           {formik.touched.email && formik.errors.email ? (
             <small className="text-danger">{formik.errors.email as string}</small>
