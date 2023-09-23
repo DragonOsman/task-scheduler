@@ -88,7 +88,7 @@ const Login = () => {
             {...formik.getFieldProps("password")}
           />
         </fieldset>
-        <input type="submit" value="Login" className="btn btn-primary btn-lg" />
+        <input type="submit" value="Login" className="btn btn-secondary btn-lg" />
         <p>Don&apos;t have an account? <Link to="/register">Register</Link></p>
       </form>
     </div>
