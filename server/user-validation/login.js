@@ -4,6 +4,11 @@ const isEmpty = require("is-empty");
 const validateLoginInput = data => {
   const errors = {};
 
+  console.log("In validateLoginInput, data looks like this:");
+  for (const [key, value] of Object.entries(data)) {
+    console.log(`${key}: ${value}`);
+  }
+
   // Convert empty fields to an empty string so we can use validator functions
   data.username = !isEmpty(data.username) ? data.username : "";
   data.password = !isEmpty(data.password) ? data.password : "";

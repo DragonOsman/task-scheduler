@@ -68,7 +68,7 @@ const Login = () => {
       >
         <fieldset className="mb-3">
           <legend>User login form</legend>
-          <label htmlFor="username" className="form-label">Email or Username</label>:
+          <label htmlFor="username" className="form-label">Email or Username:</label>
           <input
             type="text"
             className="form-control"
@@ -78,7 +78,7 @@ const Login = () => {
           {formik.touched.email && formik.errors.email ? (
             <small className="text-danger">{formik.errors.email as string}</small>
           ) : null}
-          <label htmlFor="password" className="form-label">Password</label>:
+          <label htmlFor="password" className="form-label">Password:</label>
           <input
             type="password"
             className="form-control"
