@@ -134,7 +134,7 @@ const Register = () => {
           ) : null}
           <label htmlFor="confirmPassword" className="form-label">Confirm password:</label>
           <input
-            type="text"
+            type="password"
             className="form-control"
             required
             {...formik.getFieldProps("confirmPassword")}
