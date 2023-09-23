@@ -13,7 +13,7 @@ const Login = () => {
       setSubmitting(true);
 
       const user = {
-        username: values.email,
+        username: values.username,
         password: values.password
       };
 
