@@ -2,7 +2,7 @@
   "Amira": {
     "Chores": [{
       "title": "Brush teeth",
-      "time": "07:05AM - 07:10AM",
+      "time": "07:05AM-07:10AM",
       "startTime": "07:05:00",
       "endTime": "07:10:00",
       "timer": "",
@@ -44,7 +44,7 @@
       "title": "Get ready for school",
       "startTime": "07:35:00",
       "endTime": "07:45:00",
-      "time": "7:35AM - 7:45AM",
+      "time": "7:35AM-7:45AM",
       "timer": "",
       "isRecurring": true,
       "isCompleted": false,
@@ -55,7 +55,7 @@
       "title": "Go to school",
       "startTime": "7:45:00",
       "endTime": "04:30:00",
-      "time": "7:45AM - 4:30PM",
+      "time": "7:45AM-4:30PM",
       "timer": "",
       "isRecurring": true,
       "isCompleted": false,
