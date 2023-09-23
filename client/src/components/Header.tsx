@@ -11,13 +11,14 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/users/logout", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      const response = await fetch(
+        "https://dragonosman-task-scheduler.onrender.com/api/users/logout", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
 
       if (response.ok) {
         dispatch({ type: "SET_CURRENT_USER", payload: null });

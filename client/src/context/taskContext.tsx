@@ -2,7 +2,7 @@
 import { createContext, useReducer, useContext, useEffect, ReactNode } from "react";
 
 export interface Task {
-  _id: string;
+  _id?: string;
   title: string;
   text: string;
   startTime?: string;
@@ -128,72 +128,15 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
   const [state, dispatch] = useReducer(taskReducer, initialTaskState);
 
   const addTask = async (task: Task) => {
-    try {
-      const taskResponse = await fetch("http://localhost:3000/api/tasks/add-task", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify(task),
-        mode: "cors"
-      });
-
-      if (taskResponse.status >= 200 && taskResponse.status < 300) {
-        const data = await taskResponse.json();
-        dispatch({ type: "ADD_TASK", payload: data.task });
-      } else {
-        console.error(`${taskResponse.status}: ${taskResponse.statusText}`);
-      }
-    } catch (error) {
-      console.error(`Error adding task: ${error}`);
-    }
+    dispatch({ type: "ADD_TASK", payload: task });
   };
 
   const updateTask = async (taskId: string, task: Task) => {
-    try {
-      const taskResponse = await fetch(`http://localhost:3000/api/edit-task/${taskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify(task),
-        mode: "cors"
-      });
-
-      if (taskResponse.status >= 200 && taskResponse.status < 300) {
-        const data = await taskResponse.json();
-        dispatch({ type: "UPDATE_TASK", payload: { taskId, task: data.task } });
-      } else {
-        console.error(`${taskResponse.status}: ${taskResponse.statusText}`);
-      }
-    } catch (error) {
-      console.error(`Error editing task ${error}`);
-    }
+    dispatch({ type: "UPDATE_TASK", payload: { taskId, task } });
   };
 
   const deleteTask = async (taskId: string, task: Task) => {
-    try {
-      const taskResponse = await fetch(`http://localhost:3000/api/tasks/delete-task/${taskId}`, {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(task),
-        mode: "cors"
-      });
-
-      if (taskResponse.status >= 200 && taskResponse.status < 300) {
-        const data = await taskResponse.json();
-        dispatch({ type: "DELETE_TASK", payload: { taskId, task: data.task } });
-      } else {
-        console.error(`${taskResponse.status}: ${taskResponse.statusText}`);
-      }
-    } catch (error) {
-      console.error(`Error deleting task: ${error}`);
-    }
+    dispatch({ type: "DELETE_TASK", payload: { taskId, task } });
   };
 
   useEffect(() => {
@@ -238,14 +181,15 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const tasksResponse = await fetch("http://localhost:3000/api/tasks/", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          mode: "cors"
-        });
+        const tasksResponse = await fetch(
+          "https://dragonosman-task-scheduler.onrender.com/api/tasks/", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            mode: "cors"
+          });
 
         if (tasksResponse.status >= 200 && tasksResponse.status < 300) {
           const data = await tasksResponse.json();

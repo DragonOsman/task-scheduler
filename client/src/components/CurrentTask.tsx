@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 import { useTaskContext } from "../context/taskContext";
-import { useState } from "react";
+import { UserContext } from "src/context/userContext";
+import { useState, useContext } from "react";
 import { useTimer } from "react-timer-hook";
 import ProgressBar from "@ramonak/react-progress-bar";
 import addPadding from "../addPadding";
@@ -72,8 +73,9 @@ const TaskTimer = ({ expiryTimestamp, isUpcomingTask }: TaskTimerProps) => {
 
 const CurrentTask = () => {
   const { currentTask, upcomingTask, updateTask } = useTaskContext();
+  const { state } = useContext(UserContext);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(new Date().getHours() === 7);
+  const [showOverlay, setShowOverlay] = useState(new Date() === state.currentUser?.wakeTime as Date);
 
   const handleOverlayToggle = () => {
     setShowOverlay(!showOverlay);
@@ -96,7 +98,7 @@ const CurrentTask = () => {
               className="icon-button"
               onClick={() => {
                 setIsCompleted(!isCompleted);
-                updateTask(currentTask._id, {
+                currentTask._id && updateTask(currentTask._id, {
                   ...currentTask,
                   isCompleted
                 });
@@ -120,7 +122,7 @@ const CurrentTask = () => {
               className="icon-button"
               onClick={() => {
                 setIsCompleted(!isCompleted);
-                updateTask(upcomingTask._id, {
+                upcomingTask._id && updateTask(upcomingTask._id, {
                   ...upcomingTask,
                   isCompleted
                 });

@@ -49,12 +49,12 @@ const ChildRegistrationModals = () => {
     },
     {
       label: "Wake and Sleep Times",
-      textInputTitle: `Enter ${firstNameRef.current?.value}'s wake up and sleep times`,
+      textInputTitle: `Enter wake and sleep times for ${firstNameRef.current?.value}`,
       textInputNames: ["wakeupTime", "sleepTime"]
     },
     {
       label: "Meal Times",
-      textInputTitle: `Enter ${firstNameRef.current?.value}'s meal times`,
+      textInputTitle: `Enter meal times for ${firstNameRef.current?.value}`,
       textInputNames: ["breakfastTime", "lunchTime", "dinnerTime"]
     }
   ];
@@ -93,14 +93,15 @@ const ChildRegistrationModals = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/register", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(child)
-      });
+      const response = await fetch(
+        "https://dragonosman-task-scheduler.onrender.com/api/users/register", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(child)
+        });
 
       if (response.ok) {
         const data = await response.json();
@@ -129,9 +130,6 @@ const ChildRegistrationModals = () => {
     validationSchema: Yup.object({
       firstName: Yup.string()
         .max(20, "Must be at most 20 characters")
-        .required("This is a required field"),
-      lastName: Yup.string()
-        .max(20, "Must be at least 20 characters")
         .required("This is a required field"),
       email: Yup.string()
         .email("Must be a valid email address")

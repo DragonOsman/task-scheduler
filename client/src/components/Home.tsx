@@ -15,14 +15,15 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const detailsResponse = await fetch("http://localhost:3000/api/users/user-details", {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          mode: "cors"
-        });
+        const detailsResponse = await fetch(
+          "https://dragonosman-task-scheduler.onrender.com/api/users/user-details", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            mode: "cors"
+          });
 
         if (detailsResponse.ok) {
           const data = await detailsResponse.json();
@@ -70,10 +71,10 @@ const Home = (): JSX.Element => {
               </Modal.Header>
               <Modal.Body>
                 <p>Would you like to add tasks for your children now or later?</p>
-                <Button>
+                <Button className="btn btn-primary">
                   Add Tasks
                 </Button>
-                <Button>
+                <Button className="btn btn-secondary">
                   Later
                 </Button>
               </Modal.Body>
@@ -88,9 +89,9 @@ const Home = (): JSX.Element => {
               </Modal.Header>
               <Modal.Body>
                 <p>Would you like to add {firstChild.firstName}&apos;s tasks now or later?</p>
-                <Button href="/add-task">
-                  Add Tasks
-                </Button>
+                <Link to="/add-task">
+                  <Button>Add Task</Button>
+                </Link>
                 <Button onClick={handleModalToggle}>
                   Later
                 </Button>

@@ -2,7 +2,6 @@ import { useTaskContext, Task } from "src/context/taskContext";
 import { UserContext } from "src/context/userContext";
 import { useState, useContext } from "react";
 import EditTask from "./EditTask";
-//import { Link } from "react-router-dom";
 
 const ListTasks = () => {
   const { tasks, updateTask, deleteTask } = useTaskContext();
@@ -26,7 +25,7 @@ const ListTasks = () => {
                       title="mark task as completed"
                       onClick={() => {
                         setIsCompleted(!isCompleted);
-                        updateTask(task._id, {
+                        task._id && updateTask(task._id, {
                           ...task,
                           isCompleted
                         });
@@ -39,7 +38,7 @@ const ListTasks = () => {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={() => deleteTask(task._id, task)}
+                      onClick={() => task._id && deleteTask(task._id, task)}
                       title="delete task"
                     >
                       Delete

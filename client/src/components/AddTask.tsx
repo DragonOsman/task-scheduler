@@ -65,11 +65,22 @@ const AddTask = () => {
     end: new Date(),
     time: "",
     timer: "",
-    title: ""
+    title: "",
+    text: "",
+    daysRecurring
+  };
+
+  const generateRRule = (daysArr: string[]) => {
+    const daysAbbreviated = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
+    const selectedDays = daysArr.filter(day => daysAbbreviated.includes(day.slice(0, 2)));
+    const frequency = selectedDays.length === 7 ? "DAILY" : "WEEKLY";
+    const rRule = `RRULE:FREQ=${frequency};BYDAY=${selectedDays.join(",")}`;
+    return rRule;
   };
 
   const handleSubmit = async () => {
     task.title = title;
+    task.text = title;
     task.isRecurring = isRecurring;
     task.scheduled = scheduled;
     task.flexible = flexible;
@@ -80,17 +91,18 @@ const AddTask = () => {
     task.endDate = endDate;
     task.start = startDate;
     task.end = endDate;
-    task.rRule = `FREQ=${daysRecurring.length === 5 ? "WEEKLY" : daysRecurring.length === 7 ? "DAILY" : ""},INTERVAL=1,BYDAY=${daysRecurring.reduce((day, result) => `${result},${day.substring(0, 3)}`)}`;
-
+    task.daysRecurring = [...daysRecurring];
+    task.rRule = generateRRule(daysRecurring);
     try {
-      const response = await fetch("http://localhost:3000/api/tasks/add-task", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(task)
-      });
+      const response = await fetch(
+        "https://dragonosman-task-scheduler.onrender.com/api/tasks/add-task", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(task)
+        });
 
       if (response.ok) {
         const data = await response.json();

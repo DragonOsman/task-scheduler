@@ -18,7 +18,7 @@ const userRouter = require("./routes/api/users");
 
 const app = express();
 
-const CLIENT_URL = "http://localhost:5173";
+const CLIENT_URL = "task-scheduler-six.vercel.app";
 const whitelist = [CLIENT_URL];
 const corsOptions = {
   origin: (origin, callback) => {

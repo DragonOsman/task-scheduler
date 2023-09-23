@@ -55,18 +55,19 @@ const EditTask = ({ task }: EditTaskProps) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/tasks/edit-task/${updatedTask._id}`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updatedTask)
-      });
+      const response = await fetch(
+        `https://dragonosman-task-scheduler.onrender.com/api/tasks/edit-task/${updatedTask._id}`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(updatedTask)
+        });
 
       if (response.ok) {
         const data = await response.json();
-        updateTask(task._id, data.task);
+        data.task._id && updateTask(data.task._id, data.task);
         navigate("/");
       } else {
         console.error(`${response.status}: ${response.statusText}`);

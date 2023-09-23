@@ -7,6 +7,7 @@ import {
   ViewState,
   Appointments
 } from "@devexpress/dx-react-scheduler";
+import { start } from "repl";
 
 interface ChildScheduleProps {
   child: User;
@@ -50,10 +51,10 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
 
   const TimeScaleLayout = () => {
     const startTime = new Date();
-    startTime.setHours(7, 0, 0);
+    startTime.setHours(7);
 
     const endTime = new Date();
-    endTime.setHours(21, 0, 0);
+    endTime.setHours(21);
 
     const timeIntervals: Date[] = [];
 
@@ -73,15 +74,23 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
     );
   };
 
-  const TimeScaleTickCell = () => {
+  const TimeScaleTickCell = ({ startDate, endDate }: DayView.TimeScaleTickCellProps) => {
     return (
       <div className="time-scale-ticks container">
-        {tasks.map(task => <span key={task.text}>{task.text}</span>)}
+        {tasks.map(task => <span key={task._id}>
+          {`${task.startTime} - ${task.endTime}`}
+        </span>)}
+        {`${startDate?.toLocaleString()} - ${endDate?.toLocaleString()}`}
       </div>
     );
   };
 
-  const DayScaleLayout = () => {
+  const DayScaleLayout = ({
+    cellsData,
+    cellComponent,
+    rowComponent,
+    formatDate
+  }: DayView.DayScaleLayoutProps) => {
     const currentDayAppointments = tasks.filter(task => {
       return (
         task.startDate <= new Date() && task.endDate >= new Date()
@@ -96,6 +105,20 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
             className={`appointment ${appointment.flexible ? "flexible" : ""}`}
           >
             {appointment.text}
+            {formatDate(appointment.startDate.toLocaleString(), {
+              hour: "2-digit",
+              hour12: true,
+              day: "2-digit"
+            })}
+            cell data: {cellsData.map(dataItems => dataItems.map(data => {
+              <p key={data.startDate.toString()}>start date/time: {data.startDate.toString()}</p>;
+              <p key={data.endDate.toString()}>end date/time: {data.endDate.toString()}</p>;
+              <p key={data.today ? "is today" : "not today"}>this appointment is {
+                data.today ? "for today" : "not for today"
+              }</p>;
+            }))}
+            Row component name: {rowComponent.displayName}
+            Cell component name: {cellComponent.displayName}
           </div>
         ))}
       </div>
@@ -280,7 +303,7 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
                 text: "task will occur at a specified time each day; please complete it on time",
                 allowMultiple: true
               }]}
-              type="vertical"
+              type="horizontal"
               formatDate={formatDate}
             />
           );
