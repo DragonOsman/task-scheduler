@@ -66,6 +66,10 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res, next)
     const { isValid, errors } = validateLoginInput(req.body);
     if (!isValid) {
       res.statusCode = 400;
+      console.log("In login route:");
+      for (const [key, value] of Object.entries(errors)) {
+        console.log(`${key}: ${value}`);
+      }
       if (errors.username) {
         res.json({ error: errors.username });
         console.log(`In login route, errors.username check: ${errors.username}`);
