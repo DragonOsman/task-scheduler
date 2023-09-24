@@ -1,4 +1,4 @@
-import { useFormik, FormikConfig, FormikValues, FormikHelpers } from "formik";
+import { useFormik, FormikValues } from "formik";
 import { UserContext } from "src/context/userContext";
 import { useContext } from "react";
 import * as Yup from "yup";
@@ -8,42 +8,46 @@ const Login = () => {
   const { dispatch } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const formikValues: FormikConfig<FormikValues> = {
-    onSubmit: async (values: FormikValues, { setSubmitting }: FormikHelpers<FormikValues>) => {
-      setSubmitting(true);
+  const initialValues: FormikValues = {
+    username: "",
+    password: ""
+  };
 
-      const user = {
-        username: values.username,
-        password: values.password
-      };
+  const handleSubmit = async (values: FormikValues) => {
+    const user = {
+      username: values.username,
+      password: values.password
+    };
 
-      try {
-        const response = await fetch(
-          "https://dragonosman-task-scheduler.onrender.com/api/users/login", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-          });
+    try {
+      const response = await fetch(
+        "https://dragonosman-task-scheduler.onrender.com/api/users/login", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(user)
+        });
 
-        setSubmitting(false);
-        if (response.ok) {
-          const data = await response.json();
-          dispatch({ type: "SET_CURRENT_USER", payload: data.user });
-          navigate("/");
-        } else {
-          console.error(`Something went wrong. ${response.status}: ${response.statusText}`);
+      if (response.ok) {
+        const data = await response.json();
+        dispatch({ type: "SET_CURRENT_USER", payload: data.user });
+        navigate("/");
+        if (formik.isSubmitting) {
+          console.log(`when submitting, username is: ${user.username}`);
         }
-      } catch (error) {
-        console.error(`Error in login request catch block: ${error}`);
+      } else {
+        console.error(`Something went wrong. ${response.status}: ${response.statusText}`);
       }
-    },
-    initialValues: {
-      username: "",
-      password: ""
-    },
+    } catch (error) {
+      console.error(`Error in login request catch block: ${error}`);
+    }
+  };
+
+  const formik = useFormik({
+    onSubmit: handleSubmit,
+    initialValues,
     validationSchema: Yup.object({
       username: Yup.string()
         .matches(/^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
@@ -52,9 +56,7 @@ const Login = () => {
         .min(6, "Must be at least 6 characters")
         .required("This is a required field")
     })
-  };
-
-  const formik = useFormik(formikValues);
+  });
 
   return (
     <div className="container-fluid login-form-container">
