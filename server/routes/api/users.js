@@ -63,6 +63,7 @@ userRouter.post("/register", (req, res) => {
 
 userRouter.post("/login", passport.authenticate("local"), async (req, res, next) => {
   try {
+    console.log ("Hello from login route");
     const { isValid, errors } = validateLoginInput(req.body);
     if (!isValid) {
       res.statusCode = 400;
