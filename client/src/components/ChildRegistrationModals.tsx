@@ -93,15 +93,14 @@ const ChildRegistrationModals = () => {
     };
 
     try {
-      const response = await fetch(
-        "https://dragonosman-task-scheduler.onrender.com/api/users/register", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(child)
-        });
+      const response = await fetch("http://localhost:3000/api/users/register", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(child)
+      });
 
       if (response.ok) {
         const data = await response.json();

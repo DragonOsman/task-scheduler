@@ -19,7 +19,8 @@ const userRouter = require("./routes/api/users");
 const app = express();
 
 const CLIENT_URL = "https://task-scheduler-app.onrender.com";
-const whitelist = [CLIENT_URL];
+const CLIENT_URL_LOCAL = "http://localhost:5173";
+const whitelist = [CLIENT_URL, CLIENT_URL_LOCAL];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || whitelist.indexOf(origin) !== -1) {

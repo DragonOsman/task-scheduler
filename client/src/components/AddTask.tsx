@@ -94,15 +94,14 @@ const AddTask = () => {
     task.daysRecurring = [...daysRecurring];
     task.rRule = generateRRule(daysRecurring);
     try {
-      const response = await fetch(
-        "https://dragonosman-task-scheduler.onrender.com/api/tasks/add-task", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(task)
-        });
+      const response = await fetch("http://localhost:3000/api/tasks/add-task", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(task)
+      });
 
       if (response.ok) {
         const data = await response.json();

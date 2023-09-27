@@ -182,15 +182,14 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const tasksResponse = await fetch(
-          "https://dragonosman-task-scheduler.onrender.com/api/tasks/", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            mode: "cors"
-          });
+        const tasksResponse = await fetch("http://localhost:3000/api/tasks/", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          mode: "cors"
+        });
 
         if (tasksResponse.status >= 200 && tasksResponse.status < 300) {
           const data = await tasksResponse.json();

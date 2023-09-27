@@ -15,15 +15,14 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const detailsResponse = await fetch(
-          "https://dragonosman-task-scheduler.onrender.com/api/users/user-details", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            mode: "cors"
-          });
+        const detailsResponse = await fetch("http://localhost:3000/api/users/user-details", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          mode: "cors"
+        });
 
         if (detailsResponse.ok) {
           const data = await detailsResponse.json();
