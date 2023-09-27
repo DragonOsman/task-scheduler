@@ -1,6 +1,5 @@
 /* eslint-disable linebreak-style */
 import { createContext, useReducer, useContext, useEffect, ReactNode } from "react";
-import { UserContext } from "./userContext";
 
 export interface Task {
   _id?: string;
