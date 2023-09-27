@@ -51,6 +51,11 @@ const Header = () => {
                   <li className="nav-item">
                     <Link to="/" className="nav-link">Home</Link>
                   </li>
+                  {state.currentUser && state.currentUser.role === "parent" ? (
+                    <li className="nav-item">
+                      <Link to="/register-child" className="nav-link">Register a Child</Link>
+                    </li>
+                  ) : null}
                   <li className="nav-item">
                     <button
                       type="button"

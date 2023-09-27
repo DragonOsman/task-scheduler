@@ -9,6 +9,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Header from "./components/Header";
+import ChildRegistrationModals from "./components/ChildRegistrationModals";
 
 function App() {
   const { state } = useContext(UserContext);
@@ -22,6 +23,7 @@ function App() {
         <Route path="/current-task" element={<CurrentTask />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/register-child" element={<ChildRegistrationModals />} />
       </Routes>
     </>
   );

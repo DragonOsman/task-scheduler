@@ -53,7 +53,7 @@ const ChildRegistrationModals = () => {
       textInputNames: ["wakeupTime", "sleepTime"]
     },
     {
-      label: "Meal Times",
+      label: ``,
       textInputTitle: `Enter meal times for ${firstNameRef.current?.value}`,
       textInputNames: ["breakfastTime", "lunchTime", "dinnerTime"]
     }
@@ -150,8 +150,13 @@ const ChildRegistrationModals = () => {
 
   const CreateItem = ({ label, textInputTitle, textInputNames }: CreateItemProps) => {
     return (
-      <Modal closeButton={handleModalToggle} show={showModal}>
-        <ModalHeader>
+      <Modal
+        show={showModal}
+        onHide={handleModalToggle}
+        onShow={handleModalToggle}
+        animation={false}
+      >
+        <ModalHeader closeButton>
           <i className="fa-solid fa-angle-left" onClick={() => {
             if (currentSlide !== 0) {
               setCurrentSlide(currentSlide - 1);
