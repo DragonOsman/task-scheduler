@@ -3,12 +3,12 @@
   "name": "React Task Scheduler",
   "icons": [
     {
-      "src": "./favicon.ico",
+      "src": "http://localhost:5173/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
   ],
-  "start_url": "https://task-scheduler-app.onrender.com",
+  "start_url": "http://localhost:5173",
   "display": "standalone",
   "theme_color": "#1f1f21",
   "background_color": "#287098"
