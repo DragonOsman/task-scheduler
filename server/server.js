@@ -18,9 +18,8 @@ const userRouter = require("./routes/api/users");
 
 const app = express();
 
-const CLIENT_URL = "https://task-scheduler-app.onrender.com";
 const CLIENT_URL_LOCAL = "http://localhost:5173";
-const whitelist = [CLIENT_URL, CLIENT_URL_LOCAL];
+const whitelist = [CLIENT_URL_LOCAL];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -60,9 +59,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy({
-  usernameField: "email"
-}, User.authenticate()));
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
