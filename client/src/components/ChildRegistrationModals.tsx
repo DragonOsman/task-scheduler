@@ -36,7 +36,7 @@ const ChildRegistrationModals = () => {
 
   const handleModalToggle = () => setShowModal(!showModal);
 
-  const modalArray = [
+  let modalArray = [
     {
       label: "Name",
       textInputTitle: "Enter your child's name",
@@ -53,11 +53,23 @@ const ChildRegistrationModals = () => {
       textInputNames: ["wakeupTime", "sleepTime"]
     },
     {
-      label: ``,
+      label: "",
       textInputTitle: `Enter meal times for ${firstNameRef.current?.value}`,
       textInputNames: ["breakfastTime", "lunchTime", "dinnerTime"]
     }
   ];
+
+  modalArray = modalArray.map(modalItem => (
+    modalItem.label === "" ?
+      modalItem.textInputNames.map(name => (
+        name.includes("breakfast") ?
+          { ...modalItem, label: "Breakfast Time" } :
+          name.includes("lunch") ? { ...modalItem, label:  "Lunch Time" }
+            : name.includes("dinner") ? { ...modalItem, label: "Dinner Time" }
+              : { ...modalItem, label: "Meal Times" }
+      ))
+      : modalItem
+  )) as { label: string; textInputTitle: string; textInputNames: string[]; }[];
 
   const initialValues: User = {
     firstName: "",
@@ -187,14 +199,13 @@ const ChildRegistrationModals = () => {
           ))}
         </ModalBody>
         <ModalFooter>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             title="next slide"
-            className="btn btn-secondary"
             onClick={handleSlideToggle}
           >
             Next
-          </button>
+          </Button>
         </ModalFooter>
       </Modal>
     );
@@ -292,7 +303,6 @@ const ChildRegistrationModals = () => {
           <legend>Setup your child&apos;s profile</legend>
           {modalArray.map(modal => (
             <CarouselItem key={modal.textInputNames.reduce(name => name)}>
-              key={modal.textInputNames}
               <CreateItem
                 key={modal.textInputNames.reduce(name => name)}
                 label={modal.label}

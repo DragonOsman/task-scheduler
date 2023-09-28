@@ -19,11 +19,33 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={state.currentUser ? <Home /> : <Login />} />
-        <Route path="/tasks" element={<ListTasks />} />
-        <Route path="/current-task" element={<CurrentTask />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/register-child" element={<ChildRegistrationModals />} />
+        {state.currentUser ? (
+          <>
+            <Route path="/tasks" element={<ListTasks />} />
+            <Route path="/current-task" element={<CurrentTask />} />
+            <Route path="/register-child" element={<ChildRegistrationModals />} />
+          </>
+        ) : (
+          <>
+            <Route path="/tasks" element={
+              <>
+                <p className="text-danger">You must be logged in to see this page!</p>
+              </>
+            } />
+            <Route path="/current-task" element={
+              <>
+                <p className="text-danger">You must be logged in to see this page!</p>
+              </>
+            } />
+            <Route path="/register-child" element={
+              <>
+                <p className="text-danger">You must be logged in to see this page!</p>
+              </>
+            } />
+          </>
+        )}
       </Routes>
     </>
   );
