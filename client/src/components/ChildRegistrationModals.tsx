@@ -59,17 +59,19 @@ const ChildRegistrationModals = () => {
     }
   ];
 
-  modalArray = modalArray.map(modalItem => (
-    modalItem.label === "" ?
-      modalItem.textInputNames.map(name => (
-        name.includes("breakfast") ?
-          { ...modalItem, label: "Breakfast Time" } :
-          name.includes("lunch") ? { ...modalItem, label:  "Lunch Time" }
-            : name.includes("dinner") ? { ...modalItem, label: "Dinner Time" }
-              : { ...modalItem, label: "Meal Times" }
-      ))
-      : modalItem
-  )) as { label: string; textInputTitle: string; textInputNames: string[]; }[];
+  modalArray = modalArray.map(modalItem => {
+    if (modalItem.label === "") {
+      for (const name of modalItem.textInputNames) {
+        return {
+          ...modalItem,
+          label: name === "breakfastTime" ?
+            "Breakfast" : name === "lunchTime" ?
+              "Lunch" : name === "dinnerTime" ? "Dinner" : "Some Meal"
+        };
+      }
+    }
+    return modalItem;
+  });
 
   const initialValues: User = {
     firstName: "",
@@ -165,7 +167,6 @@ const ChildRegistrationModals = () => {
       <Modal
         show={showModal}
         onHide={handleModalToggle}
-        onShow={handleModalToggle}
         animation={false}
       >
         <ModalHeader closeButton>
@@ -304,7 +305,6 @@ const ChildRegistrationModals = () => {
           {modalArray.map(modal => (
             <CarouselItem key={modal.textInputNames.reduce(name => name)}>
               <CreateItem
-                key={modal.textInputNames.reduce(name => name)}
                 label={modal.label}
                 textInputTitle={modal.textInputTitle}
                 textInputNames={modal.textInputNames}
