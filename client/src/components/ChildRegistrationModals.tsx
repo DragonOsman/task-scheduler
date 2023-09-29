@@ -291,7 +291,7 @@ const ChildRegistrationModals = () => {
   }, [state.currentUser, addTask]);
 
   return (
-    <Carousel activeIndex={currentSlide} onSelect={() => {}}>
+    <Carousel activeIndex={currentSlide} onSelect={handleSlideToggle}>
       <form
         method="post"
         className="child-registration-form container-fluid"
