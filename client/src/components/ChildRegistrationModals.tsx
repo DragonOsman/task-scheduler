@@ -16,26 +16,7 @@ import { useFormik, FormikValues, getIn } from "formik";
 import * as Yup from "yup";
 
 const ChildRegistrationModals = () => {
-  const { state, dispatch } = useContext(UserContext);
-  const { addTask } = useTaskContext();
-  const [showModal, setShowModal] = useState(true);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [showDialog, setShowDialog] = useState(false);
-
-  const navigate = useNavigate();
-
   const firstNameRef = useRef<HTMLInputElement>(null);
-
-  const handleSlideToggle = () => {
-    if (currentSlide === modalArray.length - 1) {
-      setShowDialog(true);
-    } else {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-
-  const handleModalToggle = () => setShowModal(!showModal);
-
   let modalArray = [
     {
       label: "Name",
@@ -72,6 +53,24 @@ const ChildRegistrationModals = () => {
     }
     return modalItem;
   });
+
+  const { state, dispatch } = useContext(UserContext);
+  const { addTask } = useTaskContext();
+  const [showModal, setShowModal] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(modalArray.indexOf(modalArray[0]));
+  const [showDialog, setShowDialog] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSlideToggle = () => {
+    if (currentSlide === modalArray.length - 1) {
+      setShowDialog(true);
+    } else {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+
+  const handleModalToggle = () => setShowModal(!showModal);
 
   const initialValues: User = {
     firstName: "",
