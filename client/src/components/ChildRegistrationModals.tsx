@@ -316,6 +316,7 @@ const ChildRegistrationModals = () => {
 
   return (
     <div className="container-fluid child-registration-form-container">
+      <h2>Child Registration</h2>
       <form
         method="post"
         className="container-fluid child-registration-form"
