@@ -3,74 +3,27 @@ import { UserContext, User } from "src/context/userContext";
 import { useTaskContext } from "../context/taskContext";
 import { useNavigate } from "react-router-dom";
 import {
-  Carousel,
   Button,
   Modal,
   ModalHeader,
   ModalTitle,
-  CarouselItem,
   ModalBody,
   ModalFooter
 } from "react-bootstrap";
-import { useFormik, FormikValues, getIn } from "formik";
+import { useFormik, FormikValues } from "formik";
 import * as Yup from "yup";
 
 const ChildRegistrationModals = () => {
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  let modalArray = [
-    {
-      label: "Name",
-      textInputTitle: "Enter your child's name",
-      textInputNames: ["firstName"]
-    },
-    {
-      label: "Username and Password",
-      textInputTitle: `Choose a username and password for ${firstNameRef.current?.value}`,
-      textInputNames: ["username", "password"]
-    },
-    {
-      label: "Wake and Sleep Times",
-      textInputTitle: `Enter wake and sleep times for ${firstNameRef.current?.value}`,
-      textInputNames: ["wakeupTime", "sleepTime"]
-    },
-    {
-      label: "",
-      textInputTitle: `Enter meal times for ${firstNameRef.current?.value}`,
-      textInputNames: ["breakfastTime", "lunchTime", "dinnerTime"]
-    }
-  ];
-
-  modalArray = modalArray.map(modalItem => {
-    if (modalItem.label === "") {
-      for (const name of modalItem.textInputNames) {
-        return {
-          ...modalItem,
-          label: name === "breakfastTime" ?
-            "Breakfast" : name === "lunchTime" ?
-              "Lunch" : name === "dinnerTime" ? "Dinner" : "Some Meal"
-        };
-      }
-    }
-    return modalItem;
-  });
-
   const { state, dispatch } = useContext(UserContext);
   const { addTask } = useTaskContext();
   const [showModal, setShowModal] = useState(true);
-  const [currentSlide, setCurrentSlide] = useState(modalArray.indexOf(modalArray[0]));
-  const [showDialog, setShowDialog] = useState(false);
-
-  const navigate = useNavigate();
-
-  const handleSlideToggle = () => {
-    if (currentSlide === modalArray.length - 1) {
-      setShowDialog(true);
-    } else {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
+  const [modalIndex, setModalIndex] = useState(0);
 
   const handleModalToggle = () => setShowModal(!showModal);
+
+  const firstNameRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   const initialValues: User = {
     firstName: "",
@@ -125,9 +78,6 @@ const ChildRegistrationModals = () => {
           state.currentUser.children.push(data.user);
         }
         navigate("/");
-
-        setCurrentSlide(0);
-        setShowDialog(false);
       } else {
         console.error(`${response.status}:${response.statusText}`);
       }
@@ -154,62 +104,6 @@ const ChildRegistrationModals = () => {
         .required("This is a required field")
     })
   });
-
-  interface CreateItemProps {
-    label: string;
-    textInputTitle: string;
-    textInputNames: string[];
-  }
-
-  const CreateItem = ({ label, textInputTitle, textInputNames }: CreateItemProps) => {
-    return (
-      <Modal
-        show={showModal}
-        onHide={handleModalToggle}
-        animation={false}
-      >
-        <ModalHeader closeButton>
-          <i className="fa-solid fa-angle-left" onClick={() => {
-            if (currentSlide !== 0) {
-              setCurrentSlide(currentSlide - 1);
-            }
-          }}></i>
-          <ModalTitle>
-            <h2>
-              {textInputTitle}:
-            </h2>
-          </ModalTitle>
-        </ModalHeader>
-        <ModalBody>
-          {textInputNames.map(textInputName => (
-            <div className="mb-3 container-fluid" key={textInputName}>
-              <label htmlFor={textInputName} className="form-label">{label}</label>
-              <input
-                type="text"
-                title={textInputTitle}
-                className="form-control"
-                required
-                ref={textInputName === "firstName" ? firstNameRef : null}
-                {...formik.getFieldProps(`${textInputName}`)}
-              />
-              {getIn(formik.errors, textInputName) && getIn(formik.touched, textInputName) ? (
-                <small className="text-danger">{getIn(formik.errors, textInputName)}</small>
-              ) : null}
-            </div>
-          ))}
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            variant="secondary"
-            title="next slide"
-            onClick={handleSlideToggle}
-          >
-            Next
-          </Button>
-        </ModalFooter>
-      </Modal>
-    );
-  };
 
   useEffect(() => {
     const addToTasksArray = async () => {
@@ -289,49 +183,198 @@ const ChildRegistrationModals = () => {
     addToTasksArray();
   }, [state.currentUser, addTask]);
 
+  const modalTitles = [
+    "Setup your child's profile",
+    `Enter ${firstNameRef?.current?.value}'s username and password`,
+    `Enter ${firstNameRef?.current?.value}'s wake and sleep times`,
+    `Enter ${firstNameRef?.current?.value}'s meal times`,
+  ];
+
+  const modalContents = [
+    <fieldset className="mb-3" key="firstName">
+      <legend>Enter your child&apos;s information</legend>
+      <label htmlFor="firstName" className="form-label">
+        Enter your child&apos;s name:
+      </label>
+      <input
+        type="text"
+        placeholder="Enter child's name"
+        required
+        className="form-control"
+        ref={firstNameRef}
+      />
+      {formik.touched.firstName && formik.errors.firstName ? (
+        <small className="text-danger">{formik.errors.firstName}</small>
+      ) : null}
+    </fieldset>,
+    <fieldset className="mb-3" key="username-password">
+      <legend>{modalTitles[1]}</legend>
+      <label htmlFor="username" className="form-label">
+        Username:
+      </label>
+      <input
+        type="text"
+        placeholder="Enter child's username"
+        required
+        className="form-control"
+      />
+      {formik.touched.username && formik.errors.username ? (
+        <small className="text-danger">{formik.errors.username}</small>
+      ) : null}
+      <label htmlFor="password" className="form-label">
+        Password:
+      </label>
+      <input
+        type="password"
+        placeholder="Enter child's password"
+        required
+        className="form-control"
+      />
+      {formik.touched.password && formik.errors.password ? (
+        <small className="text-danger">{formik.errors.password}</small>
+      ) : null}
+      <label htmlFor="confimPassword" className="form-label">
+        Confirm Password:
+      </label>
+      <input
+        type="password"
+        placeholder="Re-type the password"
+        required
+        className="form-control"
+      />
+      {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+        <small className="text-danger">{formik.errors.confirmPassword}</small>
+      ) : null}
+    </fieldset>,
+    <fieldset className="mb-3" key="wake-sleep-times">
+      <legend>{modalTitles[2]}</legend>
+      <label htmlFor="wakeTime" className="form-label">
+        Wake Time:
+      </label>
+      <input
+        type="text"
+        placeholder="Enter your child's wake time"
+        required
+        className="form-control"
+      />
+      {formik.touched.wakeTime && formik.errors.wakeTime ? (
+        <small className="text-danger">{formik.errors.wakeTime}</small>
+      ) : null}
+      <label htmlFor="sleepTime" className="form-label">
+        Sleep Time:
+      </label>
+      <input
+        type="text"
+        placeholder="Enter your child's sleep time"
+        required
+        className="form-control"
+      />
+      {formik.touched.sleepTime && formik.errors.sleepTime ? (
+        <small className="text-danger">{formik.errors.sleepTime}</small>
+      ) : null}
+    </fieldset>,
+    <fieldset className="mb-3" key="meal-times">
+      <legend>{modalTitles[3]}</legend>
+      <label htmlFor="breakfastTime" className="form-label">
+        Breakfast Time:
+      </label>
+      <input
+        type="text"
+        placeholder="Enter your child's breakfast time"
+        required
+        className="form-control"
+      />
+      {formik.touched.breakfastTime && formik.errors.breakfastTime ? (
+        <small className="text-danger">{formik.errors.breakfastTime}</small>
+      ) : null}
+      <label htmlFor="lunchTime" className="form-label">
+        Lunch Time:
+      </label>
+      <input
+        type="text"
+        placeholder="Enter your child's lunch time"
+        required
+        className="form-control"
+      />
+      {formik.touched.lunchTime && formik.errors.lunchTime ? (
+        <small className="text-danger">{formik.errors.lunchTime}</small>
+      ) : null}
+      <label htmlFor="dinnerTime" className="form-label">
+         Dinner Time:
+      </label>
+      <input
+        type="text"
+        placeholder="Enter your child&apos;s dinner time"
+        required
+        className='form-control'
+      />
+      {formik.touched.dinnerTime && formik.errors.dinnerTime ? (
+        <small className="text-danger">{formik.errors.dinnerTime}</small>
+      ) : null}
+    </fieldset>
+  ];
+
   return (
-    <Carousel activeIndex={currentSlide} onSelect={handleSlideToggle}>
+    <div className="container-fluid child-registration-form-container">
+      <h2>{modalTitles[0]}</h2>
       <form
         method="post"
-        className="child-registration-form container-fluid"
+        className="container-fluid child-registration-form"
         onSubmit={event => {
           event.preventDefault();
-          formik.handleSubmit(event);
+          formik.handleSubmit();
         }}
       >
-        <fieldset className="mb-3">
-          <legend>Setup your child&apos;s profile</legend>
-          {modalArray.map(modal => (
-            <CarouselItem key={modal.textInputNames.reduce(name => name)}>
-              <CreateItem
-                label={modal.label}
-                textInputTitle={modal.textInputTitle}
-                textInputNames={modal.textInputNames}
-              />
-            </CarouselItem>
-          ))}
-        </fieldset>
-        <input type="submit" value="Register Child" className="btn btn-primary" />
+        {modalTitles.map((title, index) => (
+          <>
+            {index === modalIndex && (
+              <>
+                <Modal show={showModal} onHide={handleModalToggle}>
+                  <ModalHeader closeButton>
+                    <i
+                      className="fa-solid fa-angle-left"
+                      onClick={() => {
+                        if (index > 0) {
+                          setModalIndex(index - 1);
+                        } else if (index === 0) {
+                          const answer = confirm(
+                            "Are you sure you want to cancel and return to home screen?"
+                          );
+                          if (answer) {
+                            navigate("/");
+                          }
+                        }
+                      }}
+                    ></i>
+                    <Modal.Title>{title}</Modal.Title>
+                  </ModalHeader>
+                  <ModalBody>{modalContents[index]}</ModalBody>
+                  <ModalFooter>
+                    {index < modalTitles.length - 1 ? (
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          setModalIndex(index + 1);
+                        }}
+                      >
+                        Next
+                      </Button>
+                    ) : (
+                      <Button
+                        type="submit"
+                        variant="secondary"
+                      >
+                        Register Child
+                      </Button>
+                    )}
+                  </ModalFooter>
+                </Modal>
+              </>
+            )}
+          </>
+        ))}
       </form>
-      {showDialog && (
-        <Modal show={showDialog} onHide={() => setShowDialog(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Submit Confirmation</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Do you want to submit the form now or go back and make changes?
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowDialog(false)}>
-              Go Back
-            </Button>
-            <Button variant="primary" onClick={formik.submitForm}>
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-    </Carousel>
+    </div>
   );
 };
 

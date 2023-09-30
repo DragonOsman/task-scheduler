@@ -7,7 +7,7 @@ import {
   ViewState,
   Appointments
 } from "@devexpress/dx-react-scheduler";
-import { start } from "repl";
+import { useNavigate } from "react-router-dom";
 
 interface ChildScheduleProps {
   child: User;
@@ -15,6 +15,8 @@ interface ChildScheduleProps {
 
 const ChildSchedule = ({ child }: ChildScheduleProps) => {
   const { tasks } = useTaskContext();
+
+  const navigate = useNavigate();
 
   const ChildScheduleRoot = () => {
     return <ChildSchedule child={child} />;
@@ -330,6 +332,7 @@ const ChildSchedule = ({ child }: ChildScheduleProps) => {
 
   return (
     <div className="container-fluid">
+      <i className="fa-solid fa-angle-left" onClick={() => navigate("/")}></i>
       <h2>{child.firstName}&apos;s Schedule</h2>
       <Scheduler
         rootComponent={ChildScheduleRoot}

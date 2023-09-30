@@ -80,7 +80,7 @@ const EditTask = ({ task }: EditTaskProps) => {
 
   return (
     <div className="container-fluid add-task">
-      <i className="fa-solid fa-angle-left" onClick={() => navigate(-1)}></i>
+      <i className="fa-solid fa-angle-left" onClick={() => navigate("/")}></i>
       <h3>Edit Task</h3>
       <form onSubmit={event => {
         event.preventDefault();

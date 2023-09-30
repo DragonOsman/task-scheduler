@@ -2,13 +2,15 @@ import { useTaskContext, Task } from "src/context/taskContext";
 import { UserContext } from "src/context/userContext";
 import { useState, useContext } from "react";
 import EditTask from "./EditTask";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ListTasks = () => {
   const { tasks, updateTask, deleteTask } = useTaskContext();
   const [isCompleted, setIsCompleted] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task>();
   const { state } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   let list: JSX.Element | null = null;
   if (state.currentUser && state.currentUser.children) {
@@ -66,6 +68,7 @@ const ListTasks = () => {
     <div className="container-fluid">
       {list ? (
         <>
+          <i className="fa-solid fa-angle-left" onClick={() => navigate("/")}></i>
           <h3>Your children and their tasks</h3>
           {list}
           {taskToEdit ? (
