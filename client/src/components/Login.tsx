@@ -60,7 +60,6 @@ const Login = () => {
 
   return (
     <div className="container-fluid login-form-container">
-      <i className="fa-solid fa-angle-left" onClick={() => navigate("/")}></i>
       <form
         method="post"
         className="login-form container-fluid"

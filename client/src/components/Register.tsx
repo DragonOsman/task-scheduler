@@ -81,7 +81,6 @@ const Register = () => {
 
   return (
     <div className="register-form-container container-fluid">
-      <i className="fa-solid fa-angle-left" onClick={() => navigate("/")}></i>
       <form
         className="parent-registration-form container-fluid"
         onSubmit={event => {
