@@ -316,7 +316,6 @@ const ChildRegistrationModals = () => {
 
   return (
     <div className="container-fluid child-registration-form-container">
-      <h2>{modalTitles[0]}</h2>
       <form
         method="post"
         className="container-fluid child-registration-form"
@@ -346,7 +345,7 @@ const ChildRegistrationModals = () => {
                         }
                       }}
                     ></i>
-                    <Modal.Title>{title}</Modal.Title>
+                    <ModalTitle>{title}</ModalTitle>
                   </ModalHeader>
                   <ModalBody>{modalContents[index]}</ModalBody>
                   <ModalFooter>
