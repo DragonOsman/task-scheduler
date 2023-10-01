@@ -11,6 +11,7 @@ header nav {
 }
 
 header {
+  margin-top: -1px;
   height: 100px;
   background-size: cover;
 }
@@ -226,4 +227,11 @@ header {
 
 .task-details-table th {
   font-weight: bold;
+}
+
+@media screen and (min-width: 230px) and (max-width: 500px) {
+  header nav {
+    margin-top: 2px;
+    background-size: cover;
+  }
 }
