@@ -11,7 +11,7 @@ header nav {
 }
 
 header {
-  margin-top: -4px;
+  margin-top: -5px;
   height: 100px;
   background-size: cover;
 }
@@ -255,5 +255,11 @@ header {
     overflow-y: auto;
     max-height: calc(100vh - 100%);
     transition: max-height .35s ease-in-out;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 802px) {
+  header nav .navbar-toggle {
+    margin-right: 0px;
   }
 }
