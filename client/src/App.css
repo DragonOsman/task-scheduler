@@ -255,6 +255,6 @@ header {
 
 @media screen and (min-width: 280px) and (max-width: 300px) {
   header nav {
-    margin-top: -4px;
+    margin-top: -6px;
   }
 }
