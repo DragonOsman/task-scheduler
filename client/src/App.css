@@ -7,6 +7,7 @@ body {
 header nav {
   height: 70px;
   background-size: cover;
+  margin-top: 5px;
 }
 
 header {
