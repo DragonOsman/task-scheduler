@@ -44,7 +44,7 @@ const Header = () => {
               <img src={logo} alt="dragon-logo" className="dragon-logo" />
             )}
           </NavbarBrand>
-          <Navbar.Toggle aria-controls="navbar-content" className="col-auto" />
+          <Navbar.Toggle aria-controls="navbar-content" className="col-auto navbar-toggle" />
           <NavbarCollapse id="navbar-content">
             <Nav className="me-auto mb-2 navbar-lg-0">
               {state.currentUser ? (
