@@ -11,9 +11,13 @@ header nav {
 }
 
 header {
-  margin-top: -1px;
+  margin-top: -2px;
   height: 100px;
   background-size: cover;
+}
+
+.dragon-logo {
+  margin-top: -2px;
 }
 
 .home {
