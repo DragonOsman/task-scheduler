@@ -11,7 +11,7 @@ header nav {
 }
 
 header {
-  margin-top: -8px;
+  margin-top: -10px;
   height: 100px;
   background-size: cover;
 }
@@ -239,7 +239,7 @@ header {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .navbar-collapse {
     position: absolute;
     top: 100%;
@@ -255,15 +255,5 @@ header {
     overflow-y: auto;
     max-height: calc(100vh - 100%);
     transition: max-height .35s ease-in-out;
-  }
-}
-
-@media screen and (min-width: 700px) and (max-width: 991px) {
-  header nav .navbar-toggle {
-    margin-right: -100px;
-  }
-
-  header nav {
-    margin-top: -5px;
   }
 }
