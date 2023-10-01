@@ -59,14 +59,15 @@ const ChildRegistrationModals = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/register", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(child)
-      });
+      const response = await fetch(
+        "https://dragonosman-task-scheduler.onrender.com/api/users/register", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(child)
+        });
 
       if (response.ok) {
         const data = await response.json();
@@ -134,37 +135,38 @@ const ChildRegistrationModals = () => {
               }
 
               try {
-                const response = await fetch("http://localhost:3000/api/tasks/add-task", {
-                  method: "POST",
-                  credentials: "include",
-                  headers: {
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify({
-                    title: key.substring(0, key.indexOf("T"))
-                      .charAt(0)
-                      .toUpperCase() + key
-                      .substring(0, key.indexOf("T"))
-                      .slice(1)
-                    ,
-                    startDate: new Date(value),
-                    endDate: new Date(value),
-                    text: key.substring(0, key.indexOf("T")),
-                    start: new Date(value),
-                    end: new Date(value),
-                    startTime: value,
-                    endTime: value,
-                    timer: "",
-                    time: value,
-                    scheduled: true,
-                    flexible: false,
-                    isCompleted: false,
-                    isRecurring: true,
-                    daysRecurring: ["Sunday", "Monday", "Tuesday", "Wednesday",
-                      "Thursday", "Friday", "Saturday"],
-                    rRule: "FREQ=DAILY,INTERVAL=1,BYDAY=SU,MO,TU,WE,TU,FR,SA"
-                  })
-                });
+                const response = await fetch(
+                  "https://dragonosman-task-scheduler.onrender.com/api/tasks/add-task", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                      title: key.substring(0, key.indexOf("T"))
+                        .charAt(0)
+                        .toUpperCase() + key
+                        .substring(0, key.indexOf("T"))
+                        .slice(1)
+                      ,
+                      startDate: new Date(value),
+                      endDate: new Date(value),
+                      text: key.substring(0, key.indexOf("T")),
+                      start: new Date(value),
+                      end: new Date(value),
+                      startTime: value,
+                      endTime: value,
+                      timer: "",
+                      time: value,
+                      scheduled: true,
+                      flexible: false,
+                      isCompleted: false,
+                      isRecurring: true,
+                      daysRecurring: ["Sunday", "Monday", "Tuesday", "Wednesday",
+                        "Thursday", "Friday", "Saturday"],
+                      rRule: "RRULE:FREQ=DAILY,INTERVAL=1,BYDAY=SU,MO,TU,WE,TU,FR,SA"
+                    })
+                  });
 
                 if (response.ok) {
                   const data = await response.json();
