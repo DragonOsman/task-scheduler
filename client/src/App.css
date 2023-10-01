@@ -260,10 +260,10 @@ header {
 
 @media screen and (min-width: 700px) and (max-width: 991px) {
   header nav .navbar-toggle {
-    margin-right: 0px;
+    margin-right: -50px;
   }
 
   header nav {
-    margin-top: 0px;
+    margin-top: -5px;
   }
 }
