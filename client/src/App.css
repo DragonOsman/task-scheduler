@@ -252,3 +252,9 @@ header {
     transition: max-height .35s ease-in-out;
   }
 }
+
+@media screen and (min-width: 280px) and (max-width: 300px) {
+  header nav {
+    margin-top: -2px;
+  }
+}
