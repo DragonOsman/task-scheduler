@@ -51,7 +51,7 @@ const ChildRegistrationModals = () => {
       parents: state.currentUser ? [state.currentUser] : values.parents,
       dateRegistered: values.dateRegistered,
       wakeTime: values.wakeTime,
-      breakfastTime: values.breakfastTime,
+      breakfastTime: values.wakeTime,
       lunchTime: values.lunchTime,
       dinnerTime: values.dinnerTime,
       sleepTime: values.sleepTime,
@@ -277,19 +277,6 @@ const ChildRegistrationModals = () => {
       ) : null}
     </fieldset>,
     <fieldset className="mb-3" key="meal-times">
-      <legend>{modalTitles[3]}</legend>
-      <label htmlFor="breakfastTime" className="form-label">
-        Breakfast Time:
-      </label>
-      <input
-        type="text"
-        placeholder="Enter your child's breakfast time"
-        required
-        className="form-control"
-      />
-      {formik.touched.breakfastTime && formik.errors.breakfastTime ? (
-        <small className="text-danger">{formik.errors.breakfastTime}</small>
-      ) : null}
       <label htmlFor="lunchTime" className="form-label">
         Lunch Time:
       </label>
