@@ -185,11 +185,12 @@ const ChildRegistrationModals = () => {
     addToTasksArray();
   }, [state.currentUser, addTask]);
 
+  const childName = firstNameRef && firstNameRef.current ? firstNameRef.current.value : undefined;
   const modalTitles = [
     "Setup your child's profile",
-    `Enter ${firstNameRef?.current?.value}'s username and password`,
-    `Enter ${firstNameRef?.current?.value}'s wake and sleep times`,
-    `Enter ${firstNameRef?.current?.value}'s meal times`,
+    `Enter ${childName && childName}'s username and password`,
+    `Enter ${childName && childName}'s wake and sleep times`,
+    `Enter ${childName && childName}'s meal times`,
   ];
 
   const modalContents = [
