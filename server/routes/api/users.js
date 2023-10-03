@@ -8,6 +8,7 @@ const validateRegisterInput = require("../../user-validation/register");
 const validateLoginInput = require("../../user-validation/login");
 
 userRouter.post("/register", (req, res) => {
+  console.log("Register route, beginning");
   try {
     const { isValid, errors } = validateRegisterInput(req.body);
     if (!isValid) {

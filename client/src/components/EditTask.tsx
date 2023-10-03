@@ -63,7 +63,8 @@ const EditTask = ({ task }: EditTaskProps) => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(updatedTask)
-        });
+        })
+      ;
 
       if (response.ok) {
         const data = await response.json();

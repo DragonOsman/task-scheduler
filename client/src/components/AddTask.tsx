@@ -101,7 +101,8 @@ const AddTask = () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(task)
-      });
+      })
+    ;
 
       if (response.ok) {
         const data = await response.json();

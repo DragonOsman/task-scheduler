@@ -23,7 +23,8 @@ const Home = (): JSX.Element => {
               "Content-Type": "application/json"
             },
             mode: "cors"
-          });
+          })
+        ;
 
         if (detailsResponse.ok) {
           const data = await detailsResponse.json();

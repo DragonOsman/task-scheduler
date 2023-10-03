@@ -40,7 +40,8 @@ const Register = () => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(user)
-        });
+        })
+      ;
 
       setSubmitting(false);
       if (response.ok) {

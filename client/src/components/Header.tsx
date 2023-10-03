@@ -18,7 +18,8 @@ const Header = () => {
           headers: {
             "Content-Type": "application/json"
           }
-        });
+        })
+      ;
 
       if (response.ok) {
         dispatch({ type: "SET_CURRENT_USER", payload: null });

@@ -67,7 +67,8 @@ const ChildRegistrationModals = () => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(child)
-        });
+        })
+      ;
 
       if (response.ok) {
         const data = await response.json();
@@ -185,12 +186,15 @@ const ChildRegistrationModals = () => {
     addToTasksArray();
   }, [state.currentUser, addTask]);
 
-  const childName = firstNameRef && firstNameRef.current ? firstNameRef.current.value : undefined;
+  const childName = firstNameRef && firstNameRef.current && firstNameRef.current.value ?
+    firstNameRef.current.value :
+    ""
+  ;
   const modalTitles = [
     "Setup your child's profile",
-    `Enter ${childName && childName}'s username and password`,
-    `Enter ${childName && childName}'s wake and sleep times`,
-    `Enter ${childName && childName}'s meal times`,
+    `Enter ${childName}'s username and password`,
+    `Enter ${childName}'s wake and sleep times`,
+    `Enter ${childName}'s meal times`,
   ];
 
   const modalContents = [
