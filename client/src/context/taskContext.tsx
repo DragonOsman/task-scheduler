@@ -189,7 +189,8 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
               "Content-Type": "application/json"
             },
             mode: "cors"
-          });
+          })
+        ;
 
         if (tasksResponse.status >= 200 && tasksResponse.status < 300) {
           const data = await tasksResponse.json();
