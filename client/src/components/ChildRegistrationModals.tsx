@@ -186,19 +186,21 @@ const ChildRegistrationModals = () => {
     addToTasksArray();
   }, [state.currentUser, addTask]);
 
-  const childName = useRef("");
+  const childNameRef = useRef("");
+  const modalTitlesRef = useRef<string[]>([]);
+
   useEffect(() => {
     if (firstNameRef && firstNameRef.current) {
-      childName.current = firstNameRef.current.value;
+      childNameRef.current = firstNameRef.current.value;
+
+      modalTitlesRef.current = [
+        "Setup your child's profile",
+        `Enter ${childNameRef.current}'s username and password`,
+        `Enter ${childNameRef.current}'s wake and sleep times`,
+        `Enter ${childNameRef.current}'s meal times`,
+      ];
     }
   }, []);
-
-  const modalTitles = [
-    "Setup your child's profile",
-    `Enter ${childName.current}'s username and password`,
-    `Enter ${childName.current}'s wake and sleep times`,
-    `Enter ${childName.current}'s meal times`,
-  ];
 
   const modalContents = [
     <fieldset className="mb-3" key="firstName">
@@ -218,7 +220,7 @@ const ChildRegistrationModals = () => {
       ) : null}
     </fieldset>,
     <fieldset className="mb-3" key="username-password">
-      <legend>{modalTitles[1]}</legend>
+      <legend>{modalTitlesRef.current[1]}</legend>
       <label htmlFor="username" className="form-label">
         Username:
       </label>
@@ -257,7 +259,7 @@ const ChildRegistrationModals = () => {
       ) : null}
     </fieldset>,
     <fieldset className="mb-3" key="wake-sleep-times">
-      <legend>{modalTitles[2]}</legend>
+      <legend>{modalTitlesRef.current[2]}</legend>
       <label htmlFor="wakeTime" className="form-label">
         Wake Time:
       </label>
@@ -322,7 +324,7 @@ const ChildRegistrationModals = () => {
           formik.handleSubmit();
         }}
       >
-        {modalTitles.map((title, index) => (
+        {modalTitlesRef.current.map((title, index) => (
           <>
             {index === modalIndex && (
               <>
@@ -347,7 +349,7 @@ const ChildRegistrationModals = () => {
                   </ModalHeader>
                   <ModalBody>{modalContents[index]}</ModalBody>
                   <ModalFooter>
-                    {index < modalTitles.length - 1 ? (
+                    {index < modalTitlesRef.current.length - 1 ? (
                       <Button
                         variant="secondary"
                         onClick={() => {
