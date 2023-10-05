@@ -2,7 +2,6 @@ import { UserContext } from "src/context/userContext";
 import { useContext, useEffect, useState } from "react";
 import CurrentTask from "./CurrentTask";
 import { Link } from "react-router-dom";
-import ChildRegistrationModals from "./ChildRegistrationModals";
 import ChildSchedule from "./ChildSchedule";
 import { Modal, Button } from "react-bootstrap";
 
@@ -49,7 +48,6 @@ const Home = (): JSX.Element => {
 
   let data;
   if (state.currentUser) {
-    console.log(state.currentUser.role);
 
     if (state.currentUser.role === "parent" &&
     state.currentUser.dateRegistered === new Date()) {
@@ -65,7 +63,6 @@ const Home = (): JSX.Element => {
       data = (
         Array.isArray(children) ? (
           <>
-            <ChildRegistrationModals />
             <Modal closeButton={handleModalToggle} show={showModal}>
               <Modal.Header>
                 <Modal.Title>Add Tasks Now?</Modal.Title>
@@ -83,7 +80,6 @@ const Home = (): JSX.Element => {
           </>
         ) : (firstChild && (
           <>
-            <ChildRegistrationModals />
             <Modal closeButton={handleModalToggle} show={showModal}>
               <Modal.Header>
                 <Modal.Title>Add {firstChild.firstName}&apos;s Tasks Now?</Modal.Title>

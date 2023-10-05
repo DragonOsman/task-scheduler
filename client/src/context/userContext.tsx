@@ -4,7 +4,7 @@ import { createContext, useReducer, ReactNode } from "react";
 // Interface representing a User
 export interface User {
   _id?: string;
-  username: string;
+  username?: string;
   firstName?: string;
   lastName?: string;
   password?: string;

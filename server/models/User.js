@@ -21,47 +21,17 @@ const UserSchema = new Schema({
   role: {
     type: String,
     required: true,
-    default: ""
+    default: "parent"
   },
   children: {
     type: [this, { role: "child" }],
     required: this.role === "parent" ? true : false,
     default: this.role === "parent" ? [] : null
   },
-  parents: {
-    type: [this, { role: "parent" }],
-    required: this.role === "child" ? true : false,
-    default: this.role === "child" ? [] : null
-  },
   dateRegistered: {
     type: Date,
     required: true,
     default: new Date()
-  },
-  wakeTime: {
-    type: Date,
-    required: this.role === "child" ? true : false,
-    default: this.role === "child" ? new Date() : null
-  },
-  sleepTime: {
-    type: Date,
-    required: this.role === "child" ? true : false,
-    default: this.role === "child" ? new Date() : null
-  },
-  breakfastTime: {
-    type: Date,
-    required: this.role === "child" ? true : false,
-    default: this.role === "child" ? new Date() : null
-  },
-  lunchTime: {
-    type: Date,
-    required: this.role === "child" ? true : false,
-    default: this.role === "child" ? new Date() : null
-  },
-  dinnerTime: {
-    type: Date,
-    required: this.role === "child" ? true : false,
-    default: this.role === "child" ? new Date() : null
   }
 });
 
