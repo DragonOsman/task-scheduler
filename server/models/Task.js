@@ -85,6 +85,11 @@ const TaskSchema = new Schema({
     type: String,
     required: false,
     default: ""
+  },
+  childName: {
+    type: String,
+    required: true,
+    default: ""
   }
 });
 

@@ -12,12 +12,15 @@ export interface User {
   role: string;
   children?: User[],
   dateRegistered: Date;
-  parents?: User[],
-  wakeTime?: Date,
-  breakfastTime?: Date,
-  lunchTime?: Date,
-  dinnerTime?: Date,
-  sleepTime?: Date
+}
+
+export interface Child {
+  firstName: string;
+  wakeTime: Date;
+  sleepTime: Date,
+  breakfastTime: Date;
+  lunchTime: Date;
+  dinnerTime: Date;
 }
 
 // Interface representing a User Action

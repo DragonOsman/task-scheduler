@@ -24,9 +24,17 @@ const UserSchema = new Schema({
     default: "parent"
   },
   children: {
-    type: [this, { role: "child" }],
-    required: this.role === "parent" ? true : false,
-    default: this.role === "parent" ? [] : null
+    type: [{
+      firstName: "",
+      wakeTime: new Date(),
+      dinnerTime: new Date(),
+      sleepTime: new Date(),
+      breakfastTime: new Date(),
+      lunchTime: new Date(),
+      role: "child"
+    }],
+    required: true,
+    default: []
   },
   dateRegistered: {
     type: Date,

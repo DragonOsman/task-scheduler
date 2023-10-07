@@ -131,4 +131,17 @@ userRouter.put("/edit-user", connectEnsureLogin.ensureLoggedIn(), async (req, re
   }
 });
 
+userRouter.post("/add-child", async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const children = user.children;
+    await user.updateOne(user._id, { children: [...children, req.body.child] });
+    res.status(200).json({ success: true, message: "Child added successfully", child: req.body.child });
+  } catch (err) {
+    console.error(`Error trying to add child to children array: ${err}`);
+    res.status(400).json({ success: false, message: "Failed to add child" });
+    return next(err);
+  }
+});
+
 module.exports = userRouter;

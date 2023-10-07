@@ -86,7 +86,7 @@ taskRouter.get("/", async (req, res, next) => {
     if (req.isAuthenticated()) {
       const user = req.user;
       const userId = user._id;
-      const tasks = await Task.find({ userId });
+      const tasks = await Task.find({ userId, childName: "Amira" });
       res.status(200).json({ success: true, tasks });
     }
   } catch (err) {
@@ -107,9 +107,18 @@ taskRouter.get("/task-details/:id", async (req, res, next) => {
 
 taskRouter.put("/edit-task/:id", async (req, res, next) => {
   try {
-    const user = User.findOne({ firstName: "Amira", lastName: "Naeem" });
+    const user = User.findById(req.user._id);
     if (user) {
-      await addOrEditTasksInDB(req, false);
+      if (user.children.length === 1) {
+        user.children[0].firstName === "Amira" && await addOrEditTasksInDB(req, false);
+      } else {
+        for (const child of user.children) {
+          if (child.firstName === "Amira") {
+            await addOrEditTasksInDB(req, false);
+            break;
+          }
+        }
+      }
     }
     const taskId = req.params.id;
     const updatedTask = await Task.findByIdAndUpdate(taskId, req.body);

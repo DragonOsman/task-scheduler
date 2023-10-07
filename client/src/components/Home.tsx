@@ -8,6 +8,7 @@ import { Modal, Button } from "react-bootstrap";
 const Home = (): JSX.Element => {
   const { state, dispatch } = useContext(UserContext);
   const [showModal, setShowModal] = useState(true);
+  const [view, setView] = useState("parent");
 
   const handleModalToggle = () => setShowModal(!showModal);
 
@@ -103,9 +104,25 @@ const Home = (): JSX.Element => {
     <div className="container-fluid d-flex justify-content-center align-items-center">
       <div className="row">
         <div className="col-auto">
-          {state.currentUser && state.currentUser.role === "child" ? (
-            <CurrentTask />
-          ) : state.currentUser && state.currentUser.role === "parent" ? (
+          <button
+            type="button"
+            title="parent-vlew"
+            className="btn btn-primary"
+            onClick={() => setView("parent")}
+          >
+            Parent
+          </button>
+          <button
+            type="button"
+            title="child-vlew"
+            className="btn btn-primary"
+            onClick={() => setView("child")}
+          >
+            Child
+          </button>
+        </div>
+        <div className="col-auto">
+          {state.currentUser && state.currentUser.role === "parent" && view === "parent" ? (
             <>
               {data && data}
               {state.currentUser.children && (
@@ -124,6 +141,25 @@ const Home = (): JSX.Element => {
                 )
               )}
               <Link to="/tasks">Tasks Page</Link>
+            </>
+          ) : state.currentUser && state.currentUser.role === "parent" && view === "child" ? (
+            <>
+              {state.currentUser.children && state.currentUser.children.length > 1 ? (
+                state.currentUser.children.map((child, index) => (
+                  <>
+                    <Link key={child.firstName} to={`${child.firstName?.toLocaleLowerCase()}-page`}>
+                      {child.firstName && child.firstName}
+                    </Link>
+                    {state.currentUser && state.currentUser.children && (
+                      index !== state.currentUser.children.length - 1 ? (
+                        <br />
+                      ) : null
+                    )}
+                  </>
+                ))
+              ) : (
+                <CurrentTask />
+              )}
             </>
           ) : null}
         </div>
