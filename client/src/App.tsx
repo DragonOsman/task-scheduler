@@ -2,28 +2,117 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { UserContext } from "./context/userContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+import { Modal } from "react-bootstrap";
 import CurrentTask from "./components/CurrentTask";
 import ListTasks from "./components/ListTasks";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Header from "./components/Header";
+import AddChild from "./components/AddChild";
 
 function App() {
   const { state } = useContext(UserContext);
+  const [view, setView] = useState("parent");
+  const [buttonClicked, setButtonClicked] = useState<HTMLButtonElement>();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <Header />
+      <button
+        type="button"
+        title="parent-view"
+        onClick={(event) => {
+          setButtonClicked(event.currentTarget);
+          setShowModal(true);
+        }}
+        className="btn btn-primary"
+      >
+        Parent
+      </button>
+      <button
+        type="button"
+        title="child-view"
+        onClick={(event) => {
+          setButtonClicked(event.currentTarget);
+        }}
+        className="btn btn-primary"
+      >
+        Child
+      </button>
+      {view === "parent" ? (
+        <Header />
+      ) : null}
+      {(buttonClicked && buttonClicked.textContent && buttonClicked.textContent === "Parent") && (
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <h2>Re-enter Login Credentials</h2>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form
+              onSubmit={event => {
+                event.preventDefault();
+                if (state.currentUser && buttonClicked) {
+                  if (state.currentUser.password && state.currentUser.password === password
+                    && state.currentUser.username && state.currentUser.username === username) {
+                    if (buttonClicked.textContent && buttonClicked.textContent === "Parent") {
+                      setView("parent");
+                    }
+                  }
+                }
+              }}
+              className="container-fluid"
+            >
+              <fieldset className="container-fluid">
+                <legend className="mb-3">Re-enter Login Credentials</legend>
+                <label htmlFor="username" className="form-label">Username:</label>
+                <input
+                  type="text"
+                  title="username"
+                  name="username"
+                  className="form-control"
+                  value={username}
+                  onChange={event => setUsername(event.target.value)}
+                  required
+                />
+                <label htmlFor="password" className="form-label">Password:</label>
+                <input
+                  type="password"
+                  title="password"
+                  name="password"
+                  className="form-control"
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
+                  required
+                />
+              </fieldset>
+              <input type="submit" value="Submit" className="btn-secondary" />
+            </form>
+          </Modal.Body>
+        </Modal>
+      )}
+
       <Routes>
-        <Route path="/" element={state.currentUser ? <Home /> : <Login />} />
+        <Route path="/" element={state.currentUser ? <Home view={view} /> : <Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {state.currentUser ? (
+        <Route path="/add-child" element={<AddChild />} />
+        {state.currentUser && state.currentUser.children ? (
           <>
             <Route path="/tasks" element={<ListTasks />} />
             <Route path="/current-task" element={<CurrentTask />} />
+            {state.currentUser.children.map(child => (
+              <Route
+                key={child.firstName}
+                path={`/${child.firstName.toLowerCase()}-page`}
+                element={<CurrentTask />}
+              />
+            ))}
           </>
         ) : (
           <>
@@ -37,7 +126,7 @@ function App() {
                 <p className="text-danger">You must be logged in to see this page!</p>
               </>
             } />
-            <Route path="/register-child" element={
+            <Route path="/add-child" element={
               <>
                 <p className="text-danger">You must be logged in to see this page!</p>
               </>
