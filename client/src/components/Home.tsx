@@ -31,10 +31,6 @@ const Home = ({ view }: HomeProps): JSX.Element => {
 
         if (detailsResponse.ok) {
           const data = await detailsResponse.json();
-          console.log("in Home, data.user is:");
-          for (const [key, value] of Object.entries(data.user)) {
-            console.log(`${key}: ${value}`);
-          }
           dispatch({
             type: "SET_CURRENT_USER",
             payload: data.user
