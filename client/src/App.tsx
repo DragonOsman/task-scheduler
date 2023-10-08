@@ -2,7 +2,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { UserContext } from "./context/userContext";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 import CurrentTask from "./components/CurrentTask";
 import ListTasks from "./components/ListTasks";
