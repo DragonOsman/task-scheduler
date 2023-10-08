@@ -8,6 +8,7 @@ export interface Child {
   breakfastTime: Date;
   lunchTime: Date;
   dinnerTime: Date;
+  isActive: boolean;
 }
 
 // Interface representing a User

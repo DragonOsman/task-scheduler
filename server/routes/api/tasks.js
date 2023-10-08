@@ -65,9 +65,18 @@ const data = JSON.parse(rawData);
 
 taskRouter.post("/add-task", async (req, res, next) => {
   try {
-    const user = User.findOne({ firstName: "Amira", lastName: "Naeem" });
+    const user = User.findById(req.user._id);
     if (user) {
-      await addOrEditTasksInDB(req, true);
+      if (user.children.length === 1) {
+        user.children[0].firstName === "Amira" && await addOrEditTasksInDB(req, true);
+      } else {
+        for (const child of user.children) {
+          if (child.firstName === "Amira" && child.isActive) {
+            await addOrEditTasksInDB(req, true);
+            break;
+          }
+        }
+      }
     } else {
       if (req.isAuthenticated()) {
         const userId = req.user._id;
@@ -86,8 +95,12 @@ taskRouter.get("/", async (req, res, next) => {
     if (req.isAuthenticated()) {
       const user = req.user;
       const userId = user._id;
-      const tasks = await Task.find({ userId, childName: "Amira" });
-      res.status(200).json({ success: true, tasks });
+      for (const child of user.children) {
+        if (child.isActive) {
+          const tasks = await Task.find({ userId, childName: child.firstName });
+          res.status(200).json({ success: true, tasks });
+        }
+      }
     }
   } catch (err) {
     res.status(404).json({ success: false, error: err, message: "No tasks found" });
@@ -113,7 +126,7 @@ taskRouter.put("/edit-task/:id", async (req, res, next) => {
         user.children[0].firstName === "Amira" && await addOrEditTasksInDB(req, false);
       } else {
         for (const child of user.children) {
-          if (child.firstName === "Amira") {
+          if (child.firstName === "Amira" && child.isActive) {
             await addOrEditTasksInDB(req, false);
             break;
           }

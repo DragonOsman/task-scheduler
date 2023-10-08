@@ -135,6 +135,7 @@ const Home = ({ view }: HomeProps): JSX.Element => {
                     <Link key={child.firstName} to={`${child.firstName?.toLocaleLowerCase()}-page`}>
                       {child.firstName && child.firstName}
                     </Link>
+                    {child.isActive = true}
                     {state.currentUser && state.currentUser.children && (
                       index !== state.currentUser.children.length - 1 ? (
                         <br />

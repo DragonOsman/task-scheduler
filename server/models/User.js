@@ -31,7 +31,8 @@ const UserSchema = new Schema({
       sleepTime: new Date(),
       breakfastTime: new Date(),
       lunchTime: new Date(),
-      role: "child"
+      role: "child",
+      isActive: false
     }],
     required: true,
     default: []

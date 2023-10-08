@@ -21,7 +21,8 @@ const AddChild = () => {
     dinnerTime: new Date(),
     sleepTime: new Date(),
     breakfastTime: new Date(),
-    lunchTime: new Date()
+    lunchTime: new Date(),
+    isActive: false
   };
 
   const handleSubmit = async ({ values }: FormikValues) => {
@@ -31,7 +32,8 @@ const AddChild = () => {
       wakeTime: values.wakeTime,
       sleepTime: values.sleepTime,
       breakfastTime: values.wakeTime,
-      lunchTime: values.lunchTime
+      lunchTime: values.lunchTime,
+      isActive: false
     };
 
     try {
@@ -52,6 +54,9 @@ const AddChild = () => {
           ...state.currentUser,
           children: [...state.currentUser.children, data.child]
         } });
+        if (state.currentUser.children.length === 1) {
+          state.currentUser.children[0].isActive = true;
+        }
         navigate("/");
       } else if (!response.ok) {
         console.error(`${response.status}: ${response.statusText}`);
