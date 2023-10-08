@@ -1,4 +1,4 @@
-import { User } from "../context/userContext";
+import { Child } from "../context/userContext";
 import { useTaskContext } from "../context/taskContext";
 import { ReactNode } from "react";
 import {
@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 interface ChildScheduleProps {
-  child: User;
+  child: Child;
 }
 
 const ChildSchedule = ({ child }: ChildScheduleProps) => {

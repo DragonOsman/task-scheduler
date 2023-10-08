@@ -5,10 +5,13 @@ import { Link } from "react-router-dom";
 import ChildSchedule from "./ChildSchedule";
 import { Modal, Button } from "react-bootstrap";
 
-const Home = (): JSX.Element => {
+interface HomeProps {
+  view: string;
+}
+
+const Home = ({ view }: HomeProps): JSX.Element => {
   const { state, dispatch } = useContext(UserContext);
   const [showModal, setShowModal] = useState(true);
-  const [view, setView] = useState("parent");
 
   const handleModalToggle = () => setShowModal(!showModal);
 
@@ -104,24 +107,6 @@ const Home = (): JSX.Element => {
     <div className="container-fluid d-flex justify-content-center align-items-center">
       <div className="row">
         <div className="col-auto">
-          <button
-            type="button"
-            title="parent-vlew"
-            className="btn btn-primary"
-            onClick={() => setView("parent")}
-          >
-            Parent
-          </button>
-          <button
-            type="button"
-            title="child-vlew"
-            className="btn btn-primary"
-            onClick={() => setView("child")}
-          >
-            Child
-          </button>
-        </div>
-        <div className="col-auto">
           {state.currentUser && state.currentUser.role === "parent" && view === "parent" ? (
             <>
               {data && data}
@@ -131,7 +116,7 @@ const Home = (): JSX.Element => {
                 ) : (
                   <ul className="schedules">
                     {state.currentUser.children && state.currentUser.children.map(child => (
-                      <li className="link" key={child._id}>
+                      <li className="link" key={child.firstName}>
                         {state.currentUser && state.currentUser.children && (
                           <ChildSchedule child={child} />
                         )}

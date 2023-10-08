@@ -19,6 +19,7 @@ export interface Task {
   daysRecurring?: string[];
   isCompleted: boolean;
   rRule: string;
+  childName: string;
 }
 
 interface TaskState {
@@ -49,7 +50,8 @@ const initialTaskState: TaskState = {
     isCompleted: false,
     isRecurring: false,
     daysRecurring: [],
-    rRule: ""
+    rRule: "",
+    childName: ""
   },
   upcomingTask: {
     _id: "",
@@ -68,7 +70,8 @@ const initialTaskState: TaskState = {
     isCompleted: false,
     isRecurring: false,
     daysRecurring: [],
-    rRule: ""
+    rRule: "",
+    childName: ""
   },
   addTask: () => {},
   updateTask: () => {},

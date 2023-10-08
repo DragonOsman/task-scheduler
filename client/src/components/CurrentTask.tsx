@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import { useTaskContext } from "../context/taskContext";
 import { UserContext } from "src/context/userContext";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useTimer } from "react-timer-hook";
 import ProgressBar from "@ramonak/react-progress-bar";
 import addPadding from "../addPadding";
@@ -75,11 +75,21 @@ const CurrentTask = () => {
   const { currentTask, upcomingTask, updateTask } = useTaskContext();
   const { state } = useContext(UserContext);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(new Date() === state.currentUser?.wakeTime as Date);
+  const [showOverlay, setShowOverlay] = useState(false);
 
   const handleOverlayToggle = () => {
     setShowOverlay(!showOverlay);
   };
+
+  useEffect(() => {
+    if (state.currentUser && state.currentUser.children) {
+      for (const child of state.currentUser.children) {
+        if (currentTask && currentTask.childName === child.firstName) {
+          setShowOverlay(new Date() === child.wakeTime);
+        }
+      }
+    }
+  }, [state.currentUser, currentTask]);
 
   return (
     <div className="current-task container-fluid d-flex justify-content-center align-items-center">

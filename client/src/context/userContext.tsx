@@ -1,6 +1,15 @@
 /* eslint-disable linebreak-style */
 import { createContext, useReducer, ReactNode } from "react";
 
+export interface Child {
+  firstName: string;
+  wakeTime: Date;
+  sleepTime: Date,
+  breakfastTime: Date;
+  lunchTime: Date;
+  dinnerTime: Date;
+}
+
 // Interface representing a User
 export interface User {
   _id?: string;
@@ -10,17 +19,8 @@ export interface User {
   password?: string;
   confirmPassword?: string;
   role: string;
-  children?: User[],
+  children?: Child[],
   dateRegistered: Date;
-}
-
-export interface Child {
-  firstName: string;
-  wakeTime: Date;
-  sleepTime: Date,
-  breakfastTime: Date;
-  lunchTime: Date;
-  dinnerTime: Date;
 }
 
 // Interface representing a User Action

@@ -1,9 +1,11 @@
 import { useTaskContext } from "../context/taskContext";
-import { useState, useEffect } from "react";
+import { UserContext } from "src/context/userContext";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
   const { addTask } = useTaskContext();
+  const { state, dispatch } = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [scheduled, setScheduled] = useState(false);
   const [flexible, setFlexible] = useState(false);
@@ -16,6 +18,7 @@ const AddTask = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [daysRecurring, setDaysRecurring] = useState<string[]>([]);
+  const [childName, setChildName] = useState("");
 
   const navigate = useNavigate();
 
@@ -51,6 +54,14 @@ const AddTask = () => {
     }
   }, [timer]);
 
+  useEffect(() => {
+    if (state.currentUser && state.currentUser.children) {
+      if (state.currentUser.children.length === 1) {
+        setChildName(state.currentUser.children[0].firstName);
+      }
+    }
+  }, [state]);
+
   const task = {
     isRecurring: false,
     rRule: "",
@@ -67,7 +78,8 @@ const AddTask = () => {
     timer: "",
     title: "",
     text: "",
-    daysRecurring
+    daysRecurring,
+    childName: ""
   };
 
   const generateRRule = (daysArr: string[]) => {
@@ -93,6 +105,7 @@ const AddTask = () => {
     task.end = endDate;
     task.daysRecurring = [...daysRecurring];
     task.rRule = generateRRule(daysRecurring);
+    task.childName = childName;
     try {
       const response = await fetch("https://task-scheduler-app.onrender.com/api/tasks/add-task", {
         method: "POST",
