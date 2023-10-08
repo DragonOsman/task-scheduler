@@ -18,7 +18,7 @@ const ListTasks = () => {
       list = (
         <ul>
           {state.currentUser.children.map(child => (
-            <li className="child-info" key={child._id}>
+            <li className="child-info" key={child.firstName}>
               {child.firstName}
               {tasks.length > 0 ? (
                 <ul className="tasks">{tasks.map(task => (
