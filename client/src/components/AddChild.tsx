@@ -218,19 +218,25 @@ const AddChild = () => {
         {modalTitles.current.map((item, index) => (
           <Modal key={item.title} show={show} onHide={() => setShow(false)}>
             <Modal.Header closeButton>
-              <i
-                className="fa-solid fa-angle-left icon-button"
-                onClick={() => {
-                  if (index === 0) {
-                    const answer = confirm("Are you sure you want to cancel and return to home?");
-                    if (answer) {
-                      navigate("/");
-                    }
-                  }
-                  setModalIndex(index - 1);
-                }}
-              ></i>
-              <Modal.Title>{item.title}</Modal.Title>
+              <div className="container row">
+                <div className="col-auto">
+                  <i
+                    className="fa-solid fa-angle-left icon-button"
+                    onClick={() => {
+                      if (index === 0) {
+                        const answer = confirm("Are you sure you want to cancel and return to home?");
+                        if (answer) {
+                          navigate("/");
+                        }
+                      }
+                      setModalIndex(index - 1);
+                    }}
+                  ></i>
+                </div>
+                <div className="col-auto">
+                  <Modal.Title>{item.title}</Modal.Title>
+                </div>
+              </div>
             </Modal.Header>
             <Modal.Body>
               {modalContentsRef.current[modalIndex]}
