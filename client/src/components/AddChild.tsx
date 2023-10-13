@@ -56,6 +56,8 @@ const AddChild = () => {
         } });
         if (state.currentUser.children.length === 1) {
           state.currentUser.children[0].isActive = true;
+        } else {
+          state.currentUser.children[state.currentUser.children.length - 1].isActive = true;
         }
         navigate("/");
       } else if (!response.ok) {
