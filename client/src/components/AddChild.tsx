@@ -38,7 +38,7 @@ const AddChild = () => {
 
     try {
       const response = await fetch(
-        "https://dragonosman-task-scheduler.onrender.com/api/users", {
+        "https://dragonosman-task-scheduler.onrender.com/api/users/add-child", {
           method: "POST",
           credentials: "include",
           headers: {
