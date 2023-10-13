@@ -127,72 +127,73 @@ const AddChild = () => {
       }];
     }
 
-    modalContentsRef.current = [
-      <fieldset key={modalTitles.current[0].title}>
-        <label htmlFor="firstName" className="form-label">{modalTitles.current[0].title}</label>
-        <input
-          type="text"
-          className="form-control"
-          required
-          placeholder={modalTitles.current[0].placeholders[0]}
-          {...formik.getFieldProps("firstName")}
-        />
-        {formik.errors.firstName && formik.touched.firstName ? (
-          <small className="text-danger">{formik.errors.firstName}</small>
-        ) : null}
-
-      </fieldset>,
-      <fieldset key={modalTitles.current[1].title}>
-        <label htmlFor={modalTitles.current[1].names[0]} className="form-label">
+    if (modalTitles.current && modalTitles.current.length > 0) {
+      modalContentsRef.current = [
+        <fieldset key={modalTitles.current[0].title}>
+          <label htmlFor="firstName" className="form-label">{modalTitles.current[0].title}</label>
+          <input
+            type="text"
+            className="form-control"
+            required
+            placeholder={modalTitles.current[0].placeholders[0]}
+            {...formik.getFieldProps("firstName")}
+          />
+          {formik.errors.firstName && formik.touched.firstName ? (
+            <small className="text-danger">{formik.errors.firstName}</small>
+          ) : null}
+        </fieldset>,
+        <fieldset key={modalTitles.current[1].title}>
+          <label htmlFor={modalTitles.current[1].names[0]} className="form-label">
             Enter Wake Time for {firstNameRef.current ? firstNameRef.current.value : ""}
-        </label>
-        <input
-          type="time"
-          className="form-control"
-          required
-          placeholder={modalTitles.current[1].placeholders[0]}
-          {...formik.getFieldProps("wakeTime")}
-        />
-        <label htmlFor={modalTitles.current[1].names[1]} className="form-label">
+          </label>
+          <input
+            type="time"
+            className="form-control"
+            required
+            placeholder={modalTitles.current[1].placeholders[0]}
+            {...formik.getFieldProps("wakeTime")}
+          />
+          <label htmlFor={modalTitles.current[1].names[1]} className="form-label">
             Enter Sleep Time for {firstNameRef.current ? firstNameRef.current.value : ""}
-        </label>
+          </label>
+          <input
+            type="time"
+            className="form-control"
+            required
+            placeholder={modalTitles.current[1].placeholders[1]}
+            {...formik.getFieldProps("sleepTime")}
+          />
+        </fieldset>,
+        <fieldset key={modalTitles.current[2].title} className="mb-3">
+          <label htmlFor={modalTitles.current[2].names[0]} className="form-label">
+            Enter Lunch Time for {firstNameRef.current ? firstNameRef.current.value : ""}
+          </label>
+          <input
+            type="time"
+            className="form-control"
+            required
+            placeholder={modalTitles.current[2].placeholders[0]}
+            {...formik.getFieldProps("lunchTime")}
+          />
+          <label htmlFor={modalTitles.current[2].names[1]} className="form-label">
+            Enter Dinner TIme for {firstNameRef.current ? firstNameRef.current.value : ""}
+          </label>
+          <input
+            type="time"
+            className="form-control"
+            required
+            placeholder={modalTitles.current[2].placeholders[1]}
+            {...formik.getFieldProps("dinnerTime")}
+          />
+        </fieldset>,
         <input
-          type="time"
-          className="form-control"
-          required
-          placeholder={modalTitles.current[1].placeholders[1]}
-          {...formik.getFieldProps("sleepTime")}
+          key={modalTitles.current[3].names[0]}
+          type="submit"
+          value="Add Child"
+          className="btn-secondary"
         />
-      </fieldset>,
-      <fieldset key={modalTitles.current[2].title} className="mb-3">
-        <label htmlFor={modalTitles.current[2].names[0]} className="form-label">
-          Enter Lunch Time for {firstNameRef.current ? firstNameRef.current.value : ""}
-        </label>
-        <input
-          type="time"
-          className="form-control"
-          required
-          placeholder={modalTitles.current[2].placeholders[0]}
-          {...formik.getFieldProps("lunchTime")}
-        />
-        <label htmlFor={modalTitles.current[2].names[1]} className="form-label">
-          Enter Dinner TIme for {firstNameRef.current ? firstNameRef.current.value : ""}
-        </label>
-        <input
-          type="time"
-          className="form-control"
-          required
-          placeholder={modalTitles.current[2].placeholders[1]}
-          {...formik.getFieldProps("dinnerTime")}
-        />
-      </fieldset>,
-      <input
-        key={modalTitles.current[3].names[0]}
-        type="submit"
-        value="Add Child"
-        className="btn-secondary"
-      />
-    ];
+      ];
+    }
   }, [formik]);
 
   return (
