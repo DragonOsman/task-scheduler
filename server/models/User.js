@@ -2,6 +2,49 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require("passport-local-mongoose");
 
+const ChildSchema = new Schema({
+  firstName: {
+    type: String,
+    required: true,
+    default: ""
+  },
+  wakeTime: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  dinnerTime: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  sleepTime: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  breakfastTime: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  lunchTime: {
+    type: Date,
+    required: true,
+    default: new Date()
+  },
+  role: {
+    type: String,
+    required: true,
+    default: "child"
+  },
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: false
+  }
+});
+
 const UserSchema = new Schema({
   username: {
     type: String,
@@ -24,16 +67,7 @@ const UserSchema = new Schema({
     default: "parent"
   },
   children: {
-    type: [{
-      firstName: "",
-      wakeTime: new Date(),
-      dinnerTime: new Date(),
-      sleepTime: new Date(),
-      breakfastTime: new Date(),
-      lunchTime: new Date(),
-      role: "child",
-      isActive: false
-    }],
+    type: [ChildSchema],
     required: true,
     default: []
   },
