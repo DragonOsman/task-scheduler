@@ -208,13 +208,19 @@ const AddChild = () => {
           formik.handleSubmit(event);
         }}
       >
-        <i
-          className="fa-solid fa-angle-left icon-button"
-          onClick={() => {
-            navigate("/");
-          }}
-        ></i>
-        <h2>Set up Your Child&apos;s Profile</h2>
+        <div className="container-fluid row">
+          <div className="col-auto">
+            <i
+              className="fa-solid fa-angle-left icon-button"
+              onClick={() => {
+                navigate("/");
+              }}
+            ></i>
+          </div>
+          <div className="col-auto">
+            <h2>Set up Your Child&apos;s Profile</h2>
+          </div>
+        </div>
         {modalTitles.current.map((item, index) => (
           <Modal key={item.title} show={show} onHide={() => setShow(false)}>
             <Modal.Header closeButton>
