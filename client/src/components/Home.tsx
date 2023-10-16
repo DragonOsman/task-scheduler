@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import ChildSchedule from "./ChildSchedule";
 import { Modal, Button } from "react-bootstrap";
 
-const Home = (): JSX.Element => {
+interface HomeProps {
+  view: string;
+}
+
+const Home = ({ view }: HomeProps): JSX.Element => {
   const { state, dispatch } = useContext(UserContext);
   const [showModal, setShowModal] = useState(true);
-  const [view, setView] = useState("parent");
-  const [buttonClicked, setButtonClicked] = useState<HTMLButtonElement | null>(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleModalToggle = () => setShowModal(!showModal);
 
@@ -101,67 +101,6 @@ const Home = (): JSX.Element => {
 
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center">
-      <button
-        type="button"
-        title="parent-view"
-        onClick={(event) => {
-          setButtonClicked(event.currentTarget);
-        }}
-        className="btn btn-primary"
-      >
-        Parent
-      </button>
-      <button
-        type="button"
-        title="child-view"
-        onClick={(event) => {
-          setButtonClicked(event.currentTarget);
-        }}
-        className="btn btn-primary"
-      >
-        Child
-      </button>
-      {(buttonClicked && buttonClicked.textContent && buttonClicked.textContent === "Parent") && (
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-            if (state.currentUser && buttonClicked) {
-              if (state.currentUser.password && state.currentUser.password === password
-              && state.currentUser.username && state.currentUser.username === username) {
-                if (buttonClicked.textContent && buttonClicked.textContent === "Parent") {
-                  setView("parent");
-                }
-              }
-            }
-          }}
-          className="container-fluid"
-        >
-          <fieldset className="container-fluid">
-            <legend className="mb-3">Re-enter Login Credentials</legend>
-            <label htmlFor="username" className="form-label">Username:</label>
-            <input
-              type="text"
-              title="username"
-              name="username"
-              className="form-control"
-              value={username}
-              onChange={event => setUsername(event.target.value)}
-              required
-            />
-            <label htmlFor="password" className="form-label">Password:</label>
-            <input
-              type="password"
-              title="password"
-              name="password"
-              className="form-control"
-              value={password}
-              onChange={event => setPassword(event.target.value)}
-              required
-            />
-          </fieldset>
-          <input type="submit" value="Submit" className="btn-secondary" />
-        </form>
-      )}
       <div className="row">
         <div className="col-auto">
           {state.currentUser && state.currentUser.role === "parent" && view === "parent" ? (
