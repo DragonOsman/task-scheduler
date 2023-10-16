@@ -39,6 +39,7 @@ function App() {
               title="child-view"
               onClick={(event) => {
                 setButtonClicked(event.currentTarget);
+                setView("child");
               } }
               className="btn btn-primary"
             >
@@ -56,11 +57,13 @@ function App() {
               className="btn btn-primary"
             >
               Parent
-            </button><button
+            </button>
+            <button
               type="button"
               title="child-view"
               onClick={(event) => {
                 setButtonClicked(event.currentTarget);
+                setView("child");
               } }
               className="btn btn-primary"
             >
