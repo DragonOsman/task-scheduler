@@ -79,9 +79,7 @@ function App() {
               if (state.currentUser && buttonClicked) {
                 if (state.currentUser.password && state.currentUser.password === password
               && state.currentUser.username && state.currentUser.username === username) {
-                  if (buttonClicked.textContent && buttonClicked.textContent === "Parent") {
-                    setView("parent");
-                  }
+                  setView("parent");
                 }
               }
             }}
