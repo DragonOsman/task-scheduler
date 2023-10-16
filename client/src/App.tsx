@@ -19,7 +19,7 @@ function App() {
   const [password, setPassword] = useState("");
 
   return (
-    <>
+    <div className="d-flex align-items-center justify-content-center flex-column container-fluid">
       <Routes>
         {view === "parent" ? (
           <>
@@ -145,7 +145,7 @@ function App() {
           </>
         )}
       </Routes>
-    </>
+    </div>
   );
 }
 
