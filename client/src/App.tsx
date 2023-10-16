@@ -3,7 +3,6 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { UserContext } from "./context/userContext";
 import { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
 import CurrentTask from "./components/CurrentTask";
 import ListTasks from "./components/ListTasks";
 import Register from "./components/Register";
@@ -18,7 +17,6 @@ function App() {
   const [buttonClicked, setButtonClicked] = useState<HTMLButtonElement>();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -27,7 +25,6 @@ function App() {
         title="parent-view"
         onClick={(event) => {
           setButtonClicked(event.currentTarget);
-          setShowModal(true);
         }}
         className="btn btn-primary"
       >
@@ -47,54 +44,45 @@ function App() {
         <Header />
       ) : null}
       {(buttonClicked && buttonClicked.textContent && buttonClicked.textContent === "Parent") && (
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              <h2>Re-enter Login Credentials</h2>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form
-              onSubmit={event => {
-                event.preventDefault();
-                if (state.currentUser && buttonClicked) {
-                  if (state.currentUser.password && state.currentUser.password === password
-                    && state.currentUser.username && state.currentUser.username === username) {
-                    if (buttonClicked.textContent && buttonClicked.textContent === "Parent") {
-                      setView("parent");
-                    }
-                  }
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+            if (state.currentUser && buttonClicked) {
+              if (state.currentUser.password && state.currentUser.password === password
+              && state.currentUser.username && state.currentUser.username === username) {
+                if (buttonClicked.textContent && buttonClicked.textContent === "Parent") {
+                  setView("parent");
                 }
-              }}
-              className="container-fluid"
-            >
-              <fieldset className="container-fluid">
-                <legend className="mb-3">Re-enter Login Credentials</legend>
-                <label htmlFor="username" className="form-label">Username:</label>
-                <input
-                  type="text"
-                  title="username"
-                  name="username"
-                  className="form-control"
-                  value={username}
-                  onChange={event => setUsername(event.target.value)}
-                  required
-                />
-                <label htmlFor="password" className="form-label">Password:</label>
-                <input
-                  type="password"
-                  title="password"
-                  name="password"
-                  className="form-control"
-                  value={password}
-                  onChange={event => setPassword(event.target.value)}
-                  required
-                />
-              </fieldset>
-              <input type="submit" value="Submit" className="btn-secondary" />
-            </form>
-          </Modal.Body>
-        </Modal>
+              }
+            }
+          }}
+          className="container-fluid"
+        >
+          <fieldset className="container-fluid">
+            <legend className="mb-3">Re-enter Login Credentials</legend>
+            <label htmlFor="username" className="form-label">Username:</label>
+            <input
+              type="text"
+              title="username"
+              name="username"
+              className="form-control"
+              value={username}
+              onChange={event => setUsername(event.target.value)}
+              required
+            />
+            <label htmlFor="password" className="form-label">Password:</label>
+            <input
+              type="password"
+              title="password"
+              name="password"
+              className="form-control"
+              value={password}
+              onChange={event => setPassword(event.target.value)}
+              required
+            />
+          </fieldset>
+          <input type="submit" value="Submit" className="btn-secondary" />
+        </form>
       )}
 
       <Routes>
