@@ -19,7 +19,7 @@ function App() {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="d-flex align-items-center justify-content-center flex-column container-fluid">
+    <>
       <Routes>
         {view === "parent" ? (
           <>
@@ -68,6 +68,7 @@ function App() {
             </button>
           </>
         )}
+        <br />
         {(buttonClicked && buttonClicked.textContent && buttonClicked.textContent === "Parent") && (
           <form
             onSubmit={event => {
@@ -109,6 +110,7 @@ function App() {
             <input type="submit" value="Submit" className="btn-secondary" />
           </form>
         )}
+        <br />
         <Route path="/" element={state.currentUser ? <Home view={view} /> : <Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -145,7 +147,7 @@ function App() {
           </>
         )}
       </Routes>
-    </div>
+    </>
   );
 }
 
