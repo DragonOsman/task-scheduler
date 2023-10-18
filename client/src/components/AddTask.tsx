@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
   const { addTask } = useTaskContext();
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [scheduled, setScheduled] = useState(false);
   const [flexible, setFlexible] = useState(false);
