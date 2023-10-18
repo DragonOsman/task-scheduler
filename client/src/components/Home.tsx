@@ -1,16 +1,15 @@
 import { UserContext } from "src/context/userContext";
+import { ViewContext } from "src/context/viewContext";
 import { useContext, useEffect, useState } from "react";
 import CurrentTask from "./CurrentTask";
 import { Link } from "react-router-dom";
 import ChildSchedule from "./ChildSchedule";
 import { Modal, Button } from "react-bootstrap";
 
-interface HomeProps {
-  view: string;
-}
-
-const Home = ({ view }: HomeProps): JSX.Element => {
+const Home = (): JSX.Element => {
   const { state, dispatch } = useContext(UserContext);
+  const viewContext = useContext(ViewContext);
+  const viewState = viewContext.state;
   const [showModal, setShowModal] = useState(true);
 
   const handleModalToggle = () => setShowModal(!showModal);
@@ -103,7 +102,7 @@ const Home = ({ view }: HomeProps): JSX.Element => {
     <div className="container-fluid d-flex justify-content-center align-items-center">
       <div className="row">
         <div className="col-auto">
-          {state.currentUser && state.currentUser.role === "parent" && view === "parent" ? (
+          {state.currentUser && state.currentUser.role === "parent" && viewState.view === "parent" ? (
             <>
               {data && data}
               {state.currentUser.children && (
@@ -123,7 +122,7 @@ const Home = ({ view }: HomeProps): JSX.Element => {
               )}
               <Link to="/tasks">Tasks Page</Link>
             </>
-          ) : state.currentUser && state.currentUser.role === "parent" && view === "child" ? (
+          ) : state.currentUser && state.currentUser.role === "parent" && viewState.view === "child" ? (
             <>
               {state.currentUser.children && state.currentUser.children.length > 1 ? (
                 state.currentUser.children.map((child, index) => (

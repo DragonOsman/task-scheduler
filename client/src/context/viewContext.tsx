@@ -9,7 +9,7 @@ const initialState = {
   view: "parent"
 };
 
-const ViewContext = createContext<{
+export const ViewContext = createContext<{
   state: typeof initialState;
   dispatch: Dispatch<ViewAction>
 }>({
