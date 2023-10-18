@@ -1,6 +1,6 @@
 import { Child, UserContext } from "src/context/userContext";
-import { Modal, Button } from "react-bootstrap";
-import { useContext, useState, useRef, useEffect } from "react";
+import { Modal } from "react-bootstrap";
+import { useContext, useState, useRef, useEffect, SyntheticEvent } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -203,7 +203,7 @@ const AddChild = () => {
       <form
         method="post"
         className="container-fluid"
-        onSubmit={event => {
+        onSubmit={(event: SyntheticEvent<HTMLFormElement>) => {
           event.preventDefault();
           formik.handleSubmit(event);
         }}
@@ -221,48 +221,48 @@ const AddChild = () => {
             <h2>Set up Your Child&apos;s Profile</h2>
           </div>
         </div>
-        {modalTitles.current.map((item, index) => (
-          <Modal key={item.title} show={show} onHide={() => setShow(false)}>
-            <Modal.Header closeButton>
-              <div className="container row">
-                <div className="col-auto">
-                  <i
-                    className="fa-solid fa-angle-left icon-button"
-                    onClick={() => {
-                      if (index === 0) {
-                        const answer = confirm("Are you sure you want to cancel and return to home?");
-                        if (answer) {
-                          navigate("/");
-                        }
-                      }
-                      setModalIndex(index - 1);
-                    }}
-                  ></i>
-                </div>
-                <div className="col-auto">
-                  <Modal.Title>{item.title}</Modal.Title>
-                </div>
-              </div>
-            </Modal.Header>
-            <Modal.Body>
-              {modalContentsRef.current[modalIndex]}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => {
-                  if (index !== modalTitles.current.length - 1) {
-                    setModalIndex(index + 1);
-                  }
-                }}
-                disabled={index !== modalContentsRef.current.length - 1 ? false : true}
-              >
-                Next
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        ))}
+        {modalContentsRef.current.map((outerItem, outerIndex) => {
+          return modalTitles.current.map(innerItem => (
+            <Modal
+              key={innerItem.title}
+              show={show} onShow={() => setShow(true)}
+              onHide={() => setShow(false)}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>
+                  <div className="container-fluid row">
+                    <div className="col-auto">
+                      <button
+                        title="go back"
+                        type="button"
+                        onClick={() => {
+                          if (outerIndex > 0) {
+                            setModalIndex(outerIndex - 1);
+                          } else if (outerIndex === 0) {
+                            const answer =
+                              confirm("Are you sure you want to cancel and return to home?");
+                            if (answer) {
+                              navigate("/");
+                            }
+                          }
+                        }}
+                        className="icon-button"
+                      >
+                        <i className="fa-solid fa-angle-left"></i>
+                      </button>
+                    </div>
+                    <div className="col-auto">
+                      <h2>{innerItem.title}</h2>
+                    </div>
+                  </div>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {modalContentsRef.current[modalIndex]}
+              </Modal.Body>
+            </Modal>
+          ));
+        })}
       </form>
     </div>
   );
