@@ -19,7 +19,8 @@ const userRouter = require("./routes/api/users");
 const app = express();
 
 const CLIENT_URL = "https://task-scheduler-dragonosman.vercel.app";
-const whitelist = [CLIENT_URL];
+const CLIENT_URL_ALT = "https://task-scheduler-j05zdyou8-dragonosman.vercel.app";
+const whitelist = [CLIENT_URL, CLIENT_URL_ALT];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || whitelist.indexOf(origin) !== -1) {
