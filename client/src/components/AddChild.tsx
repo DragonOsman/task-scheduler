@@ -241,7 +241,7 @@ const AddChild = () => {
                               setModalIndex(outerIndex - 1);
                             } else if (outerIndex === 0) {
                               const answer =
-                              confirm("Are you sure you want to cancel and return to home?");
+                                confirm("Are you sure you want to cancel and return to home?");
                               if (answer) {
                                 navigate("/");
                               }
