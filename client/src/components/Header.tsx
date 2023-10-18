@@ -159,7 +159,7 @@ const Header = () => {
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                   <Modal.Header closeButton>
                     <Modal.Title>
-                      <h1>Login Again</h1>
+                      <h2>Login Again</h2>
                     </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
