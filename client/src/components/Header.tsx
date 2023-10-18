@@ -104,7 +104,7 @@ const Header = () => {
                     </button>
                   </li>
                 </ul>
-              ) : (!state.currentUser && viewState.view === "child") ? (
+              ) : (state.currentUser && viewState.view === "child") ? (
                 <ul className="navbar-nav">
                   <li className="nav-item">
                     <button
