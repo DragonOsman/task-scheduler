@@ -221,7 +221,7 @@ const AddChild = () => {
             <h2>Set up Your Child&apos;s Profile</h2>
           </div>
         </div>
-        {(show && modalContentsRef && modalContentsRef.current) && (
+        {(show && modalContentsRef.current.length > 0 && modalTitles.current.length > 0) && (
           modalContentsRef.current.map((outerItem, outerIndex) => {
             return modalTitles.current.map(innerItem => (
               <Modal
