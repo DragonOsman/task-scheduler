@@ -173,7 +173,7 @@ const Header = () => {
                           payload: "parent"
                         });
                       }
-                    }} className="container-fluid" method="post">
+                    }} className="container-fluid">
                       <fieldset className="mb-3">
                         <legend>Login credentials</legend>
                         <label htmlFor="username" className="form-label">Username</label>:
