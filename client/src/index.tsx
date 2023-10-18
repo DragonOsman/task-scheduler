@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import { TaskProvider } from "./context/taskContext";
 import { UserContextProvider } from "./context/userContext";
+import { ViewContextProvider } from "./context/viewContext";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -15,13 +16,15 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <UserContextProvider>
-      <TaskProvider>
-        <Router>
-          <App />
-        </Router>
-      </TaskProvider>
-    </UserContextProvider>
+    <ViewContextProvider>
+      <UserContextProvider>
+        <TaskProvider>
+          <Router>
+            <App />
+          </Router>
+        </TaskProvider>
+      </UserContextProvider>
+    </ViewContextProvider>
   </React.StrictMode>
 );
 
