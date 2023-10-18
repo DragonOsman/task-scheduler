@@ -5,6 +5,7 @@ import { UserContext } from "src/context/userContext";
 import { ViewContext } from "src/context/viewContext";
 import { Container, Nav, Navbar, NavbarBrand, Modal } from "react-bootstrap";
 import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
+import Login from "./Login";
 
 const Header = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -13,8 +14,6 @@ const Header = () => {
   const viewDispatch = viewContext.dispatch;
   const [buttonClicked, setButtonClicked] = useState<HTMLButtonElement | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -160,50 +159,11 @@ const Header = () => {
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                   <Modal.Header closeButton>
                     <Modal.Title>
-                      <h1>Re-Enter Login Credentials</h1>
+                      <h1>Login Again</h1>
                     </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <form onSubmit={event => {
-                      event.preventDefault();
-                      if (state.currentUser && username === state.currentUser.username &&
-                        password === state.currentUser.password) {
-                        viewDispatch({
-                          type: "CHANGE_VIEW",
-                          payload: "parent"
-                        });
-                      }
-                    }} className="container-fluid">
-                      <fieldset className="mb-3">
-                        <legend>Login credentials</legend>
-                        <label htmlFor="username" className="form-label">Username</label>:
-                        <input
-                          type="text"
-                          name="username"
-                          className="form-control"
-                          title="username"
-                          value={username}
-                          onChange={event => setUsername(event.target.value)}
-                          placeholder="Enter your username"
-                        />
-                        <label htmlFor="password" className="form-label">Password</label>:
-                        <input
-                          type="password"
-                          name="password"
-                          className="form-control"
-                          title="password"
-                          value={password}
-                          onChange={event => setPassword(event.target.value)}
-                          placeholder="Enter your password"
-                        />
-                      </fieldset>
-                      <input
-                        type="submit"
-                        value="Submit"
-                        className="btn btn-secondary"
-                        title="submit"
-                      />
-                    </form>
+                    <Login />
                   </Modal.Body>
                 </Modal>
               )}
