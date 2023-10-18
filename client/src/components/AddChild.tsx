@@ -225,7 +225,7 @@ const AddChild = () => {
           return modalTitles.current.map(innerItem => (
             <Modal
               key={innerItem.title}
-              show={show} onShow={() => setShow(true)}
+              show={show}
               onHide={() => setShow(false)}
             >
               <Modal.Header closeButton>
