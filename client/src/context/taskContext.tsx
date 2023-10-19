@@ -1,5 +1,6 @@
 /* eslint-disable linebreak-style */
 import { createContext, useReducer, useContext, useEffect, ReactNode } from "react";
+import { UserContext } from "./userContext";
 
 export interface Task {
   _id?: string;
@@ -129,6 +130,8 @@ interface TaskProviderProps {
 
 export const TaskProvider = ({ children }: TaskProviderProps) => {
   const [state, dispatch] = useReducer(taskReducer, initialTaskState);
+  const userContext = useContext(UserContext);
+  const userState = userContext.state;
 
   const addTask = async (task: Task) => {
     dispatch({ type: "ADD_TASK", payload: task });
@@ -183,33 +186,37 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      try {
-        const tasksResponse = await fetch(
-          "https://dragonosman-task-scheduler.onrender.com/api/tasks/", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            mode: "cors"
-          })
-        ;
+      if (userState.currentUser && userState.currentUser.children
+         && userState.currentUser.children.length > 0
+      ) {
+        try {
+          const tasksResponse = await fetch(
+            "https://dragonosman-task-scheduler.onrender.com/api/tasks/", {
+              method: "GET",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              mode: "cors"
+            })
+          ;
 
-        if (tasksResponse.status >= 200 && tasksResponse.status < 300) {
-          const data = await tasksResponse.json();
-          for (const task of data.tasks) {
-            dispatch({ type: "ADD_TASK", payload: task });
+          if (tasksResponse.status >= 200 && tasksResponse.status < 300) {
+            const data = await tasksResponse.json();
+            for (const task of data.tasks) {
+              dispatch({ type: "ADD_TASK", payload: task });
+            }
+          } else {
+            console.error(`${tasksResponse.status}: ${tasksResponse.statusText}`);
           }
-        } else {
-          console.error(`${tasksResponse.status}: ${tasksResponse.statusText}`);
+        } catch (error) {
+          console.error(`Failed to fetch tasks: ${error}`);
         }
-      } catch (error) {
-        console.error(`Failed to fetch tasks: ${error}`);
       }
     };
 
     fetchTasks();
-  }, []);
+  }, [userState.currentUser]);
 
   return (
     <TaskContext.Provider value={{

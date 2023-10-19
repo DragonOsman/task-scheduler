@@ -1,49 +1,18 @@
 import { UserContext } from "src/context/userContext";
 import { ViewContext } from "src/context/viewContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import CurrentTask from "./CurrentTask";
 import { Link } from "react-router-dom";
 import ChildSchedule from "./ChildSchedule";
 import { Modal, Button } from "react-bootstrap";
 
 const Home = (): JSX.Element => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const viewContext = useContext(ViewContext);
   const viewState = viewContext.state;
   const [showModal, setShowModal] = useState(true);
 
   const handleModalToggle = () => setShowModal(!showModal);
-
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const detailsResponse = await fetch(
-          "https://dragonosman-task-scheduler.onrender.com/api/users/user-details", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            mode: "cors"
-          })
-        ;
-
-        if (detailsResponse.ok) {
-          const data = await detailsResponse.json();
-          dispatch({
-            type: "SET_CURRENT_USER",
-            payload: data.user
-          });
-        } else {
-          console.error(`${detailsResponse.status}: ${detailsResponse.statusText}`);
-        }
-      } catch (error) {
-        console.error(`Something went wrong: ${error}`);
-      }
-    };
-
-    fetchUserDetails();
-  }, [dispatch]);
 
   let data;
   if (state.currentUser) {
