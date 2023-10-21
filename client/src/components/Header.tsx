@@ -22,7 +22,11 @@ const Header = () => {
       const response = await fetch(
         "https://dragonosman-task-scheduler.onrender.com/api/users/logout", {
           method: "GET",
-          credentials: "include"
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          mode: "cors"
         })
       ;
 
