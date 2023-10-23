@@ -221,61 +221,60 @@ const AddChild = () => {
             <h2>Set up Your Child&apos;s Profile</h2>
           </div>
         </div>
-        {(show && modalContentsRef.current.length > 0 && modalTitles.current.length > 0) && (
-          modalContentsRef.current.map((outerItem, outerIndex) => {
-            return modalTitles.current.map(innerItem => (
-              <Modal
-                key={innerItem.title}
-                show={show}
-                onHide={() => setShow(false)}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>
-                    <div className="container-fluid row">
-                      <div className="col-auto">
-                        <button
-                          title="go back"
-                          type="button"
-                          onClick={() => {
-                            if (outerIndex > 0) {
-                              setModalIndex(outerIndex - 1);
-                            } else if (outerIndex === 0) {
-                              const answer =
-                                confirm("Are you sure you want to cancel and return to home?");
-                              if (answer) {
-                                navigate("/");
-                              }
+        {modalContentsRef.current.map((outerItem, outerIndex) => {
+          return modalTitles.current.map(innerItem => (
+            <Modal
+              key={innerItem.title}
+              show={show}
+              onHide={() => setShow(false)}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>
+                  <div className="container-fluid row">
+                    <div className="col-auto">
+                      <button
+                        title="go back"
+                        type="button"
+                        onClick={() => {
+                          if (outerIndex > 0) {
+                            setModalIndex(outerIndex - 1);
+                          } else if (outerIndex === 0) {
+                            const answer =
+                              confirm("Are you sure you want to cancel and return to home?");
+                            if (answer) {
+                              navigate("/");
                             }
-                          }}
-                          className="icon-button"
-                        >
-                          <i className="fa-solid fa-angle-left"></i>
-                        </button>
-                      </div>
-                      <div className="col-auto">
-                        <h2>{innerItem.title}</h2>
-                      </div>
+                          }
+                        }}
+                        className="icon-button"
+                      >
+                        <i className="fa-solid fa-angle-left"></i>
+                      </button>
                     </div>
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {modalContentsRef.current[modalIndex]}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    variant="secondary"
-                    onClick={() => {
-                      if (outerIndex !== modalContentsRef.current.length - 1) {
-                        setModalIndex(outerIndex + 1);
-                      }
-                    }}
-                  >
-                    Next
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            ));
-          }))}
+                    <div className="col-auto">
+                      <h2>{innerItem.title}</h2>
+                    </div>
+                  </div>
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {modalContentsRef.current[modalIndex]}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    if (outerIndex !== modalContentsRef.current.length - 1) {
+                      setModalIndex(outerIndex + 1);
+                    }
+                  }}
+                >
+                  Next
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          ));
+        })}
       </form>
     </div>
   );
