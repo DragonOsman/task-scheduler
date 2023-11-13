@@ -191,7 +191,7 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
       ) {
         try {
           const tasksResponse = await fetch(
-            "https://dragonosman-task-scheduler.onrender.com/api/tasks/", {
+            "http://localhost:3000/api/tasks/", {
               method: "GET",
               credentials: "include",
               headers: {

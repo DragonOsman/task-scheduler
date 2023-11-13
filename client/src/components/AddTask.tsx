@@ -107,7 +107,7 @@ const AddTask = () => {
     task.rRule = generateRRule(daysRecurring);
     task.childName = childName;
     try {
-      const response = await fetch("https://task-scheduler-app.onrender.com/api/tasks/add-task", {
+      const response = await fetch("http://localhost:3000/api/tasks/add-task", {
         method: "POST",
         credentials: "include",
         headers: {
