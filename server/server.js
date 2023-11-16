@@ -47,11 +47,12 @@ app.use(session({
     collection: "task-sessions"
   }),
   cookie: {
-    maxAge: 60 * 60 * 1000,
+    maxAge: 48 * 60 * 60 * 1000,
     secure: false,
     sameSite: false,
     signed: true
-  }
+  },
+  rolling: true
 }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
