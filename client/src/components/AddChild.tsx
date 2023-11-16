@@ -165,7 +165,7 @@ const AddChild = () => {
         Enter Sleep Time for {firstNameRef.current ? firstNameRef.current.value : ""}
       </label>
       <input
-        type="time"
+        type="text"
         className="form-control"
         required
         placeholder={modalTitles[1].placeholders[1]}
@@ -183,7 +183,7 @@ const AddChild = () => {
           Enter Lunch Time for {firstNameRef.current ? firstNameRef.current.value : ""}
         </label>
         <input
-          type="time"
+          type="text"
           className="form-control"
           required
           placeholder={modalTitles[2].placeholders[0]}
@@ -198,7 +198,7 @@ const AddChild = () => {
           Enter Dinner TIme for {firstNameRef.current ? firstNameRef.current.value : ""}
         </label>
         <input
-          type="time"
+          type="text"
           className="form-control"
           required
           placeholder={modalTitles[2].placeholders[1]}
