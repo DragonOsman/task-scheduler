@@ -21,11 +21,11 @@ const AddChild = () => {
     title: "Enter Your Child's Name",
     names: ["firstName"]
   }, {
-    placeholders: ["Enter Wake Time", "Enter Sleep Time"],
+    placeholders: ["00:00 AM", "00:00 PM"],
     title: `Enter Wake and Sleep Times for ${firstNameRef.current && firstNameRef.current.value}`,
     names: ["wakeTime", "sleepTime"]
   }, {
-    placeholders: ["Enter Lunch Time", "Enter Dinner Time"],
+    placeholders: ["00:00 PM", "00:00 PM"],
     title: `Enter Meal Times for ${firstNameRef.current && firstNameRef.current.value}`,
     names: ["lunchTime", "dinnerTime"]
   }];
@@ -150,7 +150,7 @@ const AddChild = () => {
         Enter Wake Time for {firstNameRef.current ? firstNameRef.current.value : ""}
       </label>
       <input
-        type="time"
+        type="text"
         className="form-control"
         required
         placeholder={modalTitles[1].placeholders[0]}
