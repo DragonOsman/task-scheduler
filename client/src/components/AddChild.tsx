@@ -248,7 +248,7 @@ const AddChild = () => {
         {modalContents.map((item, index) => (
           <Modal
             key={modalTitles[index].title}
-            show={modalIndex === index}
+            show={modalIndex === index && show}
             onHide={() => setShow(false)}
           >
             <Modal.Header closeButton>
