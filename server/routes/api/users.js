@@ -136,6 +136,10 @@ userRouter.post("/add-child", async (req, res, next) => {
     const user = await User.findById(req.user._id);
     const children = user.children;
     await user.updateOne(user._id, { children: [...children, req.body.child] });
+    console.log("added child data:");
+    for (const [key, value] of Object.entries(req.body.child)) {
+      console.log(`${key}:${value}`);
+    }
     res.status(200).json({ success: true, message: "Child added successfully", child: req.body.child });
   } catch (err) {
     console.error(`Error trying to add child to children array: ${err}`);

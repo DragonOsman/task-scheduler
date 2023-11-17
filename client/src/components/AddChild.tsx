@@ -210,12 +210,13 @@ const AddChild = () => {
           <small className="text-danger">{formik.errors.dinnerTime as string}</small>
         ) : null}
       </fieldset>
-      <input
+      <Button
+        variant="secondary"
         type="submit"
-        value="Add Child"
         title="add child"
-        className="btn btn-secondary"
-      />
+      >
+        Add Child
+      </Button>
     </>,
   ];
 
