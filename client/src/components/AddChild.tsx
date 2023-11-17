@@ -217,7 +217,7 @@ const AddChild = () => {
       >
         Add Child
       </Button>
-    </>,
+    </>
   ];
 
   const navigate = useNavigate();
