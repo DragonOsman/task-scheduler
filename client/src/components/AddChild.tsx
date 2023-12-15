@@ -1,6 +1,6 @@
 import { Child, UserContext } from "src/context/userContext";
 import { Modal, Button } from "react-bootstrap";
-import { useContext, useState, useRef, SyntheticEvent } from "react";
+import { useContext, useState, SyntheticEvent } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -14,19 +14,17 @@ const AddChild = () => {
   const [dinnerTime, setDinnerTime] = useState("00:00 PM");
   const [sleepTime, setSleepTime] = useState("00:00 PM");
 
-  const firstNameRef = useRef<HTMLInputElement>(null);
-
   const modalTitles = [{
     placeholders: ["Enter Child's Name"],
     title: "Enter Your Child's Name",
     names: ["firstName"]
   }, {
     placeholders: ["00:00 AM", "00:00 PM"],
-    title: `Enter Wake and Sleep Times for ${firstNameRef.current && firstNameRef.current.value}`,
+    title: "Enter Wake and Sleep Times for your child",
     names: ["wakeTime", "sleepTime"]
   }, {
     placeholders: ["00:00 PM", "00:00 PM"],
-    title: `Enter Meal Times for ${firstNameRef.current && firstNameRef.current.value}`,
+    title: "Enter Meal Times for your child",
     names: ["lunchTime", "dinnerTime"]
   }];
 
@@ -138,7 +136,6 @@ const AddChild = () => {
         className="form-control"
         required
         placeholder={modalTitles[0].placeholders[0]}
-        ref={firstNameRef}
         {...formik.getFieldProps("firstName")}
       />
       {formik.errors.firstName && formik.touched.firstName ? (
@@ -147,7 +144,7 @@ const AddChild = () => {
     </fieldset>,
     <fieldset key={modalTitles[1].title}>
       <label htmlFor={modalTitles[1].names[0]} className="form-label">
-        Enter Wake Time for {firstNameRef.current ? firstNameRef.current.value : ""}
+        Enter Wake Time for Your Child
       </label>
       <input
         type="text"
@@ -162,7 +159,7 @@ const AddChild = () => {
         <small className="text-danger">{formik.errors.wakeTime as string}</small>
       ) : null}
       <label htmlFor={modalTitles[1].names[1]} className="form-label">
-        Enter Sleep Time for {firstNameRef.current ? firstNameRef.current.value : ""}
+        Enter Sleep Time for Your Child
       </label>
       <input
         type="text"
@@ -180,7 +177,7 @@ const AddChild = () => {
     <>
       <fieldset key={modalTitles[2].title} className="mb-3">
         <label htmlFor={modalTitles[2].names[0]} className="form-label">
-          Enter Lunch Time for {firstNameRef.current ? firstNameRef.current.value : ""}
+          Enter Lunch Time for Your Child
         </label>
         <input
           type="text"
@@ -195,7 +192,7 @@ const AddChild = () => {
           <small className="text-danger">{formik.errors.lunchTime as string}</small>
         ) : null}
         <label htmlFor={modalTitles[2].names[1]} className="form-label">
-          Enter Dinner TIme for {firstNameRef.current ? firstNameRef.current.value : ""}
+          Enter Dinner TIme for Your Child
         </label>
         <input
           type="text"
