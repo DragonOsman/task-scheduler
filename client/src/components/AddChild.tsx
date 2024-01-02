@@ -13,6 +13,7 @@ const AddChild = () => {
   const [lunchTime, setLunchTime] = useState("00:00 PM");
   const [dinnerTime, setDinnerTime] = useState("00:00 PM");
   const [sleepTime, setSleepTime] = useState("00:00 PM");
+  const [firstName, setFirstName] = useState("");
 
   const modalTitles = [{
     placeholders: ["Enter Child's Name"],
@@ -20,11 +21,11 @@ const AddChild = () => {
     names: ["firstName"]
   }, {
     placeholders: ["00:00 AM", "00:00 PM"],
-    title: "Enter Wake and Sleep Times for your child",
+    title: `Enter Wake and Sleep Times for ${firstName}`,
     names: ["wakeTime", "sleepTime"]
   }, {
     placeholders: ["00:00 PM", "00:00 PM"],
-    title: "Enter Meal Times for your child",
+    title: `Enter Meal Times for ${firstName}`,
     names: ["lunchTime", "dinnerTime"]
   }];
 
@@ -136,7 +137,8 @@ const AddChild = () => {
         className="form-control"
         required
         placeholder={modalTitles[0].placeholders[0]}
-        {...formik.getFieldProps("firstName")}
+        value={firstName}
+        onChange={event => setFirstName(event.target.value)}
       />
       {formik.errors.firstName && formik.touched.firstName ? (
         <small className="text-danger">{formik.errors.firstName as string}</small>
@@ -207,13 +209,6 @@ const AddChild = () => {
           <small className="text-danger">{formik.errors.dinnerTime as string}</small>
         ) : null}
       </fieldset>
-      <Button
-        variant="secondary"
-        type="submit"
-        title="add child"
-      >
-        Add Child
-      </Button>
     </>
   ];
 
@@ -292,6 +287,14 @@ const AddChild = () => {
               >
                 Next
               </Button>
+              {(modalIndex === modalContents.length - 1) && (
+                <Button
+                  variant="primary"
+                  type="submit"
+                >
+                  Add Child
+                </Button>
+              )}
             </Modal.Footer>
           </Modal>
         ))}
