@@ -1,6 +1,6 @@
 import { Child, UserContext } from "src/context/userContext";
 import { Modal, Button } from "react-bootstrap";
-import { useContext, useState, useEffect, SyntheticEvent } from "react";
+import { useContext, useState, SyntheticEvent } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -14,7 +14,6 @@ const AddChild = () => {
   const [dinnerTime, setDinnerTime] = useState("00:00 PM");
   const [sleepTime, setSleepTime] = useState("00:00 PM");
   const [firstName, setFirstName] = useState("");
-  const [isLastSlide, setIsLastSlide] = useState(false);
 
   const modalTitles = [{
     placeholders: ["Enter Child's Name"],
@@ -211,12 +210,6 @@ const AddChild = () => {
       ) : null}
     </fieldset>
   ];
-
-  useEffect(() => {
-    if (modalIndex === modalContents.length - 1) {
-      setIsLastSlide(true);
-    }
-  }, [modalIndex, modalContents.length]);
 
   const navigate = useNavigate();
 
