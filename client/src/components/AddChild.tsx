@@ -1,6 +1,6 @@
 import { Child, UserContext } from "src/context/userContext";
 import { Modal, Button } from "react-bootstrap";
-import { useContext, useState, SyntheticEvent } from "react";
+import { useContext, useState, SyntheticEvent, ReactNode } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -14,6 +14,7 @@ const AddChild = () => {
   const [dinnerTime, setDinnerTime] = useState("00:00 PM");
   const [sleepTime, setSleepTime] = useState("00:00 PM");
   const [firstName, setFirstName] = useState("");
+  const [isLastSlide, setIsLastSlide] = useState(false);
 
   const modalTitles = [{
     placeholders: ["Enter Child's Name"],
@@ -94,6 +95,7 @@ const AddChild = () => {
             body: JSON.stringify(child)
           })
         ;
+        console.log("Hello from add child submit handler");
 
         if (response.ok && state.currentUser && state.currentUser.children) {
           const data = await response.json();
@@ -176,40 +178,39 @@ const AddChild = () => {
         <small className="text-danger">{formik.errors.sleepTime as string}</small>
       ) : null}
     </fieldset>,
-    <>
-      <fieldset key={modalTitles[2].title} className="mb-3">
-        <label htmlFor={modalTitles[2].names[0]} className="form-label">
+    <fieldset key={modalTitles[2].title} className="mb-3">
+      <label htmlFor={modalTitles[2].names[0]} className="form-label">
           Enter Lunch Time for Your Child
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          required
-          placeholder={modalTitles[2].placeholders[0]}
-          {...formik.getFieldProps("lunchTime")}
-          value={lunchTime}
-          onChange={(event) => setLunchTime(event.target.value)}
-        />
-        {formik.errors.lunchTime && formik.touched.lunchTime ? (
-          <small className="text-danger">{formik.errors.lunchTime as string}</small>
-        ) : null}
-        <label htmlFor={modalTitles[2].names[1]} className="form-label">
+      </label>
+      {setIsLastSlide(true) as unknown as ReactNode}
+      <input
+        type="text"
+        className="form-control"
+        required
+        placeholder={modalTitles[2].placeholders[0]}
+        {...formik.getFieldProps("lunchTime")}
+        value={lunchTime}
+        onChange={(event) => setLunchTime(event.target.value)}
+      />
+      {formik.errors.lunchTime && formik.touched.lunchTime ? (
+        <small className="text-danger">{formik.errors.lunchTime as string}</small>
+      ) : null}
+      <label htmlFor={modalTitles[2].names[1]} className="form-label">
           Enter Dinner TIme for Your Child
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          required
-          placeholder={modalTitles[2].placeholders[1]}
-          {...formik.getFieldProps("dinnerTime")}
-          value={dinnerTime}
-          onChange={(event) => setDinnerTime(event.target.value)}
-        />
-        {formik.errors.dinnerTime && formik.touched.dinnerTime ? (
-          <small className="text-danger">{formik.errors.dinnerTime as string}</small>
-        ) : null}
-      </fieldset>
-    </>
+      </label>
+      <input
+        type="text"
+        className="form-control"
+        required
+        placeholder={modalTitles[2].placeholders[1]}
+        {...formik.getFieldProps("dinnerTime")}
+        value={dinnerTime}
+        onChange={(event) => setDinnerTime(event.target.value)}
+      />
+      {formik.errors.dinnerTime && formik.touched.dinnerTime ? (
+        <small className="text-danger">{formik.errors.dinnerTime as string}</small>
+      ) : null}
+    </fieldset>
   ];
 
   const navigate = useNavigate();
@@ -287,14 +288,11 @@ const AddChild = () => {
               >
                 Next
               </Button>
-              {(modalIndex === modalContents.length - 1) && (
-                <Button
-                  variant="primary"
-                  type="submit"
-                >
-                  Add Child
-                </Button>
-              )}
+              <input
+                type="submit"
+                className={`btn btn-primary ${isLastSlide ? "last-slide" : ""}`}
+                value="Add Child"
+              />
             </Modal.Footer>
           </Modal>
         ))}
