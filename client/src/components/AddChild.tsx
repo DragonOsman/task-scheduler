@@ -1,6 +1,6 @@
 import { Child, UserContext } from "src/context/userContext";
 import { Modal, Button } from "react-bootstrap";
-import { useContext, useState, SyntheticEvent, ReactNode } from "react";
+import { useContext, useState, useEffect, SyntheticEvent } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -182,7 +182,6 @@ const AddChild = () => {
       <label htmlFor={modalTitles[2].names[0]} className="form-label">
           Enter Lunch Time for Your Child
       </label>
-      {setIsLastSlide(true) as unknown as ReactNode}
       <input
         type="text"
         className="form-control"
@@ -212,6 +211,12 @@ const AddChild = () => {
       ) : null}
     </fieldset>
   ];
+
+  useEffect(() => {
+    if (modalIndex === modalContents.length - 1) {
+      setIsLastSlide(true);
+    }
+  }, [modalIndex, modalContents.length]);
 
   const navigate = useNavigate();
 
@@ -290,7 +295,10 @@ const AddChild = () => {
               </Button>
               <input
                 type="submit"
-                className={`btn btn-primary ${isLastSlide ? "last-slide" : ""}`}
+                className="btn btn-primary"
+                style={{
+                  display: index === modalContents.length - 1 ? "inline-block" : "none"
+                }}
                 value="Add Child"
               />
             </Modal.Footer>
