@@ -1,8 +1,9 @@
 import { Child, UserContext } from "src/context/userContext";
 import { Modal, Button } from "react-bootstrap";
-import { useContext, useState } from "react";
+import { useContext, useState, ChangeEvent } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 import * as Yup from "yup";
 
 const AddChild = () => {
@@ -99,6 +100,16 @@ const AddChild = () => {
     })
   });
 
+  const customHandleChange = (event: ChangeEvent) => {
+    const { nodeValue, id } = event.currentTarget;
+
+    if (nodeValue) {
+      formik.setFieldValue(id, moment(nodeValue, "HH:mm").toISOString().substring(
+        moment(nodeValue, "HH:mm").toISOString().indexOf("T")
+      ));
+    }
+  };
+
   const modalContents = [
     <fieldset key={modalTitles[0].title}>
       <label htmlFor="firstName" className="form-label">{modalTitles[0].title}</label>
@@ -126,6 +137,7 @@ const AddChild = () => {
         required
         placeholder={modalTitles[1].placeholders[0]}
         {...formik.getFieldProps("wakeTime")}
+        onChange={customHandleChange}
       />
       {formik.errors.wakeTime && formik.touched.wakeTime ? (
         <small className="text-danger">{formik.errors.wakeTime as string}</small>
@@ -141,6 +153,7 @@ const AddChild = () => {
         required
         placeholder={modalTitles[1].placeholders[1]}
         {...formik.getFieldProps("sleepTime")}
+        onChange={customHandleChange}
       />
       {formik.errors.sleepTime && formik.touched.sleepTime ? (
         <small className="text-danger">{formik.errors.sleepTime as string}</small>
@@ -158,6 +171,7 @@ const AddChild = () => {
         required
         placeholder={modalTitles[2].placeholders[0]}
         {...formik.getFieldProps("lunchTime")}
+        onChange={customHandleChange}
       />
       {formik.errors.lunchTime && formik.touched.lunchTime ? (
         <small className="text-danger">{formik.errors.lunchTime as string}</small>
@@ -173,6 +187,7 @@ const AddChild = () => {
         required
         placeholder={modalTitles[2].placeholders[1]}
         {...formik.getFieldProps("dinnerTime")}
+        onChange={customHandleChange}
       />
       {formik.errors.dinnerTime && formik.touched.dinnerTime ? (
         <small className="text-danger">{formik.errors.dinnerTime as string}</small>
