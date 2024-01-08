@@ -35,7 +35,9 @@ const AddChild = () => {
       lunchTime: "00:00 PM",
       isActive: false
     },
-    onSubmit: async ({ values }: FormikValues) => {
+    onSubmit: async (values: FormikValues) => {
+      console.log("Hello from add child submit handler");
+      console.log(`type of values is ${typeof values}`);
       const newWakeTime = new Date();
       const [wakeHoursStr, wakeMinutesStr] = values.wakeTime.split(":");
       const wakeHours = parseInt(wakeHoursStr);
@@ -90,7 +92,6 @@ const AddChild = () => {
             body: JSON.stringify(child)
           })
         ;
-        console.log("Hello from add child submit handler");
 
         if (response.ok && state.currentUser && state.currentUser.children) {
           const data = await response.json();
@@ -101,7 +102,7 @@ const AddChild = () => {
           }
           dispatch({ type: "EDIT_USER_INFO", payload: {
             ...state.currentUser,
-            children: [...state.currentUser.children, data.child]
+            children: [...state.currentUser.children, data]
           } });
           if (state.currentUser.children.length === 1) {
             state.currentUser.children[0].isActive = true;
@@ -116,17 +117,21 @@ const AddChild = () => {
         console.error(`Something went wrong ${err}`);
       }
     },
-    validationSchema: Yup.object({
+    validationSchema: Yup.object().shape({
       firstName: Yup.string()
         .max(20, "Must be at most 20 characters")
         .required("This is a required field"),
       wakeTime: Yup.string()
+        .matches(/^(1[0-2]|0?[1-9]):([0-5][0-9]) ?([AP]M)$/)
         .required("This is a required field"),
       sleepTime: Yup.string()
+        .matches(/^(1[0-2]|0?[1-9]):([0-5][0-9]) ?([AP]M)$/)
         .required("This is a required field"),
       lunchTime: Yup.string()
+        .matches(/^(1[0-2]|0?[1-9]):([0-5][0-9]) ?([AP]M)$/)
         .required("This is a required field"),
       dinnerTime: Yup.string()
+        .matches(/^(1[0-2]|0?[1-9]):([0-5][0-9]) ?([AP]M)$/)
         .required("This is a required field")
     })
   });
