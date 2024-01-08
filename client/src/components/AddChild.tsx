@@ -29,14 +29,46 @@ const AddChild = () => {
   const formik = useFormik({
     initialValues: {
       firstName: "",
-      wakeTime: "",
-      dinnerTime: "",
-      sleepTime: "",
-      breakfastTime: "",
-      lunchTime: "",
+      wakeTime: "00:00 AM",
+      dinnerTime: "00:00 PM",
+      sleepTime: "00:00 PM",
+      breakfastTime: "00:00 AM",
+      lunchTime: "00:00 PM",
       isActive: false
     },
     onSubmit: async ({ values }: FormikValues) => {
+      const newWakeTime = new Date();
+      const [wakeHoursStr, wakeMinutesStr] = values.wakeTime.split(":");
+      const wakeHours = parseInt(wakeHoursStr);
+      const wakeMinutes = parseInt(wakeMinutesStr);
+      newWakeTime.setHours(wakeHours);
+      newWakeTime.setMinutes(wakeMinutes);
+
+      const newLunchTime = new Date();
+      const [lunchHoursStr, lunchMinutesStr] = values.lunchTime.split(":");
+      const lunchHours = parseInt(lunchHoursStr);
+      const lunchMinutes = parseInt(lunchMinutesStr);
+      newLunchTime.setHours(lunchHours);
+      newLunchTime.setMinutes(lunchMinutes);
+
+      const newDinnerTime = new Date();
+      const [dinnerHoursStr, dinnerMinutesStr] = values.dinnerTime.split(":");
+      const dinnerHours = parseInt(dinnerHoursStr);
+      const dinnerMinutes = parseInt(dinnerMinutesStr);
+      newDinnerTime.setHours(dinnerHours);
+      newDinnerTime.setMinutes(dinnerMinutes);
+
+      const newSleepTime = new Date();
+      const [sleepHoursStr, sleepMinutesStr] = values.sleepTime.split(":");
+      const sleepHours = parseInt(sleepHoursStr);
+      const sleepMinutes = parseInt(sleepMinutesStr);
+      newSleepTime.setHours(sleepHours);
+      newSleepTime.setMinutes(sleepMinutes);
+
+      values.wakeTime = newWakeTime;
+      values.lunchTime = newLunchTime;
+      values.dinnerTime = newDinnerTime;
+      values.sleepTime = newSleepTime;
 
       const child: Child = {
         firstName: values.firstName,
@@ -100,16 +132,6 @@ const AddChild = () => {
     })
   });
 
-  const customHandleChange = (event: ChangeEvent) => {
-    const { nodeValue, id } = event.currentTarget;
-
-    if (nodeValue) {
-      formik.setFieldValue(id, moment(nodeValue, "HH:mm").toISOString().substring(
-        moment(nodeValue, "HH:mm").toISOString().indexOf("T")
-      ));
-    }
-  };
-
   const modalContents = [
     <fieldset key={modalTitles[0].title}>
       <label htmlFor="firstName" className="form-label">{modalTitles[0].title}</label>
@@ -130,14 +152,12 @@ const AddChild = () => {
         Enter Wake Time for Your Child
       </label>
       <input
-        type="time"
-        aria-label="Time"
+        type="text"
         id="wakeTime"
         className="form-control"
         required
         placeholder={modalTitles[1].placeholders[0]}
         {...formik.getFieldProps("wakeTime")}
-        onChange={customHandleChange}
       />
       {formik.errors.wakeTime && formik.touched.wakeTime ? (
         <small className="text-danger">{formik.errors.wakeTime as string}</small>
@@ -146,14 +166,12 @@ const AddChild = () => {
         Enter Sleep Time for Your Child
       </label>
       <input
-        type="time"
-        aria-label="Time"
+        type="text"
         id="sleepTime"
         className="form-control"
         required
         placeholder={modalTitles[1].placeholders[1]}
         {...formik.getFieldProps("sleepTime")}
-        onChange={customHandleChange}
       />
       {formik.errors.sleepTime && formik.touched.sleepTime ? (
         <small className="text-danger">{formik.errors.sleepTime as string}</small>
@@ -164,14 +182,12 @@ const AddChild = () => {
           Enter Lunch Time for Your Child
       </label>
       <input
-        type="time"
-        aria-label="Time"
+        type="text"
         id="lunchTime"
         className="form-control"
         required
         placeholder={modalTitles[2].placeholders[0]}
         {...formik.getFieldProps("lunchTime")}
-        onChange={customHandleChange}
       />
       {formik.errors.lunchTime && formik.touched.lunchTime ? (
         <small className="text-danger">{formik.errors.lunchTime as string}</small>
@@ -180,14 +196,12 @@ const AddChild = () => {
           Enter Dinner TIme for Your Child
       </label>
       <input
-        type="time"
-        aria-label="Time"
+        type="text"
         id="dinnerTime"
         className="form-control"
         required
         placeholder={modalTitles[2].placeholders[1]}
         {...formik.getFieldProps("dinnerTime")}
-        onChange={customHandleChange}
       />
       {formik.errors.dinnerTime && formik.touched.dinnerTime ? (
         <small className="text-danger">{formik.errors.dinnerTime as string}</small>
