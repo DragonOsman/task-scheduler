@@ -37,7 +37,6 @@ const AddChild = () => {
     },
     onSubmit: async (values: FormikValues) => {
       console.log("Hello from add child submit handler");
-      console.log(`type of values is ${typeof values}`);
       const newWakeTime = new Date();
       const [wakeHoursStr, wakeMinutesStr] = values.wakeTime.split(":");
       const wakeHours = parseInt(wakeHoursStr);
