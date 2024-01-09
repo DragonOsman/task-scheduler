@@ -99,12 +99,17 @@ const AddChild = () => {
             children: [...state.currentUser.children, data.child]
           } });
           state.currentUser.children[state.currentUser.children.length - 1].isActive = true;
+
+          console.log("state.currentUser.children:");
+          for (const [key, value] of Object.entries(state.currentUser.children)) {
+            console.log(`${key}:${value}`);
+          }
           navigate("/", { replace: true });
         } else if (!response.ok) {
           console.error(`${response.status}: ${response.statusText}`);
         }
       } catch (err) {
-        console.error(`Something went wrong ${err}`);
+        console.error(`Something went wrong: ${err}`);
       }
     },
     validationSchema: Yup.object().shape({
