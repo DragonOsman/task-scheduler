@@ -95,20 +95,11 @@ const AddChild = () => {
 
         if (response.ok && state.currentUser && state.currentUser.children) {
           const data = await response.json();
-          console.log(`data looks like this: ${data}`);
-
-          for (const [key, value] of Object.entries(data)) {
-            console.log(`${key}:${value}`);
-          }
           dispatch({ type: "EDIT_USER_INFO", payload: {
             ...state.currentUser,
-            children: [...state.currentUser.children, data]
+            children: [...state.currentUser.children, data.child]
           } });
-          if (state.currentUser.children.length === 1) {
-            state.currentUser.children[0].isActive = true;
-          } else {
-            state.currentUser.children[state.currentUser.children.length - 1].isActive = true;
-          }
+          state.currentUser.children[state.currentUser.children.length - 1].isActive = true;
           navigate("/", { replace: true });
         } else if (!response.ok) {
           console.error(`${response.status}: ${response.statusText}`);
@@ -141,11 +132,15 @@ const AddChild = () => {
       <label htmlFor="firstName" className="form-label">{modalTitles[0].title}</label>
       <input
         type="text"
+        id="firstName"
         className="form-control"
         required
         placeholder={modalTitles[0].placeholders[0]}
         value={firstName}
-        onChange={event => setFirstName(event.target.value)}
+        onChange={event => {
+          setFirstName(event.target.value);
+          formik.handleChange(event);
+        }}
       />
       {formik.errors.firstName && formik.touched.firstName ? (
         <small className="text-danger">{formik.errors.firstName as string}</small>
