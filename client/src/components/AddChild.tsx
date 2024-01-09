@@ -96,14 +96,12 @@ const AddChild = () => {
           const data = await response.json();
           dispatch({ type: "EDIT_USER_INFO", payload: {
             ...state.currentUser,
-            children: [...state.currentUser.children, data.child]
+            children: [...state.currentUser.children, {
+              ...data.child,
+              isActive: true
+            }]
           } });
-          state.currentUser.children[state.currentUser.children.length - 1].isActive = true;
 
-          console.log("state.currentUser.children:");
-          for (const [key, value] of Object.entries(state.currentUser.children)) {
-            console.log(`${key}:${value}`);
-          }
           navigate("/", { replace: true });
         } else if (!response.ok) {
           console.error(`${response.status}: ${response.statusText}`);
