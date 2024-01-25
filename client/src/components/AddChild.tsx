@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { useFormik, FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { isArray } from "util";
 
 const AddChild = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -101,6 +102,16 @@ const AddChild = () => {
               isActive: true
             }]
           } });
+
+          console.log("state.currentUser looks like this:");
+          for (const [key, value] of Object.entries(state.currentUser)) {
+            console.log(`${key}:${value}`);
+            if (Array.isArray(value)) {
+              for (const [innerKey, innerValue] of Object.entries(value)) {
+                console.log(`${innerKey}:${innerValue}`);
+              }
+            }
+          }
 
           navigate("/", { replace: true });
         } else if (!response.ok) {
