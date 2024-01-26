@@ -16,7 +16,6 @@ const Home = (): JSX.Element => {
 
   let data;
   if (state.currentUser) {
-
     if (state.currentUser.role === "parent" &&
     state.currentUser.dateRegistered === new Date()) {
       let firstChild;
