@@ -102,16 +102,6 @@ const AddChild = () => {
             }]
           } });
 
-          console.log("state.currentUser looks like this:");
-          for (const [key, value] of Object.entries(state.currentUser)) {
-            console.log(`${key}:${value}`);
-            if (Array.isArray(value)) {
-              for (const [innerKey, innerValue] of Object.entries(value)) {
-                console.log(`${innerKey}:${innerValue}`);
-              }
-            }
-          }
-
           navigate("/", { replace: true });
         } else if (!response.ok) {
           console.error(`${response.status}: ${response.statusText}`);
