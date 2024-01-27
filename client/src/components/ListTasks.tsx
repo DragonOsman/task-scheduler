@@ -16,7 +16,7 @@ const ListTasks = () => {
   if (state.currentUser && state.currentUser.children) {
     if (state.currentUser.children.length > 0) {
       list = (
-        <ul>
+        <ul className="tasks-list">
           {state.currentUser.children.map(child => (
             <li className="child-info" key={child.firstName}>
               {child.firstName}
@@ -68,7 +68,7 @@ const ListTasks = () => {
     <div className="container-fluid">
       {list ? (
         <>
-          <i className="fa-solid fa-angle-left" onClick={() => navigate("/")}></i>
+          <i className="fa-solid fa-angle-left icon-button" onClick={() => navigate("/")}></i>
           <h3>Your children and their tasks</h3>
           {list}
           {taskToEdit ? (

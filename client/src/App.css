@@ -228,6 +228,10 @@ header {
   font-weight: bold;
 }
 
+.tasks-list {
+  list-style-type: none;
+}
+
 @media screen and (min-width: 230px) and (max-width: 500px) {
   header nav {
     margin-top: -4px;

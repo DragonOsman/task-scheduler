@@ -11,6 +11,8 @@ const AddChild = () => {
   const [modalIndex, setModalIndex] = useState(0);
   const [firstName, setFirstName] = useState("");
 
+  const navigate = useNavigate();
+
   const modalTitles = [{
     placeholders: ["Enter Child's Name"],
     title: "Enter Your Child's Name",
@@ -209,8 +211,6 @@ const AddChild = () => {
       ) : null}
     </fieldset>
   ];
-
-  const navigate = useNavigate();
 
   return (
     <div className="add-child-form-container container-fluid">
