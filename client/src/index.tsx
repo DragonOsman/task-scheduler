@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import { TaskProvider } from "./context/taskContext";
-import { UserContextProvider } from "./context/userContext";
+import { UserProvider } from "./context/userContext";
 import { ViewContextProvider } from "./context/viewContext";
 import "./index.css";
 import App from "./App";
@@ -17,13 +17,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ViewContextProvider>
-      <UserContextProvider>
+      <UserProvider>
         <TaskProvider>
           <Router>
             <App />
           </Router>
         </TaskProvider>
-      </UserContextProvider>
+      </UserProvider>
     </ViewContextProvider>
   </React.StrictMode>
 );

@@ -5,11 +5,8 @@ import { UserContext } from "./context/userContext";
 import { useContext } from "react";
 import CurrentTask from "./components/CurrentTask";
 import ListTasks from "./components/ListTasks";
-import Register from "./components/Register";
-import Login from "./components/Login";
 import Home from "./components/Home";
 import Header from "./components/Header";
-import AddChild from "./components/AddChild";
 
 function App() {
   const { state } = useContext(UserContext);
@@ -18,10 +15,7 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={state.currentUser ? <Home /> : <Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/add-child" element={<AddChild />} />
+        <Route path="/" element={<Home />} />
         {state.currentUser && state.currentUser.children ? (
           <>
             <Route path="/tasks" element={<ListTasks />} />
@@ -42,11 +36,6 @@ function App() {
               </>
             } />
             <Route path="/current-task" element={
-              <>
-                <p className="text-danger">You must be logged in to see this page!</p>
-              </>
-            } />
-            <Route path="/add-child" element={
               <>
                 <p className="text-danger">You must be logged in to see this page!</p>
               </>
